@@ -1,0 +1,69 @@
+const Koa = require('koa');
+const app = new Koa();
+const views = require('koa-views');
+const json = require('koa-json');
+const onerror = require('koa-onerror');
+const bodyparser = require('koa-bodyparser');
+const logger = require('koa-logger');
+const session=require('koa-session-minimal');
+const sessionMysql=require('koa-mysql-session');
+
+const login=require('./routes/login');
+const index=require('./routes/index');
+const users=require('./routes/users');
+const server=require('./routes/server');
+global.dbHelper=require('./modules/dbHelper');
+global.root_dir=__dirname+'/';
+
+
+let cookie={
+    overwrite:true
+};
+
+app.use(session({
+    key:'SESSION_ID',
+    cookie:cookie
+}));
+
+// error handler
+onerror(app);
+
+// middlewares
+app.use(bodyparser({
+  enableTypes:['json', 'form', 'text']
+}));
+app.use(json());
+app.use(logger());
+app.use(require('koa-static')(__dirname + '/public'));
+
+app.use(views(__dirname + '/views', {
+  extension: 'ejs'
+}));
+
+//登录拦截器 and logger
+let serviceReg = new RegExp(/\/service\//);
+app.use(async (ctx, next) =>  {
+    const start = new Date();
+    let url = ctx.originalUrl;
+    console.log(url);
+    console.log("Reg: " + serviceReg.test(url));
+    console.log("user: " + ctx.session.user);
+    if (url != "/login" && !serviceReg.test(url) && !ctx.session.user  ) {
+      console.log("in");
+      // dummy login user to allow for resources of login.ejs
+      ctx.session.user = "login";
+      await ctx.render('login', { title: 'Login'});
+    } else {
+      await next();
+    }
+    const ms = new Date() - start;
+    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+});
+
+// routes
+app.use(login.routes(),login.allowedMethods());
+app.use(index.routes(),index.allowedMethods());
+app.use(users.routes(),users.allowedMethods());
+app.use(server.routes(),server.allowedMethods());
+module.exports = app;
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script type="text/javascript" src="/javascripts/jquery-1.11.1.min.js"></script>
+
+   <link rel="stylesheet" type="text/css" href="/javascripts/ext-4.2.1.883/resources/css/ext-all.css" />
+  <script type="text/javascript" src="/javascripts/ext-4.2.1.883/ext-all-debug.js"></script>
+  <script type="text/javascript" src="/javascripts/ext-4.2.1.883/locale/ext-lang-zh_CN.js"></script>
+  <script type="text/javascript" src="/javascripts/fileUploadField.js"> </script>
+<!--
+   <link rel="stylesheet" type="text/css" href="/javascripts/ext-6.2.0/resources/ext-watermark/style.css" />
+  <script type="text/javascript" src="/javascripts/ext-6.2.0/ext-bootstrap.js"></script>
+  <script type="text/javascript" src="/javascripts/fileUploadField.js"> </script>
+-->
+<!--
+  <link rel="stylesheet" type="text/css" href="/javascripts/touch-2.4.2/resources/css/sencha-touch.css" />
+  <script type="text/javascript" src="/javascripts/touch-2.4.2/sencha-touch-debug.js"></script>
+-->
+
+  <script type="text/javascript" src="/javascripts/app.js"> </script>
+  <script type="text/javascript" src="/javascripts/echarts.js"> </script>
+  <script type="text/javascript" src="/javascripts/Ext.ux.window.Notification-master/Notification.js"> </script>
+  <script type="text/javascript" src="/javascripts/datetimefield.js"> </script>
+  <script type='text/javascript'>  
+    /**
+    *对Date的扩展，将 Date 转化为指定格式的String
+    * 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+    * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+    * 例子：
+    * (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+    * (new Date()).Format("yyyy-M-d h:m:s.S")==> 2006-7-2 8:9:4.18
+    *
+    */
+    Date.prototype.Format = function(fmt)
+    {
+      var o = {
+        "M+" : this.getMonth()+1, //月份
+        "d+" : this.getDate(),//日
+        "h+" : this.getHours(), //小时
+        "m+" : this.getMinutes(), //分
+        "s+" : this.getSeconds(), //秒
+        "q+" : Math.floor((this.getMonth()+3)/3),//季度
+        "S": this.getMilliseconds() //毫秒
+      };
+      if(/(y+)/.test(fmt)) {
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+      }
+      for(var k in o){
+        if(new RegExp("("+ k +")").test(fmt)){
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+      }
+      return fmt;
+    } 
+  </script> 
+  <script type='text/javascript'> 
+    Ext.define('Demo.view.Message', {
+      extend: 'Ext.ux.window.Notification',
+      alias : 'widget.message',
+      title : '添加/编辑',
+      corner: 'bl',
+      stickOnClick: false,
+      cls: 'ux-notification-light',
+      iconCls: 'ux-notification-icon-information',
+      slideInDuration: 800,
+      slideBackDuration: 1500,
+      autoCloseDelay: 4000,
+      slideInAnimation: 'elasticIn',
+      slideBackAnimation: 'elasticIn',
+      constructor: function (config) {
+         config = config || {};
+         this.title = config.title;
+         this.html = config.html;
+         Ext.applyIf(config, this.config);
+         this.callParent([config]);
+      }
+    });
+  </script> 
+  <style type="text/css">
+    .qicon
+    {  
+       background-repeat: no-repeat;  
+    }  
+  </style>
+  <style type="text/css">
+    .ux-notification-window .x-window-body {
+      text-align: center;
+      padding: 15px 5px 15px 5px;
+    }
+    .ux-notification-icon-information {
+      background-image: url('/javascripts/Ext.ux.window.Notification-master/images/icon16_info.png');
+    }
+    /* Custom styling */
+    .ux-notification-light .x-window-header {
+      background-color: transparent;
+    }
+    body .ux-notification-light {
+      background-image: url('/javascripts/Ext.ux.window.Notification-master/images/fader.png');
+    }
+    .ux-notification-light .x-window-body {
+      text-align: center;
+      padding: 15px 5px 20px 5px;
+      background-color: transparent;
+      border: 0px solid white;
+    }
+    /**表格自动换行*/
+    .x-column-header-text { white-space:normal !important; }
+  </style>
+  </head>
+  <body>
+  </body>
+</html>

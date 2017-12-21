@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script type="text/javascript" src="/javascripts/jquery-1.11.1.min.js"></script>
+
+   <link rel="stylesheet" type="text/css" href="/javascripts/ext-4.2.1.883/resources/css/ext-all.css" />
+  <script type="text/javascript" src="/javascripts/ext-4.2.1.883/ext-all-debug.js"></script>
+  <script type="text/javascript" src="/javascripts/ext-4.2.1.883/locale/ext-lang-zh_CN.js"></script>
+  <script type="text/javascript" src="/javascripts/fileUploadField.js"> </script>
+<!--
+   <link rel="stylesheet" type="text/css" href="/javascripts/ext-6.2.0/resources/ext-watermark/style.css" />
+  <script type="text/javascript" src="/javascripts/ext-6.2.0/ext-bootstrap.js"></script>
+  <script type="text/javascript" src="/javascripts/fileUploadField.js"> </script>
+-->
+<!--
+  <link rel="stylesheet" type="text/css" href="/javascripts/touch-2.4.2/resources/css/sencha-touch.css" />
+  <script type="text/javascript" src="/javascripts/touch-2.4.2/sencha-touch-debug.js"></script>
+-->
+
+  <script type="text/javascript" src="/javascripts/fileUploadField.js"> </script>
+  <script type="text/javascript" src="/javascripts/manage.js"> </script>
+  <script type="text/javascript" src="/javascripts/echarts.js"> </script>
+  <script type="text/javascript" src="/javascripts/Ext.ux.window.Notification-master/Notification.js"> </script>
+  <script type='text/javascript'>  
+    Ext.define('Demo.view.Message', {
+      extend: 'Ext.ux.window.Notification',
+      alias : 'widget.message',
+      title : 'Ìí¼Ó/±à¼­',
+      corner: 'bl',
+      stickOnClick: false,
+      cls: 'ux-notification-light',
+      iconCls: 'ux-notification-icon-information',
+      slideInDuration: 800,
+      slideBackDuration: 1500,
+      autoCloseDelay: 4000,
+      slideInAnimation: 'elasticIn',
+      slideBackAnimation: 'elasticIn',
+      constructor: function (config) {
+         config = config || {};
+         this.title = config.title;
+         this.html = config.html;
+         Ext.applyIf(config, this.config);
+         this.callParent([config]);
+      }
+    });
+  </script> 
+  <style type="text/css">
+    .ux-notification-window .x-window-body {
+      text-align: center;
+      padding: 15px 5px 15px 5px;
+    }
+    .ux-notification-icon-information {
+      background-image: url('/javascripts/Ext.ux.window.Notification-master/images/icon16_info.png');
+    }
+    /* Custom styling */
+    .ux-notification-light .x-window-header {
+      background-color: transparent;
+    }
+    body .ux-notification-light {
+      background-image: url('/javascripts/Ext.ux.window.Notification-master/images/fader.png');
+    }
+    .ux-notification-light .x-window-body {
+      text-align: center;
+      padding: 15px 5px 20px 5px;
+      background-color: transparent;
+      border: 0px solid white;
+    }
+  </style>
+  <style type="text/css">
+    .qicon
+    {  
+       background-repeat: no-repeat;  
+    }  
+  </style>
+  </head>
+  <body>
+  </body>
+</html>
