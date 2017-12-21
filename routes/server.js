@@ -26,6 +26,7 @@ function Save(data, szJson) {
 		    }
 	        else if (data.gameType) {//有gameType的是战绩
 		        for (key in obj) {
+		        	console.log("房间:" + obj[key].roomID);
 		        	console.log("用户:" + obj[key].userName + "(" + obj[key].userId + ")");
 		        	console.log("分数:" + obj[key].userBankBefore);
 		        	console.log("特殊:" + (obj[key].bonusMode < 0 ? "否" : "是"));
@@ -35,6 +36,7 @@ function Save(data, szJson) {
 		        }
 	        } else if (data.gameId) {//有gameId的是流水
 		        for (key in obj) {
+		        	console.log("房间:" + obj[key].tableId);
 		        	console.log("用户:" + obj[key].userId );
 		        	console.log("分数:" + obj[key].preBalance);
 		        	if (obj[key].type == 3) {
