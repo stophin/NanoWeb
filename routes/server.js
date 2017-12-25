@@ -43,7 +43,7 @@ function Save(data, szJson) {
 	        	signValue = gameKey + signValue + gameKey;
 	        	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
 	        	console.log(cryptoed);
-	        	console.log(cryptoed == data.sign);
+	        	console.log(cryptoed == data.sign ? "签名正确": ">>>>>>>>>>>>>>>>>>签名错误！>>>>>>");
 
 	        } else if (data.gameId) {//有gameId的是流水
 		        for (key in obj) {
@@ -66,7 +66,7 @@ function Save(data, szJson) {
 	        	signValue = gameKey + signValue + gameKey;
 	        	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
 	        	console.log(cryptoed);
-	        	console.log(cryptoed == data.sign);
+	        	console.log(cryptoed == data.sign ? "签名正确": ">>>>>>>>>>>>>>>>>>签名错误！>>>>>>");
 	        }
 
 			//store in DB

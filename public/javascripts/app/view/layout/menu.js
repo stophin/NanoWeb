@@ -30,7 +30,8 @@ Ext.define('Demo.view.layout.menu',{
             //leaf:false,
             //expanded:true,
             //children:[
-              {id:'menu-list',text:'菜单目录',leaf:true}
+              {id:'menu-list',text:'菜单目录',leaf:true},
+              {id:'json-list',text:'JSON测试',leaf:true}
             //] 
           //} 
         ]

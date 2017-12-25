@@ -23,6 +23,15 @@ Ext.define("Demo.controller.Main",{
       var panel = Ext.getCmp(record.get('id'));
       if(!panel){
         switch (record.get('id')) {
+          case "json-list":
+            Ext.require('Demo.controller.Jsons', function() {
+              //此处会异步执行，先执行ext.require之外的代码
+              var json = new Demo.controller.Jsons();
+              json.init();
+              panel = { xtype: record.get('id') };
+              my.openTab(panel,record.get('id'));
+            });
+            break;
           default:
             panel ={
               title: 'New Tab ' + record.get('id'),
