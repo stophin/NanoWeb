@@ -8,6 +8,7 @@ var mime = require("mime");
 var fs = require('fs');
 var bodyParse =require('koa-body');
 var zlib = require('zlib');
+var crypto = require('crypto');
 const moment=require('moment')
 
 function Save(data, szJson) {
@@ -19,6 +20,7 @@ function Save(data, szJson) {
 	    	records_r = buffer.toString();
 	        console.log(records_r);
 
+	        let gameKey = "c0f81e04-bb6b-4b8e-9c9b-6fb2220547c6";
 	        let obj = JSON.parse(records_r);
 		    if (data.exit) {//退出
 			    console.log("用户:" + data.userId );
@@ -34,6 +36,15 @@ function Save(data, szJson) {
 		        	console.log("赌注:" + "下注:" + obj[key].totalBets + ",输赢:" + obj[key].userWin);
 		        	console.log("剩余:" + obj[key].userBankAfter);
 		        }
+	        	//计算签名是否正确
+	        	let signValue = "gameType" + data.gameType + "records" + data.records +"timestamp" + data.timestamp;
+	        	signValue = encodeURIComponent(signValue);
+	        	console.log(signValue);
+	        	signValue = gameKey + signValue + gameKey;
+	        	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
+	        	console.log(cryptoed);
+	        	console.log(cryptoed == data.sign);
+
 	        } else if (data.gameId) {//有gameId的是流水
 		        for (key in obj) {
 		        	console.log("房间:" + obj[key].tableId);
@@ -48,6 +59,14 @@ function Save(data, szJson) {
 		        	}
 		        	console.log("剩余:" + (obj[key].preBalance + obj[key].amount) );
 		        }
+	        	//计算签名是否正确
+	        	let signValue = "gameId" + data.gameId + "records" + data.records +"timestamp" + data.timestamp;
+	        	signValue = encodeURIComponent(signValue);
+	        	console.log(signValue);
+	        	signValue = gameKey + signValue + gameKey;
+	        	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
+	        	console.log(cryptoed);
+	        	console.log(cryptoed == data.sign);
 	        }
 
 			//store in DB
@@ -71,6 +90,25 @@ function Save(data, szJson) {
 	    }
 	});
 }
+
+router.get('/service/game/jsontest', async(ctx, next)=> {
+
+	let gameKey = "c0f81e04-bb6b-4b8e-9c9b-6fb2220547c6";
+	let data = {};
+	data.gameId = 50001;
+	data.gameType = 50000;
+	data.records = "eJyNkV1rwyAYhf+L12/K61eMuWu2m8I+oA1sY5RhqillbTISA4Ox/z6NpfRigyGCx/ecwyO+fpFpdMPKklKh1krArB/MyZGS3NRI39aPdb2kSIA0zkcj2dw9v1TJjsgksvlYKCmTqT7ENJWUa1ZwFEWOQPahMqYlIlIgH2ZwXapTqqHMOp41UvNMcLSZlm2biR3VKG0h2G5HUsFmahLauWXo+9PqlpQBIoqps7O68AAZvRl+B5rta+PdSMpXlgNnwAugEqgGRkEDpUAZSFBQAIt7ew5VzseMAPx7XXvr3pvjPwL73hxXnXWfwZsHknDV9N003vc24GfhvYfx6dClo4+liUQsENO/zVO8yMp075Vr+yHEeU4lFwt1NVq23g1Xk+/tDwpujU4=";
+	data.timestamp = 1513928304860;
+
+	//计算签名是否正确
+	let signValue = "gameType" + data.gameType + "records" + data.records +"timestamp" + data.timestamp;
+	signValue = encodeURIComponent(signValue);
+	console.log(signValue);
+	signValue = gameKey + signValue + gameKey;
+	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
+	console.log(cryptoed);
+	console.log(cryptoed == data.sign);
+})
 
 router.post('/service/game/settlement',async (ctx,next)=>{
     let data=ctx.request.body;
