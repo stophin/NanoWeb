@@ -13,7 +13,6 @@ const moment=require('moment')
 
 function Save(data, szJson) {
     let records = data.records;
-    console.log("records:" + records);
     const buffer = Buffer.from(records, 'base64');
     zlib.unzip(buffer, (err, buffer) => {
 	    if (!err) {
@@ -36,14 +35,6 @@ function Save(data, szJson) {
 		        	console.log("赌注:" + "下注:" + obj[key].totalBets + ",输赢:" + obj[key].userWin);
 		        	console.log("剩余:" + obj[key].userBankAfter);
 		        }
-	        	//计算签名是否正确
-	        	let signValue = "gameType" + data.gameType + "records" + data.records +"timestamp" + data.timestamp;
-	        	signValue = encodeURIComponent(signValue);
-	        	console.log(signValue);
-	        	signValue = gameKey + signValue + gameKey;
-	        	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
-	        	console.log(cryptoed);
-	        	console.log(cryptoed == data.sign ? "签名正确": ">>>>>>>>>>>>>>>>>>签名错误！>>>>>>");
 
 	        } else if (data.gameId) {//有gameId的是流水
 		        for (key in obj) {
@@ -59,15 +50,15 @@ function Save(data, szJson) {
 		        	}
 		        	console.log("剩余:" + (obj[key].preBalance + obj[key].amount) );
 		        }
-	        	//计算签名是否正确
-	        	let signValue = "gameId" + data.gameId + "records" + data.records +"timestamp" + data.timestamp;
-	        	signValue = encodeURIComponent(signValue);
-	        	console.log(signValue);
-	        	signValue = gameKey + signValue + gameKey;
-	        	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
-	        	console.log(cryptoed);
-	        	console.log(cryptoed == data.sign ? "签名正确": ">>>>>>>>>>>>>>>>>>签名错误！>>>>>>");
 	        }
+	        //计算签名是否正确
+	        let signValue = (data.gameType ? ("gameType" + data.gameType) : ("gameId" + data.gameId)) + "records" + data.records +"timestamp" + data.timestamp;
+	        signValue = encodeURIComponent(signValue);
+	        //console.log(signValue);
+	        signValue = gameKey + signValue + gameKey;
+	        let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
+	        console.log(cryptoed);
+	        console.log(cryptoed == data.sign ? "签名正确": ">>>>>>>>>>>>>>>>>>签名错误！>>>>>>");
 
 			//store in DB
 			let n32ProtocolId = 1;
