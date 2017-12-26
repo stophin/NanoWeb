@@ -10,6 +10,7 @@ var bodyParse =require('koa-body');
 var zlib = require('zlib');
 var crypto = require('crypto');
 const moment=require('moment')
+var newDate = new Date();
 
 function Save(data, szJson) {
     let records = data.records;
@@ -51,6 +52,10 @@ function Save(data, szJson) {
 		        	console.log("剩余:" + (obj[key].preBalance + obj[key].amount) );
 		        }
 	        }
+	        //显示时间
+	        console.log("时间戳：" + data.timestamp);
+	        newDate.setTime(data.timestamp);
+	        console.log(newDate.toLocaleString());
 	        //计算签名是否正确
 	        let signValue = (data.gameType ? ("gameType" + data.gameType) : ("gameId" + data.gameId)) + "records" + data.records +"timestamp" + data.timestamp;
 	        signValue = encodeURIComponent(signValue);
