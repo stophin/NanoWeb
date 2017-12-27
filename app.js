@@ -42,12 +42,28 @@ app.use(views(__dirname + '/views', {
 
 //登录拦截器 and logger
 let serviceReg = new RegExp(/\/service\//);
+//本地回环或localhost地址转换
+let loopbackReg = new RegExp(/\/127.0.0.1/);
+let localhostReg = new RegExp(/\/localhost/);
 app.use(async (ctx, next) =>  {
     const start = new Date();
     let url = ctx.originalUrl;
+    //console.log(JSON.stringify(ctx));
     console.log(url);
     console.log("Reg: " + serviceReg.test(url));
     console.log("user: " + ctx.session.user);
+    if (loopbackReg.test(url)) {
+      console.log("localhost");
+      ctx.originalUrl = ctx.originalUrl.replace(loopbackReg, "");
+      ctx.url = ctx.url.replace(loopbackReg, "");
+      console.log(ctx.originalUrl);
+    }
+    else if (localhostReg.test(url)) {
+      console.log("localhost");
+      ctx.originalUrl = ctx.originalUrl.replace(localhostReg, "");
+      ctx.url = ctx.url.replace(localhostReg, "");
+      console.log(ctx.originalUrl);
+    }
     if (url != "/login" && !serviceReg.test(url) && !ctx.session.user  ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs

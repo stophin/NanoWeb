@@ -1,5 +1,5 @@
 /**
- * Created by siminfang on 2017/10/23.
+ * Created by stophin on 2017/12/27
  */
 
 const Server = require('../modules/server');
@@ -12,6 +12,28 @@ var crypto = require('crypto');
 const moment=require('moment')
 var newDate = new Date();
 
+
+router.get('/service/game/jsontest', async(ctx, next)=> {
+
+	let gameKey = "c0f81e04-bb6b-4b8e-9c9b-6fb2220547c6";
+	let data = {};
+	data.gameId = 50001;
+	data.gameType = 50000;
+	data.records = "eJyNkV1rwyAYhf+L12/K61eMuWu2m8I+oA1sY5RhqillbTISA4Ox/z6NpfRigyGCx/ecwyO+fpFpdMPKklKh1krArB/MyZGS3NRI39aPdb2kSIA0zkcj2dw9v1TJjsgksvlYKCmTqT7ENJWUa1ZwFEWOQPahMqYlIlIgH2ZwXapTqqHMOp41UvNMcLSZlm2biR3VKG0h2G5HUsFmahLauWXo+9PqlpQBIoqps7O68AAZvRl+B5rta+PdSMpXlgNnwAugEqgGRkEDpUAZSFBQAIt7ew5VzseMAPx7XXvr3pvjPwL73hxXnXWfwZsHknDV9N003vc24GfhvYfx6dClo4+liUQsENO/zVO8yMp075Vr+yHEeU4lFwt1NVq23g1Xk+/tDwpujU4=";
+	data.timestamp = 1513928304860;
+
+	//计算签名是否正确
+	let signValue = "gameType" + data.gameType + "records" + data.records +"timestamp" + data.timestamp;
+	signValue = encodeURIComponent(signValue);
+	console.log(signValue);
+	signValue = gameKey + signValue + gameKey;
+	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
+	console.log(cryptoed);
+	console.log(cryptoed == data.sign);
+});
+
+/////////////////////////////////////////////////////////
+////Forest Sprite or SpeedTime
 function Save(data, szJson) {
     let records = data.records;
     const buffer = Buffer.from(records, 'base64');
@@ -87,25 +109,6 @@ function Save(data, szJson) {
 	});
 }
 
-router.get('/service/game/jsontest', async(ctx, next)=> {
-
-	let gameKey = "c0f81e04-bb6b-4b8e-9c9b-6fb2220547c6";
-	let data = {};
-	data.gameId = 50001;
-	data.gameType = 50000;
-	data.records = "eJyNkV1rwyAYhf+L12/K61eMuWu2m8I+oA1sY5RhqillbTISA4Ox/z6NpfRigyGCx/ecwyO+fpFpdMPKklKh1krArB/MyZGS3NRI39aPdb2kSIA0zkcj2dw9v1TJjsgksvlYKCmTqT7ENJWUa1ZwFEWOQPahMqYlIlIgH2ZwXapTqqHMOp41UvNMcLSZlm2biR3VKG0h2G5HUsFmahLauWXo+9PqlpQBIoqps7O68AAZvRl+B5rta+PdSMpXlgNnwAugEqgGRkEDpUAZSFBQAIt7ew5VzseMAPx7XXvr3pvjPwL73hxXnXWfwZsHknDV9N003vc24GfhvYfx6dClo4+liUQsENO/zVO8yMp075Vr+yHEeU4lFwt1NVq23g1Xk+/tDwpujU4=";
-	data.timestamp = 1513928304860;
-
-	//计算签名是否正确
-	let signValue = "gameType" + data.gameType + "records" + data.records +"timestamp" + data.timestamp;
-	signValue = encodeURIComponent(signValue);
-	console.log(signValue);
-	signValue = gameKey + signValue + gameKey;
-	let cryptoed = crypto.createHash('sha256').update(signValue).digest('hex');
-	console.log(cryptoed);
-	console.log(cryptoed == data.sign);
-})
-
 router.post('/service/game/settlement',async (ctx,next)=>{
     let data=ctx.request.body;
     let szJson = JSON.stringify(data);
@@ -121,6 +124,25 @@ router.post('/service/game/player/record',async (ctx,next)=>{
     Save(data, szJson);
 	ctx.body = {"code":"0","msg":"success!"};
 });
+/////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////
+//Coook
+router.all('/service/authuser',async (ctx,next)=>{
+	ctx.body = {"code":"0","msg":"success!"};
+});
 
+router.post('/service/spin',async (ctx,next)=>{
+	ctx.body = {"code":0,"payload":{"userBalance":"123","betLevel":1234,"lineLevel":123,"token":"123",
+				"betcfg":[1],"linecfg":1,"featureData":
+                {"buff":"313","freeSpinRemainCount":0,"featureChanceCount":0,"featureMultiplier":223,
+				"featureRoundGold":"343","featureBonusData":{"grid":[12],"gold":123}}}};
+});
+router.post('/service/choosebuff',async (ctx,next)=>{
+	ctx.body = {"code":0,"payload":{"userBalance":"123","betLevel":1234,"lineLevel":123,"token":"123",
+				"betcfg":[1],"linecfg":1,"featureData":
+                {"buff":"313","freeSpinRemainCount":0,"featureChanceCount":0,"featureMultiplier":223,
+				"featureRoundGold":"343","featureBonusData":{"grid":[12],"gold":123}}}};
+});
+/////////////////////////////////////////////////////////
 module.exports = router;
