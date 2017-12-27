@@ -12,6 +12,7 @@ var zlib = require('zlib');
 var crypto = require('crypto');
 const moment=require('moment')
 var newDate = new Date();
+var server = new Server();
 
 
 router.get('/service/game/jsontest', async(ctx, next)=> {
@@ -90,19 +91,21 @@ function Save(data, szJson) {
 
 			//store in DB
 			let n32ProtocolId = 1;
-			data.n32IsSuccess = 1;
-			data.n32ProtocolId = 1;
-			data.gameId = data.gameId || 0;
-			data.gameType = data.gameType || 0;
-			data.exit = data.exit || 0;
-			data.userId = data.userId || 0;
-			data.roundId = data.roundId || 0;
-			data.zlib = data.zlib || 0;
-			data.szJson = szJson;
-			data.szRecords = records_r;
-			data.szRecords_c = records;
-			let server = new Server(data);
-			server.save();
+			let param = {};
+			param.sign = data.sign;
+			param.n32IsSuccess = 1;
+			param.n32ProtocolId = 1;
+			param.gameId = data.gameId || 0;
+			param.gameType = data.gameType || 0;
+			param.timestamp = data.timestamp;
+			param.exit = data.exit || 0;
+			param.userId = data.userId || 0;
+			param.roundId = data.roundId || 0;
+			param.zlib = data.zlib || 0;
+			param.szJson = szJson;
+			param.szRecords = records_r;
+			param.szRecords_c = records;
+			server.save(param);
 	    } else {
 	        // handle error
 	        console.log("unzip error:" + err);
@@ -134,16 +137,60 @@ router.all('/service/authuser',async (ctx,next)=>{
 });
 
 router.post('/service/spin',async (ctx,next)=>{
-	ctx.body = {"code":0,"payload":{"userBalance":"123","betLevel":1234,"lineLevel":123,"token":"123",
-				"betcfg":[1],"linecfg":1,"featureData":
-                {"buff":"313","freeSpinRemainCount":0,"featureChanceCount":0,"featureMultiplier":223,
-				"featureRoundGold":"343","featureBonusData":{"grid":[12],"gold":123}}}};
+	ctx.body = {
+	    "code": 0,
+	    "payload": {
+	        "userBalance": "123",
+	        "betLevel": 1234,
+	        "lineLevel": 123,
+	        "token": "123",
+	        "betcfg": [
+	            1
+	        ],
+	        "linecfg": 1,
+	        "featureData": {
+	            "buff": "313",
+	            "freeSpinRemainCount": 0,
+	            "featureChanceCount": 0,
+	            "featureMultiplier": 223,
+	            "featureRoundGold": "343",
+	            "featureBonusData": {
+	                "grid": [
+	                    12
+	                ],
+	                "gold": 123
+	            }
+	        }
+	    }
+	};
 });
 router.post('/service/choosebuff',async (ctx,next)=>{
-	ctx.body = {"code":0,"payload":{"userBalance":"123","betLevel":1234,"lineLevel":123,"token":"123",
-				"betcfg":[1],"linecfg":1,"featureData":
-                {"buff":"313","freeSpinRemainCount":0,"featureChanceCount":0,"featureMultiplier":223,
-				"featureRoundGold":"343","featureBonusData":{"grid":[12],"gold":123}}}};
+	ctx.body = {
+	    "code": 0,
+	    "payload": {
+	        "userBalance": "123",
+	        "betLevel": 1234,
+	        "lineLevel": 123,
+	        "token": "123",
+	        "betcfg": [
+	            1
+	        ],
+	        "linecfg": 1,
+	        "featureData": {
+	            "buff": "313",
+	            "freeSpinRemainCount": 0,
+	            "featureChanceCount": 0,
+	            "featureMultiplier": 223,
+	            "featureRoundGold": "343",
+	            "featureBonusData": {
+	                "grid": [
+	                    12
+	                ],
+	                "gold": 123
+	            }
+	        }
+	    }
+	};
 });
 /////////////////////////////////////////////////////////
 
@@ -158,5 +205,142 @@ router.get('/NAGame/fileReader',async (ctx,next)=>{
 	console.log(content);
 	ctx.body = content;
 });
+router.get('/service/dev/ipquery',async (ctx,next)=>{
+	ctx.body = "\"country_id\":\"CN\"";
+});
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+//HA
+router.all('/service/dev/game/tool/list',async (ctx,next)=>{
+	ctx.body = {"code": 0, "msg": ""};
+});
+router.all('/service/dev/game/package/list',async (ctx,next)=>{
+	ctx.body = {"code": 0, "msg": ""};
+});
+router.all('/service/dev/game/login',async (ctx,next)=>{
+	var param = {};
+	param.userName = ctx.request.body.userName;
+	param.password = ctx.request.body.userPwd;
+	param.merchantId = ctx.request.body.msn;
+	result = await server.login(param)
+	if (result.length > 0) {
+		let result0 = result[0];
+		let json = {
+		    "code": 0,
+		    "msg": "",
+		    "data": {
+		    	"token": "",
+		        "balance": result0.dGold,
+		        "msn": result0.merchantId,
+		        "createAt": result0.tRegisteUTCMilsec,
+		        "updateAt": result0.tLastLoginUTCMilsec,
+		        "sex": result0.bSex,
+		        "vedioMix": "",
+		        "liveMix": "",
+		        "username": result0.szUserName,
+		        "nickname": result0.szNickName,
+		        "headPic": result0.szHeaderIconURL,
+		        "parentId": result0.parentId,
+		        "userId": "" + result0.un32UserID ,
+		        "sid": "" + result0.un32CurGSID,
+		        "gameId": "5000"
+		    }
+		};
+		ctx.body = JSON.stringify(json);
+	} else {
+		ctx.body = JSON.stringify({"code": 9002, "msg": ""});
+	}
+});
+router.all('/service/dev/game/player/info',async (ctx,next)=>{
+	var param = {};
+	param.userId = ctx.request.body.userId;
+	param.nickname = ctx.request.body.nickname;
+	param.headPic = ctx.request.body.headPic;
+	param.sex = ctx.request.body.sex;
+	result = await server.modifyInfo(param)
+	if (result.length > 0) {
+		let result0 = result[0];
+		let json = {
+		    "code": 0,
+		    "msg": ""
+		};
+		ctx.body = JSON.stringify(json);
+	} else {
+		ctx.body = JSON.stringify({"code": 9002, "msg": ""});
+	}
+});
+router.all('/service/dev/merchant/info',async (ctx,next)=>{
+	var param = {};
+	param.parentId = ctx.request.body.parentId;
+	result = await server.merchantInfo(param)
+	if (result.length > 0) {
+		let result0 = result[0];
+		let json = {
+		    "code": 0,
+		    "msg": "",
+		    "username": result0.username,
+		    "role": result0.role,
+		    "id": "" + result0.mid,
+		    "sn": "" + result0.msn,
+		    "nickname": result0.nickname,
+		    "headPic": result0.headPic,
+		    "merUrl" : "",
+		    "moneyURL": "",
+		    "registerURL": "",
+		    "parentId": result0.mid,
+		    "levelIndex": "" + result0.levelIndex,
+		    "suffix": "",
+		    "liveMix": 100,
+		    "vedioMix": 123,
+		    "rate": 0.5,
+		    "msn":  result0.msn,
+		    "gameList": [
+		    	"10000",
+				"30000",
+				"40000",
+				"50000",
+				"1010000",
+				"1020000",
+				"1030000",
+				"1040000",
+				"1050000",
+				"1060000",
+				"1070000",
+				"1080000",
+				"1090000"
+			]
+		};
+		ctx.body = JSON.stringify(json);
+	} else {
+		ctx.body = JSON.stringify({"code": 9002, "msg": ""});
+	}
+});
+
+
+router.all('/service/dev/game/player/join',async (ctx,next)=>{
+	var param = {};
+	param.userId = ctx.request.body.userId;
+	param.gameId = ctx.request.body.gameId;
+	param.sid = ctx.request.body.sid;
+	result = await server.playerJoin(param)
+	if (result.length > 0) {
+		let result0 = result[0];
+		let json = {
+		    "code": 0,
+		    "msg": "",
+		    "data": {
+		        "balance": result0.dGold,
+		        "sid": result0.parentId,
+		        "gameId": "50000",
+		        "state": "1"
+		    }
+		};
+		ctx.body = JSON.stringify(json);
+	} else {
+		ctx.body = JSON.stringify({"code": 9002, "msg": ""});
+	}
+});
+
+
 /////////////////////////////////////////////////////////
 module.exports = router;

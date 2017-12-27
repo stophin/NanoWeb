@@ -3,39 +3,25 @@
  */
 const dbHelper=require('./dbHelper');
 
-function Server(data){
-	this.szSign = data.sign;
-	this.n32IsSuccess = data.n32IsSuccess;
-	this.n32ProtocolId = data.n32ProtocolId;
-	this.n32GameID = data.gameId;
-	this.n32GameType = data.gameType;
-	this.tTimeStamp = data.timestamp;
-	this.n32Exit = data.exit;
-	this.n32UserID = data.userId;
-	this.n32RoundID = data.roundId;
-	this.n32Zlib = data.zlib;
-	this.szJson = data.szJson;
-	this.szRecords = data.szRecords;
-	this.szRecords_c = data.szRecords_c;
+function Server(){
 }
 
-//登陆
-Server.prototype.save =async function save() {
+Server.prototype.save =async function save(param) {
     await dbHelper.start();
     let params = [
-		this.szSign,
-		this.n32IsSuccess,
-		this.n32ProtocolId,
-		this.n32GameID,
-		this.n32GameType,
-		this.tTimeStamp,
-		this.n32Exit,
-		this.n32UserID,
-		this.n32RoundID,
-		this.n32Zlib,
-		this.szJson,
-		this.szRecords,
-		this.szRecords_c
+		 param.sign,
+		 param.n32IsSuccess,
+		 param.n32ProtocolId,
+		 param.gameId,
+		 param.gameType,
+		 param.timestamp,
+		 param.exit,
+		 param.userId,
+		 param.roundId,
+		 param.zlib,
+		 param.szJson,
+		 param.szRecords,
+		 param.szRecords_c,
 	];
 	let sqlStr = "replace na_ha_message_web set ";			
 	sqlStr += " szSign=?";
@@ -56,6 +42,61 @@ Server.prototype.save =async function save() {
     await dbHelper.stop();
     return result;
 };
+
+
+//登陆
+Server.prototype.login = async function(param) {
+	let sqlStr = "select * from na_gameuser where ";
+	sqlStr += " szUserName = ?"
+	sqlStr += " and password = ?";
+	sqlStr += " and merchantId = ?;";
+	let params = [
+		param.userName,
+		param.password,
+		param.merchantId
+	];
+	let result = await dbHelper.executemain(sqlStr, params);
+	console.log(JSON.stringify(result));
+	await dbHelper.stop();
+	return result;
+}
+
+//修改信息
+Server.prototype.modifyInfo = async function(param) {
+	let sqlStr = "select * from na_gameuser where ";
+	sqlStr += " un32UserId = ?;"
+	let params = [
+		param.userId
+	];
+	let result = await dbHelper.executemain(sqlStr, params);
+	console.log(JSON.stringify(result));
+	await dbHelper.stop();
+	return result;
+}
+//商户信息
+Server.prototype.merchantInfo = async function(param) {
+	let sqlStr = "select * from na_merchant where ";
+	sqlStr += " mid = ?;"
+	let params = [
+		param.parentId
+	];
+	let result = await dbHelper.executemain(sqlStr, params);
+	console.log(JSON.stringify(result));
+	await dbHelper.stop();
+	return result;
+}
+//进入游戏
+Server.prototype.playerJoin = async function(param) {
+	let sqlStr = "select * from na_gameuser where ";
+	sqlStr += " un32UserId = ?;"
+	let params = [
+		param.userId
+	];
+	let result = await dbHelper.executemain(sqlStr, params);
+	console.log(JSON.stringify(result));
+	await dbHelper.stop();
+	return result;
+}
 
 
 module.exports = Server;
