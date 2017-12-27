@@ -127,7 +127,7 @@ router.post('/service/game/player/record',async (ctx,next)=>{
 /////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////
-//Coook
+//Coook or ROT and so on
 router.all('/service/authuser',async (ctx,next)=>{
 	ctx.body = {"code":"0","msg":"success!"};
 });
