@@ -45,6 +45,10 @@ let serviceReg = new RegExp(/\/service\//);
 //本地回环或localhost地址转换
 let loopbackReg = new RegExp(/\/127.0.0.1/);
 let localhostReg = new RegExp(/\/localhost/);
+let serverIPReg = new RegExp(/\/192.168.3.37/);
+//
+let csvReg = new RegExp(/.csv/);
+let NAGameReg = new RegExp(/\/NAGame\//);
 app.use(async (ctx, next) =>  {
     const start = new Date();
     let url = ctx.originalUrl;
@@ -64,7 +68,22 @@ app.use(async (ctx, next) =>  {
       ctx.url = ctx.url.replace(localhostReg, "");
       console.log(ctx.originalUrl);
     }
-    if (url != "/login" && !serviceReg.test(url) && !ctx.session.user  ) {
+    else if (serverIPReg.test(url)) {
+      console.log("localhost");
+      ctx.originalUrl = ctx.originalUrl.replace(serverIPReg, "");
+      ctx.url = ctx.url.replace(serverIPReg, "");
+      console.log(ctx.originalUrl);
+    }
+    if (csvReg.test(url)) {
+      console.log("csv");
+      let filename = ctx.originalUrl;
+      ctx.originalUrl = "/NAGame/fileReader?filename=" + filename;
+      ctx.url = ctx.originalUrl;
+      console.log(ctx.originalUrl);
+    }
+    if (url != "/login" && !ctx.session.user &&
+        !serviceReg.test(url) &&
+        !NAGameReg.test(url)  ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
       ctx.session.user = "login";

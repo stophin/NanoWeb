@@ -6,6 +6,7 @@ const Server = require('../modules/server');
 const router = require('koa-router')();
 var mime = require("mime");
 var fs = require('fs');
+var xlsx = require('node-xlsx'); 
 var bodyParse =require('koa-body');
 var zlib = require('zlib');
 var crypto = require('crypto');
@@ -143,6 +144,19 @@ router.post('/service/choosebuff',async (ctx,next)=>{
 				"betcfg":[1],"linecfg":1,"featureData":
                 {"buff":"313","freeSpinRemainCount":0,"featureChanceCount":0,"featureMultiplier":223,
 				"featureRoundGold":"343","featureBonusData":{"grid":[12],"gold":123}}}};
+});
+/////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////
+//GameEntry
+router.get('/NAGame/fileReader',async (ctx,next)=>{
+	console.log(ctx.query.filename);
+
+    var filename = ctx.query.filename;
+	var content = fs.readFileSync("./public" + filename,'utf-8');
+
+	console.log(content);
+	ctx.body = content;
 });
 /////////////////////////////////////////////////////////
 module.exports = router;
