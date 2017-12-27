@@ -45,9 +45,10 @@ let serviceReg = new RegExp(/\/service\//);
 //本地回环或localhost地址转换
 let loopbackReg = new RegExp(/\/127.0.0.1/);
 let localhostReg = new RegExp(/\/localhost/);
-let serverIPReg = new RegExp(/\/192.168.3.37/);
+let serverIPReg = new RegExp(/\/192.168.2.100/);
 //
 let csvReg = new RegExp(/.csv/);
+let txtReg = new RegExp(/.txt/);
 let NAGameReg = new RegExp(/\/NAGame\//);
 app.use(async (ctx, next) =>  {
     const start = new Date();
@@ -76,6 +77,13 @@ app.use(async (ctx, next) =>  {
     }
     if (csvReg.test(url)) {
       console.log("csv");
+      let filename = ctx.originalUrl;
+      ctx.originalUrl = "/NAGame/fileReader?filename=" + filename;
+      ctx.url = ctx.originalUrl;
+      console.log(ctx.originalUrl);
+    }
+    else if (txtReg.test(url)) {
+      console.log("txt");
       let filename = ctx.originalUrl;
       ctx.originalUrl = "/NAGame/fileReader?filename=" + filename;
       ctx.url = ctx.originalUrl;
