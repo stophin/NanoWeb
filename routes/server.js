@@ -215,7 +215,10 @@ router.all('/service/dev/game/tool/list',async (ctx,next)=>{
 	ctx.body = {"code": 0, "msg": ""};
 });
 router.all('/service/dev/game/package/list',async (ctx,next)=>{
-	ctx.body = {"code": 0, "msg": ""};
+	ctx.body = {"code": 0, "msg": "",
+		"list": [
+		]
+	};
 });
 router.all('/service/dev/game/login',async (ctx,next)=>{
 	var param = {};

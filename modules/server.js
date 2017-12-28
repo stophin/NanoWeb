@@ -75,7 +75,7 @@ Server.prototype.modifyInfo = async function(param) {
 }
 //商户信息
 Server.prototype.merchantInfo = async function(param) {
-	let sqlStr = "select * from na_merchant where ";
+	let sqlStr = "select * from na_merchant_web where ";
 	sqlStr += " mid = ?;"
 	let params = [
 		param.parentId
