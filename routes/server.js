@@ -52,6 +52,17 @@ function Save(data, szJson) {
 		    }
 	        else if (data.gameType) {//有gameType的是战绩
 		        for (key in obj) {
+		        	switch(obj[key].gameId) {
+		        		case 50001:
+		        			console.log("森林小妖");
+		        			break;
+		        		case 50002:
+		        			console.log("急速时刻");
+		        			break;
+		        		default:
+		        			console.log("(未识别)");
+		        			break;
+		        	}
 		        	console.log("房间:" + obj[key].roomID);
 		        	console.log("用户:" + obj[key].userName + "(" + obj[key].userId + ")");
 		        	console.log("分数:" + obj[key].userBankBefore);
@@ -63,6 +74,17 @@ function Save(data, szJson) {
 
 	        } else if (data.gameId) {//有gameId的是流水
 		        for (key in obj) {
+		        	switch(data.gameId) {
+		        		case 50001:
+		        			console.log("森林小妖");
+		        			break;
+		        		case 50002:
+		        			console.log("急速时刻");
+		        			break;
+		        		default:
+		        			console.log("(未识别)");
+		        			break;
+		        	}
 		        	console.log("房间:" + obj[key].tableId);
 		        	console.log("用户:" + obj[key].userId );
 		        	console.log("分数:" + obj[key].preBalance);
@@ -225,6 +247,7 @@ router.all('/service/dev/game/login',async (ctx,next)=>{
 	param.userName = ctx.request.body.userName;
 	param.password = ctx.request.body.userPwd;
 	param.merchantId = ctx.request.body.msn;
+	console.log(JSON.stringify( ctx.request.body));
 	result = await server.login(param)
 	if (result.length > 0) {
 		let result0 = result[0];
@@ -260,6 +283,7 @@ router.all('/service/dev/game/player/info',async (ctx,next)=>{
 	param.nickname = ctx.request.body.nickname;
 	param.headPic = ctx.request.body.headPic;
 	param.sex = ctx.request.body.sex;
+	console.log(JSON.stringify( ctx.request.body));
 	result = await server.modifyInfo(param)
 	if (result.length > 0) {
 		let result0 = result[0];
@@ -275,6 +299,7 @@ router.all('/service/dev/game/player/info',async (ctx,next)=>{
 router.all('/service/dev/merchant/info',async (ctx,next)=>{
 	var param = {};
 	param.parentId = ctx.request.body.parentId;
+	console.log(JSON.stringify( ctx.request.body));
 	result = await server.merchantInfo(param)
 	if (result.length > 0) {
 		let result0 = result[0];
@@ -326,6 +351,7 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 	param.userId = ctx.request.body.userId;
 	param.gameId = ctx.request.body.gameId;
 	param.sid = ctx.request.body.sid;
+	console.log(JSON.stringify( ctx.request.body));
 	result = await server.playerJoin(param)
 	if (result.length > 0) {
 		let result0 = result[0];
