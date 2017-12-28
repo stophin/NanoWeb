@@ -296,6 +296,7 @@ router.all('/service/dev/merchant/info',async (ctx,next)=>{
 		    "msn":  result0.msn,
 		    "gameList": [
 		    	"10000",
+		    	"20000",
 				"30000",
 				"40000",
 				"50000",
@@ -331,7 +332,7 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 		    "data": {
 		        "balance": result0.dGold,
 		        "sid": result0.parentId,
-		        "gameId": "50000",
+		        "gameId": param.gameId ,
 		        "state": "1"
 		    }
 		};
