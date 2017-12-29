@@ -155,63 +155,89 @@ router.post('/service/game/player/record',async (ctx,next)=>{
 /////////////////////////////////////////////////////////
 //Coook or ROT and so on
 router.all('/service/authuser',async (ctx,next)=>{
-	ctx.body = {"code":"0","msg":"success!"};
+	console.log(JSON.stringify( ctx.request.body));
+	ctx.body = {
+	  "code": 0,
+	  "payload": {
+	  	"userBalance": "148568752156",
+	  	"betLevel": 12,
+	  	"lineLevel": 1234,
+	  	"token": "123",
+	  	"betcfg": [
+	  		123.0, 23.4
+	  	],
+	  	"linecfg": 134,
+	    "featureData": {
+	      "buff": "313",
+	      "freeSpinRemainCount": 0,
+	      "featureChanceCount": 0,
+	      "featureMultiplier": 223,
+	      "featureRoundGold": "343",
+	      "featureBonusData": {
+	        "grid": [
+	          12
+	        ],
+	        "gold": 156
+	      }
+	    }
+	  }
+	};
 });
 
 router.post('/service/spin',async (ctx,next)=>{
+	console.log(JSON.stringify( ctx.request.body));
 	ctx.body = {
-	    "code": 0,
-	    "payload": {
-	        "userBalance": "123",
-	        "betLevel": 1234,
-	        "lineLevel": 123,
-	        "token": "123",
-	        "betcfg": [
-	            1
+	  "code": 0,
+	  "payload": {
+	    "userBalance": "148568752156",
+	    "viewGrid": [
+	    	"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"
+	    ],
+	    "winGrid": [
+	    ],
+	    "winLevel": "34",
+	    "winNodes": [
+	    	12.3, 13.4
+	    ],
+	    "getFeatureChance": 1,
+	    "scatterGrid": [
+	    	133, 123, 144
+	    ],
+	    "totalGold": 1234.5,
+	    "scatterGold": 17.5,
+	    "betLevel": 1234,
+	    "lineLevel": 564,
+	    "token": "123",
+	    "betcfg": [
+	  		123.0, 23.4
+	    ],
+	    "linecfg": 1,
+	    "featureData": {
+	      "buff": "313",
+	      "freeSpinRemainCount": 0,
+	      "featureChanceCount": 0,
+	      "featureMultiplier": 223,
+	      "featureRoundGold": "343",
+	      "featureBonusData": {
+	        "grid": [
+	          12
 	        ],
-	        "linecfg": 1,
-	        "featureData": {
-	            "buff": "313",
-	            "freeSpinRemainCount": 0,
-	            "featureChanceCount": 0,
-	            "featureMultiplier": 223,
-	            "featureRoundGold": "343",
-	            "featureBonusData": {
-	                "grid": [
-	                    12
-	                ],
-	                "gold": 123
-	            }
-	        }
+	        "gold": 587
+	      }
 	    }
-	};
+	  }
+	}
 });
 router.post('/service/choosebuff',async (ctx,next)=>{
+	console.log(JSON.stringify( ctx.request.body));
 	ctx.body = {
-	    "code": 0,
-	    "payload": {
-	        "userBalance": "123",
-	        "betLevel": 1234,
-	        "lineLevel": 123,
-	        "token": "123",
-	        "betcfg": [
-	            1
-	        ],
-	        "linecfg": 1,
-	        "featureData": {
-	            "buff": "313",
-	            "freeSpinRemainCount": 0,
-	            "featureChanceCount": 0,
-	            "featureMultiplier": 223,
-	            "featureRoundGold": "343",
-	            "featureBonusData": {
-	                "grid": [
-	                    12
-	                ],
-	                "gold": 123
-	            }
-	        }
-	    }
+	  "code": 0,
+	  "payload": {
+	  	"featureData": {
+	      "buff": "313",
+	      "freeSpinRemainCount": 0
+	  	}
+	  }
 	};
 });
 /////////////////////////////////////////////////////////
