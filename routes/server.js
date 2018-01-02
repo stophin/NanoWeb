@@ -260,7 +260,10 @@ router.get('/service/dev/ipquery',async (ctx,next)=>{
 /////////////////////////////////////////////////////////
 //HA
 router.all('/service/dev/game/tool/list',async (ctx,next)=>{
-	ctx.body = {"code": 0, "msg": ""};
+	ctx.body = {"code": 0, "msg": "",
+		"list": [
+		]
+	};
 });
 router.all('/service/dev/game/package/list',async (ctx,next)=>{
 	ctx.body = {"code": 0, "msg": "",
