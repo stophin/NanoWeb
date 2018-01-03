@@ -62,6 +62,7 @@ Ext.onReady(function() {
 
     var win = Ext.widget('window', {
         title: "请登录",
+        closable:false,
         modal: false,
         width: 300,
         height: 200,
