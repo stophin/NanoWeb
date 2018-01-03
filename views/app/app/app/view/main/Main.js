@@ -37,13 +37,14 @@ Ext.define('app.view.main.Main', {
         layout: {
             align: 'stretchmax'
         },
+        iconCls: 'fa-th-list',
         title: {
             bind: {
-                text: '{name}'
+                //text: '应用'
             },
+            width: 20,
             flex: 0
-        },
-        iconCls: 'fa-th-list'
+        }
     },
 
     tabBar: {
@@ -74,8 +75,7 @@ Ext.define('app.view.main.Main', {
                 },
                 tall: {
                     iconAlign: 'top',
-                    textAlign: 'center',
-                    width: 120
+                    textAlign: 'center'
                 }
             }
         }
