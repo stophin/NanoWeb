@@ -16,6 +16,7 @@ Ext.define('app.view.main.Main', {
         'app.view.main.MainController',
         'app.view.main.MainModel',
         'app.view.main.List',
+        
         'app.Demo.view.json.list',
         'app.Demo.view.json.top',
         'app.Demo.view.json.grid',
