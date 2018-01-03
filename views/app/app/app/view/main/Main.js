@@ -15,7 +15,12 @@ Ext.define('app.view.main.Main', {
 
         'app.view.main.MainController',
         'app.view.main.MainModel',
-        'app.view.main.List'
+        'app.view.main.List',
+        'app.Demo.view.json.list',
+        'app.Demo.view.json.top',
+        'app.Demo.view.json.grid',
+        'app.Demo.view.json.form',
+        'app.Demo.controller.Jsons'
     ],
 
     controller: 'main',
@@ -85,9 +90,9 @@ Ext.define('app.view.main.Main', {
     }, {
         title: '用户',
         iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
+        items: [{
+            xtype: 'json-list'
+        }]
     }, {
         title: '组别',
         iconCls: 'fa-users',

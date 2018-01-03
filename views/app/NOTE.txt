@@ -1,31 +1,36 @@
-±¾Ä¿Â¼Éú³ÉÁ÷³Ì£º
-ÏÂÔØExtjsºÍSencha CMD¡£
-°æ±¾£º
+ï»¿æœ¬ç›®å½•ç”Ÿæˆæµç¨‹ï¼š
+ä¸‹è½½Extjså’ŒSencha CMDã€‚
+ç‰ˆæœ¬ï¼š
 Extjs 6.2.0
 Sencha CMD 6.5.2.15
 (1)
-Éú³É¹¤×÷¿Õ¼äsencha_app
+ç”Ÿæˆå·¥ä½œç©ºé—´sencha_app
 > sencha -sdk ext-6.2.0 generate workspace sencha_app
 (2)
-´´½¨app
+åˆ›å»ºapp
 > cd sencha_app
 > sencha -sdk ../ext-6.2.0 generate app -classic app app
-Éú³Éµ½appÏÂ£¬ÏîÄ¿Â·¾¶ÔÚapp/app
-ÃüÁî¸ñÊ½£ºsencha -sdk [ExtJs6.0ÎÄ¼ş¼ĞµØÖ·] generate app [ÏîÄ¿Ãû³Æ] [ÏîÄ¿Â·¾¶]
-¶à¸öapp±ØĞëÊ¹ÓÃ²»Í¬µÄÏîÄ¿Ãû³Æ£¬×îºÃºÍÏîÄ¿Â·¾¶ÏàÍ¬¡£
+ç”Ÿæˆåˆ°appä¸‹ï¼Œé¡¹ç›®è·¯å¾„åœ¨app/app
+å‘½ä»¤æ ¼å¼ï¼šsencha -sdk [ExtJs6.0æ–‡ä»¶å¤¹åœ°å€] generate app [é¡¹ç›®åç§°] [é¡¹ç›®è·¯å¾„]
+å¤šä¸ªappå¿…é¡»ä½¿ç”¨ä¸åŒçš„é¡¹ç›®åç§°ï¼Œæœ€å¥½å’Œé¡¹ç›®è·¯å¾„ç›¸åŒã€‚
 (3)
-½«appÄ¿Â¼¿½±´µ½viewsÄ¿Â¼£¬koaÖĞ¶¨Òåkoa-staticµ½appÄ¿Â¼£¬ÒÔÔÊĞí·ÃÎÊËùÓĞ×ÊÔ´¡£
-½«sencha_app¹¤×÷¿Õ¼äÏÂµÄbuild¿½±´µ½appÄ¿Â¼¡£
-½«Extjs6.0Õû¸öÏîÄ¿¿½±´µ½appÄ¿Â¼£¨Ê¹ÓÃsencha_app¹¤×÷¿Õ¼äÏÂµÄextÎÄ¼ş¼ĞÄÚÈİÒ²¿ÉÒÔ£¬
-²»¹ı»¹ÊÇÊ¹ÓÃÔ­°ü±È½ÏºÃ£©
+å°†appç›®å½•æ‹·è´åˆ°viewsç›®å½•ï¼Œkoaä¸­å®šä¹‰koa-staticåˆ°appç›®å½•ï¼Œä»¥å…è®¸è®¿é—®æ‰€æœ‰èµ„æºã€‚
+å°†sencha_appå·¥ä½œç©ºé—´ä¸‹çš„buildæ‹·è´åˆ°appç›®å½•ã€‚
+å°†Extjs6.0æ•´ä¸ªé¡¹ç›®æ‹·è´åˆ°appç›®å½•ï¼ˆä½¿ç”¨sencha_appå·¥ä½œç©ºé—´ä¸‹çš„extæ–‡ä»¶å¤¹å†…å®¹ä¹Ÿå¯ä»¥ï¼Œ
+ä¸è¿‡è¿˜æ˜¯ä½¿ç”¨åŸåŒ…æ¯”è¾ƒå¥½ï¼‰
 (4)
-ÎªÁË·ÀÖ¹ÍøÒ³×Ô¶¯¶¨Î»µ½index.html£¬½«index.html¸ÄÎªindex.ejs£¬
-ÕâÑù¿ÉÒÔÍ¨¹ıkoaµÄrouterÖØ¶¨Ïòµ½µØÖ·"app/index"¡£
+ä¸ºäº†é˜²æ­¢ç½‘é¡µè‡ªåŠ¨å®šä½åˆ°index.htmlï¼Œå°†index.htmlæ”¹ä¸ºindex.ejsï¼Œ
+è¿™æ ·å¯ä»¥é€šè¿‡koaçš„routeré‡å®šå‘åˆ°åœ°å€"app/index"ã€‚
 (5)
-ĞŞ¸ÄÒ»Ğ©¼ÓÔØÄ¿Â¼£¬ÒÔÖ§³Ö¶à¸öapp
-1.index.ejsĞŞ¸Äbootstrap.js->app/bootstrap.js
-2.bootstrap.jsĞŞ¸Äbootstrap.json->app/bootstrap.json
-3.bootstrap.jsonĞŞ¸ÄjsÏîÄ¿µÄapp.js->app/app.js£¬²¢×ĞÏ¸¹Û²ìpathsÏîÄ¿ÖĞÓĞÃ»ÓĞÓ¦ÓÃÀàµÄpathsÉèÖÃ£¬
-±ÈÈçapp.view.main.MainModelÕâÖÖ£¬ÔÚÂ·¾¶Ç°Ãæ¼ÓÉÏapp»òÕßÉ¾µô¸ÃÏîÄ¿£¬ÊÇExtJS×Ô¶¯
-ÀûÓÃapp.jsµÄappFolderÉèÖÃµÄÄ¿Â¼À´½øĞĞËÑË÷¡£
-4.app.jsÌí¼ÓappFolder: "/app/app"
+ä¿®æ”¹ä¸€äº›åŠ è½½ç›®å½•ï¼Œä»¥æ”¯æŒå¤šä¸ªapp
+1.index.ejsä¿®æ”¹bootstrap.js->app/bootstrap.js
+2.bootstrap.jsä¿®æ”¹bootstrap.json->app/bootstrap.json
+3.bootstrap.jsonä¿®æ”¹jsé¡¹ç›®çš„app.js->app/app.jsï¼Œå¹¶ä»”ç»†è§‚å¯Ÿpathsé¡¹ç›®ä¸­æœ‰æ²¡æœ‰åº”ç”¨ç±»çš„pathsè®¾ç½®ï¼Œ
+æ¯”å¦‚app.view.main.MainModelè¿™ç§ï¼Œåœ¨è·¯å¾„å‰é¢åŠ ä¸Šappæˆ–è€…åˆ æ‰è¯¥é¡¹ç›®ï¼Œæ˜¯ExtJSè‡ªåŠ¨
+åˆ©ç”¨app.jsçš„appFolderè®¾ç½®çš„ç›®å½•æ¥è¿›è¡Œæœç´¢ã€‚
+4.app.jsæ·»åŠ appFolder: "/app/app"
+
+å…³äºExtjs 4 åˆ° Extjs 6çš„ç§»æ¤ï¼š
+Controllerä¿®æ”¹Ext.app.Controller->Ext.app.ViewControllerï¼Œå¹¶æ·»åŠ alias: 'controller.main'ï¼Œå»æ‰viewsï¼›
+Panelä¿®æ”¹æ·»åŠ heightï¼Œå°†aliasæ”¹ä¸ºxtype:'mainList'ï¼Œå¹¶åŠ ä¸Šcontroller: 'main'ï¼›
+æ‰€æœ‰çš„ç±»åå‰é¢åŠ ä¸Šappçš„å‘½åç©ºé—´å³"app."ã€‚
