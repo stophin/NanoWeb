@@ -79,7 +79,7 @@ function Save(data, szJson) {
 		        			console.log("森林小妖");
 		        			break;
 		        		case 50002:
-		        			console.log("急速时刻");
+		        			console.log("极速时刻");
 		        			break;
 		        		default:
 		        			console.log("(未识别)");
