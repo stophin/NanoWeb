@@ -81,12 +81,12 @@ app.use(async (ctx, next) =>  {
       ctx.url = ctx.originalUrl;
       console.log(ctx.originalUrl);
     }
-    if (url != "/login" && !ctx.session.user &&
+    if (url != "/login" && url != "app/login/index" && !ctx.session.user &&
         !serviceReg.test(url) ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
       ctx.session.user = "login";
-      await ctx.render('login', { title: 'Login'});
+      await ctx.render('app/login/index', { title: 'Login'});
     } else {
       await next();
     }
