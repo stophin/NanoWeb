@@ -1,7 +1,8 @@
 const router = require('koa-router')()
 
 router.get('/', async (ctx, next) => {
-    await ctx.render('index', {title: 'Welcome: ' + ctx.session.user});
+    await ctx.render('app/index', {title: 'Welcome: ' + ctx.session.user});
+    //await ctx.render('index', {title: 'Welcome: ' + ctx.session.user});
 });
 
 router.get('/manage', async (ctx, next) => {

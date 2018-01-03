@@ -35,6 +35,7 @@ app.use(bodyparser({
 app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
+app.use(require('koa-static')(__dirname + '/views/app'));
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
@@ -47,9 +48,7 @@ let loopbackReg = new RegExp(/\/127.0.0.1/);
 let localhostReg = new RegExp(/\/localhost/);
 let serverIPReg = new RegExp(/\/192.168.2.100/);
 //
-let csvReg = new RegExp(/.csv/);
-let txtReg = new RegExp(/.txt/);
-let NAGameReg = new RegExp(/\/NAGame\//);
+let htmlReg = new RegExp(/.html/);
 app.use(async (ctx, next) =>  {
     const start = new Date();
     let url = ctx.originalUrl;
@@ -75,23 +74,15 @@ app.use(async (ctx, next) =>  {
       ctx.url = ctx.url.replace(serverIPReg, "");
       console.log(ctx.originalUrl);
     }
-    if (csvReg.test(url)) {
-      console.log("csv");
-      let filename = ctx.originalUrl;
-      ctx.originalUrl = "/NAGame/fileReader?filename=" + filename;
-      ctx.url = ctx.originalUrl;
-      console.log(ctx.originalUrl);
-    }
-    else if (txtReg.test(url)) {
-      console.log("txt");
+    if (htmlReg.test(url)) {
+      console.log("html");
       let filename = ctx.originalUrl;
       ctx.originalUrl = "/NAGame/fileReader?filename=" + filename;
       ctx.url = ctx.originalUrl;
       console.log(ctx.originalUrl);
     }
     if (url != "/login" && !ctx.session.user &&
-        !serviceReg.test(url) &&
-        !NAGameReg.test(url)  ) {
+        !serviceReg.test(url) ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
       ctx.session.user = "login";
