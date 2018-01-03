@@ -1,9 +1,10 @@
 
-Ext.define('app.Demo.view.json.top', {
+Ext.define('app.Demo.view.user.top', {
   extend: 'Ext.panel.Panel',
-  id: "json-top",
-  alias: 'widget.json-top',
-  //title: 'Search Jsons',
+  id: "user-top",
+  alias: 'widget.user-top',
+  xtype: 'user-top',
+  //title: 'Search Users',
   region: 'north',
   border: false,
   //style:'margin:-10px -10px 0px -10px',
@@ -25,11 +26,11 @@ Ext.define('app.Demo.view.json.top', {
         }],
         buttons: [{
           margin : '5 5 5 5',
-          padding : '2 5 2 8',
+          //padding : '2 5 2 8',
           xtype: 'button',
           text: '测试按钮',
           icon: 'images/Import.png',
-          action: 'importJson'
+          action: 'importUser'
         }],
         resetForm: function() {
             this.items.each(function() {

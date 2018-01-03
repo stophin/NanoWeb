@@ -1,7 +1,7 @@
-Ext.define('app.Demo.view.json.form', {
+Ext.define('app.Demo.view.user.form', {
   extend: 'Ext.window.Window',
-  id: 'json-form',
-  alias : 'widget.json-form',
+  id: 'user-form',
+  alias : 'widget.user-form',
   title : '添加/编辑',
   resizable: true,
   maximizable: true,

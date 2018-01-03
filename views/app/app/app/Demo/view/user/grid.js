@@ -1,9 +1,17 @@
-Ext.define('app.Demo.view.json.grid', {
+Ext.define('app.Demo.view.user.grid', {
   extend: 'Ext.grid.Panel',
-  id: "json-grid",
-  alias: 'widget.json-grid',
-  //title: 'All Jsons',
-  //store: 'Jsons',
+  id: "user-grid",
+  alias: 'widget.user-grid',
+  xtype: 'user-grid',
+  //title: 'All Users',
+  //store: 'Users',
+
+  requires: [
+      'app.Demo.store.Users'
+  ],
+  store: {
+      type: 'users'
+  },
   region: 'center',
   border: false,
   //style:'margin:0px -10px -10px -10px',
@@ -23,31 +31,31 @@ Ext.define('app.Demo.view.json.grid', {
       flex: 1
     }];
     //新建按钮
-    this.addJsonButton = new Ext.Button({
+    this.addUserButton = new Ext.Button({
       icon: 'images/add.ico',
       text: '添加',
-      action: 'addJson'
+      action: 'addUser'
     });
 
-    this.editJsonButton = new Ext.Button({
+    this.editUserButton = new Ext.Button({
       icon: 'images/edit.ico',
       text: '编辑',
-      action: 'editJson',
+      action: 'editUser',
       disabled: true
     });
 
-    this.deleteJsonButton = new Ext.Button({
+    this.deleteUserButton = new Ext.Button({
       icon: 'images/del.ico',
       text: '删除',
-      action: 'deleteJson',
+      action: 'deleteUser',
       disabled: true
     });
 
-    this.tbar = ['->', this.addJsonButton, this.editJsonButton, this.deleteJsonButton];
+    this.tbar = ['->', this.addUserButton, this.editUserButton, this.deleteUserButton];
 
     this.paging = new Ext.PagingToolbar({
       //pageSize: 10,
-      //store: 'Jsons',
+      store: this.store,
       displayInfo: true
     });
 
@@ -55,17 +63,17 @@ Ext.define('app.Demo.view.json.grid', {
     this.callParent(arguments);
   },
 
-  getSelectedJson: function() {
+  getSelectedUser: function() {
     return this.getSelectionModel().getSelection()[0];
   },
 
   enableRecordButtons: function() {
-    this.editJsonButton.enable();
-    this.deleteJsonButton.enable();
+    this.editUserButton.enable();
+    this.deleteUserButton.enable();
   },
 
   disableRecordButtons: function() {
-    this.editJsonButton.disable();
-    this.deleteJsonButton.disable();
+    this.editUserButton.disable();
+    this.deleteUserButton.disable();
   }
 });
