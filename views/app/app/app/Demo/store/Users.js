@@ -1,6 +1,7 @@
 Ext.define('app.Demo.store.Users', {
   extend: 'Ext.data.Store',
-  alias: 'store.users',
+  alias: 'store.user',
+  xtype: 'user',
 
   requires: [
       'app.Demo.model.Users'

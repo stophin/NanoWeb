@@ -3,7 +3,7 @@ Ext.define('app.Demo.view.user.list', {
   id: "user-list",
   alias: 'widget.user-list',
   xtype: 'user-list',
-  title: 'USER测试',
+  title: '用户管理',
   closable:false,
   colseAction:'destory',
   layout: 'border',

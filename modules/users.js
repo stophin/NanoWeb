@@ -16,21 +16,6 @@ User.batch = async function (query, callback) {
     return result;
 };
 
-User.getID = async (number) => {
-    await dbHelper.start();
-    let result = await dbHelper.execute("select max(id) as max from users", []);
-    await dbHelper.stop();
-    console.log(result[0].max);
-    if(result[0].max==null){
-        return  0;
-    }
-    if (number) {
-        result[0].max += number;
-    }
-    return '0'+(+result[0].max + 1);
-}
-
-
 //新建
 User.prototype.save = async function save(callback) {
     var user = {
@@ -61,14 +46,24 @@ User.getQuantity = async function get(query, callback){
 
 //改
 User.prototype.update = async  function (callback) {
-  var sql = 'update `users` set name = ?, ' +
-                                  'password = ? where id = ?';
-  var params = [this.name,
-                this.password,
-                this.id];
+  var sql = 'update `users` set';
+  var params = [];
+  if (this.name) {
+    sql +=  ' name = ?';
+    params.push(this.name);
+  } else {
+    sql +=  ' name = name';
+  }
+  sql += ',';
+  if (this.password) {
+    sql +=  ' password = ?';
+    params.push(this.password);
+  } else {
+    sql +=  ' password = password';
+  }
+  sql += ' where id = ?';
+  params.push(this.id);
 
-                console.log(sql);
-                console.log(JSON.stringify(params));
     await dbHelper.start();
     let result = await dbHelper.execute(sql, params);
     await dbHelper.stop();
@@ -90,5 +85,16 @@ User.remove = async  function(query, callback) {
     await dbHelper.stop();
     return result;
 };
+
+User.getID = async (number) => {
+    await dbHelper.start();
+    let result = await dbHelper.execute("select max(id) as max from users", []);
+    await dbHelper.stop();
+    console.log(result[0].max);
+    if (number) {
+        result[0].max += number;
+    }
+    return (+result[0].max + 1);
+}
 
 module.exports = User;

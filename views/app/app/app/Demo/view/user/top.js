@@ -22,15 +22,36 @@ Ext.define('app.Demo.view.user.top', {
           padding: '5 5 5 5',
           xtype: 'textfield',
           name : 'name',
-          fieldLabel: '测试'
+          fieldLabel: '用户名'
         }],
         buttons: [{
           margin : '5 5 5 5',
           //padding : '2 5 2 8',
           xtype: 'button',
-          text: '测试按钮',
+          text: '导入用户配置',
           icon: 'images/Import.png',
           action: 'importUser'
+        },{
+          margin : '5 5 5 5',
+          //padding : '2 5 2 8',
+          xtype: 'button',
+          text: '导出用户配置',
+          icon: 'images/Export.png',
+          action: 'exportUser'
+        }, {
+          margin : '5 5 5 5',
+          //padding : '2 5 2 8',
+          xtype: 'button',
+          text: '检索',
+          icon: 'images/search.png',
+          action: 'searchUser'
+        },{
+          margin : '5 5 5 5',
+          //padding : '2 5 2 8',
+          xtype: 'button',
+          text: '清除',
+          icon: 'images/refresh.png',
+          action: 'resetForm'
         }],
         resetForm: function() {
             this.items.each(function() {

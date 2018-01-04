@@ -83,7 +83,13 @@ router.put('/:id',async function (ctx, next) {
 router.delete('/:id', async function (ctx, next) {
     var query = 'id = ' + ctx.request.body.id;
     try {
-        await User.remove(query);
+        let res = await User.remove(query);
+        if (res == 1) {
+          ctx.body = {success:false};
+        } else {
+          ctx.body = {success:true};
+        }
+        return;
     }catch (err){
         console.log('删除失败!');
         ctx.body={success:false};
@@ -136,6 +142,7 @@ router.post("/importUser",bodyParse({multipart:true}), async function(ctx, next)
 router.post('/batchUsers', async function (ctx, next) {
   {
         var path = ctx.request.body.filename;
+        console.log(path);
         //解析文件
         var data = xlsx.parse(path);  
         //导入数据库

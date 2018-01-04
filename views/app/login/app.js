@@ -7,10 +7,10 @@ Ext.application({
     name: 'login',
 
     appFolder: "/login/app",
-    extend: 'login.Application',
+    //extend: 'login.Application',
 
     requires: [
-        'login.view.main.Main'
+        //'login.view.main.Main'
     ],
 
     // The name of the initial view to create. With the classic toolkit this class

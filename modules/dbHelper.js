@@ -25,8 +25,8 @@ dbHelper.start=async ()=>{
 
 dbHelper.execute=async (query,params)=>{
     return new Promise(function (resolve,reject) {
-        //console.log(query);
-        //console.log(params);
+        console.log(query);
+        console.log(params);
         pool.query(query,params,function (err,rows,fields) {
             if (err) reject(err);
             // console.log('execute result:')

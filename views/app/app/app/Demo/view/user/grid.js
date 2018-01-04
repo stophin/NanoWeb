@@ -6,17 +6,12 @@ Ext.define('app.Demo.view.user.grid', {
   //title: 'All Users',
   //store: 'Users',
 
-  requires: [
-      'app.Demo.store.Users'
-  ],
-  store: {
-      type: 'users'
-  },
   region: 'center',
   border: false,
   //style:'margin:0px -10px -10px -10px',
 
   initComponent: function () {
+   this.store = Ext.create("app.Demo.store.Users");
    this.columns = [{
       header: 'id',
       dataIndex: 'id',
