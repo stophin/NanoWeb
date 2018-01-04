@@ -9,6 +9,8 @@ Ext.define('app.Demo.view.user.form', {
   layout: 'fit',
   autoShow: true,
   width: '80%',
+  
+  controller: 'user',
 
   initComponent: function() {
     Ext.getBody().mask();    
@@ -39,7 +41,7 @@ Ext.define('app.Demo.view.user.form', {
       padding : '2 5 2 8',
       text: 'Save',
       icon: 'images/save.png',
-      action: 'save'
+      action: 'saveUser'
     }, {
       margin : '5 5 5 5',
       padding : '2 5 2 8',

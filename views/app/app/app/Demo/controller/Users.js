@@ -9,6 +9,9 @@ Ext.define("app.Demo.controller.Users", {
   models: [],
   stores: [],
  // views: ['user.list'],
+  getGridStore: function() {
+    return Ext.getCmp("user-grid").getStore();
+  },
 
   init: function () {
     debugger;
@@ -19,20 +22,25 @@ Ext.define("app.Demo.controller.Users", {
       '#user-grid button[action=addUser]': {
         click: this.addUser
       },
+      '#user-form button[action=saveUser]': {
+        click: this.saveUser
+      },
     });
   },
 
   importUser: function() {
     debugger;
     var grid = this.getStore();
-    alert("OK");
   },
 
   addUser: function() {
     debugger;
-    alert("add");
-    var grid = this.getStore();
+    var store = this.getGridStore();
     var view = Ext.widget('user-form');
     view.show();
+  },
+
+  saveUser: function() {
+    alert("save");
   }
 });
