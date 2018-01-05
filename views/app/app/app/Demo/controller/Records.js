@@ -70,6 +70,14 @@ Ext.define("app.Demo.controller.Records", {
   editRecord: function(record) {
     var record = this.getList().getSelectedRecord();
     var view = Ext.widget('record-form');
+    debugger;
+    var fields = view.down('form').getForm().getFields().items;
+    for (key in fields) {
+        if (fields[key].name == "un32GameId" ||
+          fields[key].name == "un32UserId") {
+          fields[key].setReadOnly(true);
+        }
+    }
     view.down('form').loadRecord(record);
   },
 

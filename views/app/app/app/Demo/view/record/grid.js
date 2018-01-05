@@ -15,7 +15,7 @@ Ext.define('app.Demo.view.record.grid', {
    this.columns = [{
       header: 'id',
       dataIndex: 'id',
-      flex: 1
+      width: 50
     },{
       header: '游戏类型',
       dataIndex: 'un32GameId',
@@ -23,6 +23,14 @@ Ext.define('app.Demo.view.record.grid', {
     }, {
       header: '用户编号',
       dataIndex: 'un32UserId',
+      flex: 1
+    }, {
+      header: '用户名称',
+      dataIndex: 'szUserName',
+      flex: 1
+    },{
+      header: '用户昵称',
+      dataIndex: 'szNickName',
       flex: 1
     }, {
       header: '金币变化',

@@ -24,6 +24,21 @@ Record.get = async function get(query, callback){
     var sql = 'SELECT * FROM `na_user_change_web`' + (query ? query : '')
     await dbHelper.start();
     let result = await dbHelper.execute(sql, []);
+    console.log(JSON.stringify(result));
+    for (key in result) {
+      let sqlStr = "select * from na_gameuser where un32UserId = ?;";
+      let params = [
+        result[key].un32UserId
+      ];
+      let userInfo = await dbHelper.executemain(sqlStr, params);
+      if (userInfo.length > 0) {
+        result[key].szUserName = userInfo[0].szUserName;
+        result[key].szNickName = userInfo[0].szNickName;
+      } else {
+        result[key].szUserName = "";
+        result[key].szNickName = "";
+      }
+    }
     await dbHelper.stop();
     return result;
 };

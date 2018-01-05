@@ -47,9 +47,9 @@ router.get('/', async function (ctx, next) {
 
 // 新建
 router.post('/', async function (ctx, next) {
-    let record = new Record(ctx.request.body.gameId, 
-                            ctx.request.body.userId,
-                            ctx.request.body.gold);
+    let record = new Record(ctx.request.body.un32GameId, 
+                            ctx.request.body.un32UserId,
+                            ctx.request.body.dGold);
     let result;
     try{
         result=await record.save();

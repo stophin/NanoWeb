@@ -20,7 +20,7 @@ Ext.define('app.Demo.view.record.form', {
       width: '80%',
       fieldDefaults: {
         msgTarget: 'side',
-        labelWidth: 300
+        labelWidth: 100
       },
       defaultType: 'textfield',
       items: [{
@@ -29,12 +29,10 @@ Ext.define('app.Demo.view.record.form', {
         fieldLabel: 'id'
       }, {
         name : 'un32GameId',
-        fieldLabel: '游戏类型',
-        readOnly: "true"
+        fieldLabel: '游戏类型'
       }, {
         name : 'un32UserId',
-        fieldLabel: '用户编号',
-        readOnly: "true"
+        fieldLabel: '用户编号'
       }, {
         name : 'dGold',
         fieldLabel: '金币变化'
