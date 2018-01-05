@@ -11,6 +11,7 @@ const sessionMysql=require('koa-mysql-session');
 const login=require('./routes/login');
 const index=require('./routes/index');
 const users=require('./routes/users');
+const records=require('./routes/records');
 const server=require('./routes/server');
 global.dbHelper=require('./modules/dbHelper');
 global.root_dir=__dirname+'/';
@@ -101,6 +102,7 @@ app.use(async (ctx, next) =>  {
 app.use(login.routes(),login.allowedMethods());
 app.use(index.routes(),index.allowedMethods());
 app.use(users.routes(),users.allowedMethods());
+app.use(records.routes(),records.allowedMethods());
 app.use(server.routes(),server.allowedMethods());
 module.exports = app;
 

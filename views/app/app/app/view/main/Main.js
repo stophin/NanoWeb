@@ -21,7 +21,13 @@ Ext.define('app.view.main.Main', {
         'app.Demo.view.user.list',
         'app.Demo.view.user.top',
         'app.Demo.view.user.grid',
-        'app.Demo.view.user.form'
+        'app.Demo.view.user.form',
+
+        'app.Demo.controller.Records',
+        'app.Demo.view.record.list',
+        'app.Demo.view.record.top',
+        'app.Demo.view.record.grid',
+        'app.Demo.view.record.form'
     ],
 
     controller: 'main',
@@ -93,6 +99,12 @@ Ext.define('app.view.main.Main', {
         iconCls: 'fa-user',
         items: [{
             xtype: 'user-list'
+        }]
+    },  {
+        title: '记录',
+        iconCls: 'fa-asterisk',
+        items: [{
+            xtype: 'record-list'
         }]
     }, {
         title: '组别',

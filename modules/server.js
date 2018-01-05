@@ -114,18 +114,48 @@ Server.prototype.playerChange = async function(param) {
 //累计用户分数
 Server.prototype.playerAccumulate = async function(param) {
 	for (key in param) {
-		//let sqlStr = "replace na_user_change_web set dGold = dGold + ?";
-		//sqlStr += ", un32UserId = ?;";
-		let sqlStr = "insert into na_user_change_web set dGold = ?";
-		sqlStr += ", un32UserId = ?";
-		sqlStr += ", un32GameId = ?";
-		sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+		let sqlStr = "select * from na_user_change_web";
+		sqlStr += " where un32UserId = ?";
+		sqlStr += " and un32GameId = ?;";
 		let params = [
-			param[key].dGold,
 			param[key].userId,
 			param[key].gameId
 		];
 		let result = await dbHelper.execute(sqlStr, params);
+		console.log(JSON.stringify(result));
+		//let sqlStr = "replace na_user_change_web set dGold = dGold + ?";
+		//sqlStr += ", un32UserId = ?;";
+		//let sqlStr = "insert into na_user_change_web set dGold = ?";
+		//sqlStr += ", un32UserId = ?";
+		//sqlStr += ", un32GameId = ?";
+		//sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+		sqlStr = "";
+		if (result.length > 0) {
+			sqlStr += " update ";
+			sqlStr += " na_user_change_web set dGold = dGold + ?";
+			sqlStr += " , dGoldLast = ?";
+			sqlStr += " where un32UserId = ?";
+			sqlStr += " and un32GameId = ?;";
+			params = [
+				param[key].dGold,
+				param[key].dGold,
+				param[key].userId,
+				param[key].gameId
+			];
+		} else {
+			sqlStr += " insert into ";
+			sqlStr += " na_user_change_web set dGold = dGold + ?";
+			sqlStr += " , dGoldLast = ?";
+			sqlStr += ", un32UserId = ?";
+			sqlStr += ", un32GameId = ?;";
+			params = [
+				param[key].dGold,
+				param[key].dGold,
+				param[key].userId,
+				param[key].gameId
+			];
+		}
+		result = await dbHelper.execute(sqlStr, params);
 	}
 	await dbHelper.stop();
 }
