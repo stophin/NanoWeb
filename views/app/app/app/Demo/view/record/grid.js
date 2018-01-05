@@ -32,7 +32,16 @@ Ext.define('app.Demo.view.record.grid', {
       header: '用户昵称',
       dataIndex: 'szNickName',
       flex: 1
-    }, {
+    },{
+      header: '当前金币',
+      dataIndex: 'dCurGold',
+      renderer:function(value, cellmeta, record, rowIndex, columnIndex, store){
+        debugger;
+          var gold = parseInt(value) + parseInt(record.data["dGold"])
+          return "" + gold;
+      },
+      flex: 1
+    },  {
       header: '金币变化',
       dataIndex: 'dGold',
       flex: 1

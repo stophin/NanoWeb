@@ -34,9 +34,11 @@ Record.get = async function get(query, callback){
       if (userInfo.length > 0) {
         result[key].szUserName = userInfo[0].szUserName;
         result[key].szNickName = userInfo[0].szNickName;
+        result[key].dCurGold = userInfo[0].dGold;
       } else {
         result[key].szUserName = "";
         result[key].szNickName = "";
+        result[key].dCurGold = "";
       }
     }
     await dbHelper.stop();

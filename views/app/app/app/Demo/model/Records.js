@@ -9,6 +9,7 @@ Ext.define('app.Demo.model.Records', {
     { name: 'szUserName', type: 'string' },
     { name: 'szNickName', type: 'string' },
     { name: 'dGold', type: 'string' },
+    { name: 'dCurGold', type: 'string'},
     { name: 'dGoldLast', type: 'string'},
     { name: 'dGoldHist', type: 'string'}
   ],
