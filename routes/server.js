@@ -46,11 +46,12 @@ function Save(data, szJson) {
 
 	        let gameKey = "c0f81e04-bb6b-4b8e-9c9b-6fb2220547c6";
 	        let obj = JSON.parse(records_r);
+	        let params = [];
 		    if (data.exit) {//退出
 			    console.log("用户:" + data.userId );
 			    console.log("退出");
 		    }
-	        else if (data.gameType) {//有gameType的是战绩
+	       	if (data.gameType) {//有gameType的是战绩
 		        for (key in obj) {
 		        	switch(obj[key].gameId) {
 		        		case 50001:
@@ -96,6 +97,8 @@ function Save(data, szJson) {
 		        		console.log("返还:" + obj[key].amount);
 		        	}
 		        	console.log("剩余:" + (obj[key].preBalance + obj[key].amount) );
+
+		        	params.push({"gameId":data.gameId, "userId": obj[key].userId, "dGold": obj[key].amount})
 		        }
 	        }
 	        //显示时间
@@ -128,6 +131,18 @@ function Save(data, szJson) {
 			param.szRecords = records_r;
 			param.szRecords_c = records;
 			server.save(param);
+
+			if (data.exit) {
+			    //用户退出时修改用户状态
+			    let result = server.playerChange({"userId": data.userId, "sid": 0});
+			    //结算用户总分数
+			    result = server.playerAccount({"gameId": data.gameId, "userId": data.userId});
+			} else {
+				if (params.length > 0) {
+					//累计用户分数
+					let result = server.playerAccumulate(params);
+				}
+			}
 	    } else {
 	        // handle error
 	        console.log("unzip error:" + err);
@@ -394,6 +409,10 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 		        "state": "1"
 		    }
 		};
+
+		//修改用户状态
+		result = await server.playerChange(param);
+
 		ctx.body = JSON.stringify(json);
 	} else {
 		ctx.body = JSON.stringify({"code": 9002, "msg": ""});

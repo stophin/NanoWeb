@@ -23,10 +23,12 @@ dbHelper.start=async ()=>{
     // console.log(dbHelper.connection);
 };
 
-dbHelper.execute=async (query,params)=>{
+dbHelper.execute=async (query,params, log)=>{
     return new Promise(function (resolve,reject) {
-        console.log(query);
-        console.log(params);
+        if (!log) {
+            console.log(query);
+            console.log(params);
+        }
         pool.query(query,params,function (err,rows,fields) {
             if (err) reject(err);
             // console.log('execute result:')
@@ -39,10 +41,12 @@ dbHelper.execute=async (query,params)=>{
     });
 };
 
-dbHelper.executemain = async(query, params)=> {
+dbHelper.executemain = async(query, params, log)=> {
     return new Promise(function (resolve,reject) {
-        console.log(query);
-        console.log(params);
+        if (!log) {
+            console.log(query);
+            console.log(params);
+        }
         poolmain.query(query,params,function (err,rows,fields) {
             if (err) reject(err);
             // console.log('execute result:')

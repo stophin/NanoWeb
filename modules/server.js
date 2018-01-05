@@ -38,7 +38,7 @@ Server.prototype.save =async function save(param) {
 	sqlStr += ", szRecords=?";
 	sqlStr += ", szRecords_c=?";
 	sqlStr += ";";
-    let result=await dbHelper.execute(sqlStr, params);
+    let result=await dbHelper.execute(sqlStr, params, 1);
     await dbHelper.stop();
     return result;
 };
@@ -87,16 +87,79 @@ Server.prototype.merchantInfo = async function(param) {
 }
 //进入游戏
 Server.prototype.playerJoin = async function(param) {
-	let sqlStr = "select * from na_gameuser where ";
-	sqlStr += " un32UserId = ?;"
+	let sqlStr = "select * from na_gameuser ";
+	sqlStr += "  where un32UserId = ?;"
 	let params = [
 		param.userId
 	];
 	let result = await dbHelper.executemain(sqlStr, params);
 	console.log(JSON.stringify(result));
 	await dbHelper.stop();
+
 	return result;
 }
 
+//修改用户状态
+Server.prototype.playerChange = async function(param) {
+	let sqlStr = "update na_gameuser set un32CurGSID = ?";
+	sqlStr += " where un32UserId = ?;";
+	let params = [
+		param.sid,
+		param.userId
+	];
+	let result = await dbHelper.executemain(sqlStr, params);
+	await dbHelper.stop();
+}
+
+//累计用户分数
+Server.prototype.playerAccumulate = async function(param) {
+	for (key in param) {
+		//let sqlStr = "replace na_user_change_web set dGold = dGold + ?";
+		//sqlStr += ", un32UserId = ?;";
+		let sqlStr = "insert into na_user_change_web set dGold = ?";
+		sqlStr += ", un32UserId = ?";
+		sqlStr += ", un32GameId = ?";
+		sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+		let params = [
+			param[key].dGold,
+			param[key].userId,
+			param[key].gameId
+		];
+		let result = await dbHelper.execute(sqlStr, params);
+	}
+	await dbHelper.stop();
+}
+
+//结算用户总分数
+Server.prototype.playerAccount = async function(param) {
+	let sqlStr = "select * from na_user_change_web";
+	sqlStr += " where un32UserId = ?";
+	sqlStr += " and un32GameId = ?;";
+	let params = [
+		param.userId,
+		param.gameId
+	];
+	let result = await dbHelper.execute(sqlStr, params);
+	console.log(JSON.stringify(result));
+	if (result.length > 0) {
+		let key = 0;
+		let sqlStr = "update na_gameuser set dGold = dGold + ?";
+		sqlStr += " where un32UserId = ?;";
+		let params = [
+			result[key].dGold,
+			result[key].un32UserId
+		];
+		await dbHelper.executemain(sqlStr, params);
+
+		let delStr = "update na_user_change_web set dGoldHist = dGoldHist + dGold";
+		delStr += ", dGold = 0"
+		delStr += " where un32UserId = ?;";
+		let delParams = [
+			result[key].un32UserId
+		]
+		await dbHelper.execute(delStr, delParams);
+	}
+	await dbHelper.stop();
+}
 
 module.exports = Server;
