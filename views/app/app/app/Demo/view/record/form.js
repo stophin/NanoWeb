@@ -41,13 +41,13 @@ Ext.define('app.Demo.view.record.form', {
 
     this.buttons = [{
       margin : '5 5 5 5',
-      padding : '2 5 2 8',
+      //padding : '2 5 2 8',
       text: 'Save',
       icon: 'images/save.png',
       action: 'saveRecord'
     }, {
       margin : '5 5 5 5',
-      padding : '2 5 2 8',
+      //padding : '2 5 2 8',
       text: 'Cancel',
       scope: this,
       icon: 'images/close.png',
