@@ -3,7 +3,13 @@ Ext.define('touchapp.view.Main', {
     xtype: 'main',
     requires: [
         'Ext.TitleBar',
-        'Ext.Video'
+        'Ext.Video',
+
+        'touchapp.Demo.view.user.list',
+        'touchapp.Demo.view.user.top',
+        'touchapp.Demo.view.user.grid',
+
+        'touchapp.Grid.view.Grid'
     ],
     config: {
         tabBarPosition: 'bottom',
@@ -27,8 +33,7 @@ Ext.define('touchapp.view.Main', {
                     "contents of <a target='_blank' href=\"app/view/Main.js\">app/view/Main.js</a> - edit that file ",
                     "and refresh to change what's rendered here."
                 ].join("")
-            },
-            {
+            }, {
                 title: 'Get Started',
                 iconCls: 'action',
 
@@ -39,6 +44,9 @@ Ext.define('touchapp.view.Main', {
                         title: 'Getting Started'
                     }
                 ]
+            },
+            {
+                xtype : 'grid-grid'
             }
         ]
     }

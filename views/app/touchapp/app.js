@@ -10,6 +10,10 @@
     will need to resolve manually.
 */
 
+Ext.Loader.setPath({
+    'Ext.ux.touch.grid' : 'Ext.ux.touch.grid'
+});
+
 Ext.application({
     name: 'touchapp',
 

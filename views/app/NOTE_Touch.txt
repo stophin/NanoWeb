@@ -31,3 +31,6 @@ Sencha CMD 6.5.2.15
 4.bootstrap.js修改addClassPathMappings的touchapp属性为app->touchapp/app
 	这样可以代替在app.js中添加appFolder: "/touchapp/app"
 	根据测试结果，后者并不起作用
+
+关于Extjs 6 到 Sencha Touch 2.4.2的移植：
+Sencha Touch 貌似去掉了Grid。使用Ext.ux.touch.grid
