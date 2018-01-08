@@ -1,0 +1,33 @@
+﻿本目录下sencha touch生成流程：
+下载Sencha Touch和Sencha CMD。
+版本：
+Sencha Touch 2.4.2
+Sencha CMD 6.5.2.15
+注意： 生成过程和ExtJS大致一样，只是将项目名称和路径由app改为touchapp
+(1)
+生成工作空间sencha_app
+> sencha -sdk touch-2.4.2 generate workspace sencha_app
+(2)
+创建app
+> cd sencha_app
+> sencha -sdk ../touch-2.4.2 generate app -classic touchapp touchapp 
+生成到touchapp下，项目路径在touchapp/touchapp
+命令格式：sencha -sdk [touch-2.4.2文件夹地址] generate app [项目名称] [项目路径]
+多个app必须使用不同的项目名称，最好和项目路径相同。
+(3)
+将touchapp目录拷贝到views目录，koa中定义koa-static到app目录，以允许访问所有资源。
+将touch-2.4.2整个项目拷贝到app目录（使用sencha_app工作空间下的ext文件夹内容也可以，
+不过还是使用原包比较好）并改名为touch
+(4)
+为了防止网页自动定位到index.html，将index.html改为index.ejs，
+这样可以通过koa的router重定向到地址"touchapp/index"。
+(5)
+修改一些加载目录，以支持多个app
+1.index.ejs修改.sencha/app/microloader/development.js
+	->/touchapp/sencha/app/microloader/development.js
+	并将.sencha目录修改为sencha，因为在网页地址中.不能作为目录名。
+2.development.js修改bootstrap.json->app/bootstrap.json
+3.bootstrap.json修改所有的path，在前面加上touchapp。
+4.bootstrap.js修改addClassPathMappings的touchapp属性为app->touchapp/app
+	这样可以代替在app.js中添加appFolder: "/touchapp/app"
+	根据测试结果，后者并不起作用

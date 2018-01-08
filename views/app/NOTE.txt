@@ -17,7 +17,7 @@ Sencha CMD 6.5.2.15
 将app目录拷贝到views目录，koa中定义koa-static到app目录，以允许访问所有资源。
 将sencha_app工作空间下的build拷贝到app目录。
 将Extjs6.0整个项目拷贝到app目录（使用sencha_app工作空间下的ext文件夹内容也可以，
-不过还是使用原包比较好）
+不过还是使用原包比较好）并改名为ext
 (4)
 为了防止网页自动定位到index.html，将index.html改为index.ejs，
 这样可以通过koa的router重定向到地址"app/index"。
