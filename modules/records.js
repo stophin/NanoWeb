@@ -53,6 +53,39 @@ Record.getQuantity = async function get(query, callback){
     return result;
 };
 
+
+Record.hist = async function hist(query, callback){
+    var sql = 'SELECT * FROM `na_user_change_hist_web`' + (query ? query : '');
+    await dbHelper.start();
+    let result = await dbHelper.execute(sql, []);
+    console.log(JSON.stringify(result));
+    for (key in result) {
+      let sqlStr = "select * from na_gameuser where un32UserId = ?;";
+      let params = [
+        result[key].un32UserId
+      ];
+      let userInfo = await dbHelper.executemain(sqlStr, params);
+      if (userInfo.length > 0) {
+        result[key].szUserName = userInfo[0].szUserName;
+        result[key].szNickName = userInfo[0].szNickName;
+        result[key].dCurGold = userInfo[0].dGold;
+      } else {
+        result[key].szUserName = "";
+        result[key].szNickName = "";
+        result[key].dCurGold = "";
+      }
+    }
+    await dbHelper.stop();
+    return result;
+};
+Record.getHistQuantity = async function get(query, callback){
+    var sql = 'SELECT COUNT(0) AS total FROM `na_user_change_hist_web`' + (query ? query : '')
+    await dbHelper.start();
+    let result = await dbHelper.execute(sql, []);
+    await dbHelper.stop();
+    return result;
+};
+
 //改
 Record.prototype.update = async  function (callback) {
   var sql = 'update `na_user_change_web` set';

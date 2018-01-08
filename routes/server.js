@@ -98,7 +98,7 @@ function Save(data, szJson) {
 		        	}
 		        	console.log("剩余:" + (obj[key].preBalance + obj[key].amount) );
 
-		        	params.push({"gameId":data.gameId, "userId": obj[key].userId, "dGold": obj[key].amount})
+		        	params.push({"gameId":data.gameId, "userId": obj[key].userId, "dGold": obj[key].amount, "tTime": obj[key].createdAt})
 		        }
 	        }
 	        //显示时间
@@ -130,7 +130,7 @@ function Save(data, szJson) {
 			param.szJson = szJson;
 			param.szRecords = records_r;
 			param.szRecords_c = records;
-			server.save(param);
+			//server.save(param);
 
 			if (data.exit) {
 			    //用户退出时修改用户状态

@@ -99,4 +99,50 @@ router.delete('/:id', async function (ctx, next) {
     }
 });
 
+//历史记录
+router.get('/hist', async function (ctx, next) {
+    console.log(ctx.query);
+    let totalCount = 0;
+    let query = "";
+    if (ctx.query.condition) {
+        let condition = JSON.parse(ctx.query.condition);
+        console.log(condition)
+        for (let key in condition) {
+            if (condition[key]) {
+                query += " and " + key + " like '%" + condition[key] + "%' ";
+            }
+        }
+    }
+    if (query) {
+        query = " WHERE 1 = 1 " + query;
+    }
+    //历史记录默认按照时间排序
+    let sort = "";
+    if (ctx.query.sort) {
+        let order = JSON.parse(ctx.query.sort);
+        console.log(JSON.stringify(order[0]));
+        sort = " order by " + order[0].property + " " + order[0].direction + " ";
+        sort += ", tTime desc ";
+    } else {
+        sort = " order by tTime desc ";
+    }
+    let  limit =  "";
+    if (ctx.query.start && ctx.query.limit) {
+      limit += " limit " + ctx.query.start + "," + ctx.query.limit
+    }
+    
+    console.log(query);
+    console.log(sort);
+    console.log(limit);
+
+    totalCount=await Record.getHistQuantity(query);
+    let result
+   try{
+    result=await Record.hist(query + sort + limit);
+   }catch (err){
+       result=[];
+   }
+    ctx.body={success: true, data: result, totalCount: totalCount[0].total};
+})
+
 module.exports = router

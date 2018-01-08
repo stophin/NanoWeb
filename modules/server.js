@@ -123,22 +123,34 @@ Server.prototype.playerAccumulate = async function(param) {
 		];
 		let result = await dbHelper.execute(sqlStr, params);
 		console.log(JSON.stringify(result));
-		//let sqlStr = "replace na_user_change_web set dGold = dGold + ?";
+		//history
+		//sqlStr = "replace na_user_change_hist_hist_web set dGold = dGold + ?";
 		//sqlStr += ", un32UserId = ?;";
-		//let sqlStr = "insert into na_user_change_web set dGold = ?";
-		//sqlStr += ", un32UserId = ?";
-		//sqlStr += ", un32GameId = ?";
-		//sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+		sqlStr = "insert into na_user_change_hist_web set dGold = ?";
+		sqlStr += ", un32UserId = ?";
+		sqlStr += ", un32GameId = ?";
+		sqlStr += ", tTime = ?";
+		sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+		params = [
+			param[key].dGold,
+			param[key].userId,
+			param[key].gameId,
+			param[key].tTime
+		];
+		await dbHelper.execute(sqlStr, params);
+		//accumulation
 		sqlStr = "";
 		if (result.length > 0) {
 			sqlStr += " update ";
 			sqlStr += " na_user_change_web set dGold = dGold + ?";
 			sqlStr += " , dGoldLast = ?";
+			sqlStr += " , tTime = ?";
 			sqlStr += " where un32UserId = ?";
 			sqlStr += " and un32GameId = ?;";
 			params = [
 				param[key].dGold,
 				param[key].dGold,
+				param[key].tTime,
 				param[key].userId,
 				param[key].gameId
 			];
@@ -146,11 +158,13 @@ Server.prototype.playerAccumulate = async function(param) {
 			sqlStr += " insert into ";
 			sqlStr += " na_user_change_web set dGold = dGold + ?";
 			sqlStr += " , dGoldLast = ?";
+			sqlStr += ", tTime = ?";
 			sqlStr += ", un32UserId = ?";
 			sqlStr += ", un32GameId = ?;";
 			params = [
 				param[key].dGold,
 				param[key].dGold,
+				param[key].tTime,
 				param[key].userId,
 				param[key].gameId
 			];
@@ -183,9 +197,20 @@ Server.prototype.playerAccount = async function(param) {
 
 		let delStr = "update na_user_change_web set dGoldHist = dGoldHist + dGold";
 		delStr += ", dGold = 0"
-		delStr += " where un32UserId = ?;";
+		delStr += " where un32UserId = ?";
+		delStr += " and un32GameId = ?;";
 		let delParams = [
-			result[key].un32UserId
+			result[key].un32UserId,
+			result[key].un32GameId
+		]
+		await dbHelper.execute(delStr, delParams);
+
+		delStr = "delete from na_user_change_hist_web ";
+		delStr += " where un32UserId = ?";
+		delStr += " and un32GameId = ?;";
+		delParams = [
+			result[key].un32UserId,
+			result[key].un32GameId
 		]
 		await dbHelper.execute(delStr, delParams);
 	}
