@@ -12,11 +12,11 @@ Ext.define('app.Demo.view.record.grid', {
 
   initComponent: function () {
    this.store = Ext.create("app.Demo.store.Records");
-   this.columns = [{
+   this.columns = [/*{
       header: 'id',
       dataIndex: 'id',
-      width: 50
-    },{
+      flex: 1
+    },*/{
       header: '游戏类型',
       dataIndex: 'un32GameId',
       flex: 1
@@ -24,11 +24,11 @@ Ext.define('app.Demo.view.record.grid', {
       header: '用户编号',
       dataIndex: 'un32UserId',
       flex: 1
-    }, {
+    },/* {
       header: '用户名称',
       dataIndex: 'szUserName',
       flex: 1
-    },{
+    },*/{
       header: '用户昵称',
       dataIndex: 'szNickName',
       flex: 1
@@ -45,7 +45,21 @@ Ext.define('app.Demo.view.record.grid', {
       header: '金币变化',
       dataIndex: 'dGold',
       flex: 1
-    }, {
+    },{
+      header: '最后时间',
+      dataIndex: 'tTime',
+      renderer:function(value, cellmeta, record, rowIndex, columnIndex, store){
+        debugger;
+        if (!this.store.newDate) {
+          this.store.newDate = new Date();
+        }
+        this.store.newDate.setTime(value);
+        //value = this.store.newDate.toLocaleString();
+        value = this.store.newDate.Format('yyyy-MM-dd hh:mm:ss');
+        return value;
+      },
+      flex: 2
+    },{
       header: '最后一次',
       dataIndex: 'dGoldLast',
       flex: 1
@@ -75,7 +89,13 @@ Ext.define('app.Demo.view.record.grid', {
       disabled: true
     });
 
-    this.tbar = ['->', this.addRecordButton, this.editRecordButton, this.deleteRecordButton];
+    this.histRecordButton = new Ext.Button({
+      icon: 'images/history.png',
+      text: '历史',
+      action: 'histRecord'
+    });
+
+    this.tbar = ['->', this.histRecordButton, this.addRecordButton, this.editRecordButton, this.deleteRecordButton];
 
     this.paging = new Ext.PagingToolbar({
       //pageSize: 10,

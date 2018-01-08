@@ -1,6 +1,6 @@
-Ext.define('app.Demo.model.Records', {
+Ext.define('app.Demo.model.HistRecords', {
   extend: 'Ext.data.Model',
-  alias: 'model.records',
+  alias: 'model.histrecords',
   idProperty: 'id',
   fields: [
     { name: 'id', type: 'string' },

@@ -27,7 +27,8 @@ Ext.define('app.view.main.Main', {
         'app.Demo.view.record.list',
         'app.Demo.view.record.top',
         'app.Demo.view.record.grid',
-        'app.Demo.view.record.form'
+        'app.Demo.view.record.form',
+        'app.Demo.view.record.RecordForm'
     ],
 
     controller: 'main',

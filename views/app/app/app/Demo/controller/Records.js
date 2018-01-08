@@ -6,8 +6,8 @@ Ext.define("app.Demo.controller.Records", {
     name: 'Product Name'
   },
 
-  models: ['Records'],
-  stores: ['Records'],
+  //models: ['Records'],
+  //stores: ['Records'],
   //views: ['record.list', 'record.form'],
 
   
@@ -40,6 +40,9 @@ Ext.define("app.Demo.controller.Records", {
       },
       '#record-grid button[action=deleteRecord]': {
         click: this.deleteRecord
+      },
+      '#record-grid button[action=histRecord]': {
+        click: this.histRecord
       },
       '#record-top button[action=searchRecord]': {
         click: this.searchRecord
@@ -78,6 +81,16 @@ Ext.define("app.Demo.controller.Records", {
           fields[key].setReadOnly(true);
         }
     }
+    view.down('form').loadRecord(record);
+  },
+
+  histRecord: function(record) {
+    var record = this.getList().getSelectedRecord();
+    if (!record) {
+      Ext.Msg.alert("错误", '请选择一条数据!', null, this);
+      return;
+    }
+    var view = Ext.widget('record-record-form');
     view.down('form').loadRecord(record);
   },
 
