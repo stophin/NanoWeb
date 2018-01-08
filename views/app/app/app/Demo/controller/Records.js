@@ -26,7 +26,7 @@ Ext.define("app.Demo.controller.Records", {
   init: function () {
     this.control({
       'record-grid': {
-        itemdblclick: this.editRecord,
+        itemdblclick: this.histRecord,
         selectionchange: this.selectionChange
       },
       'record-form button[action=saveRecord]': {

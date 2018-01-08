@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50712
 File Encoding         : 65001
 
-Date: 2018-01-08 14:48:23
+Date: 2018-01-08 18:41:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,6 @@ CREATE TABLE `na_user_change_web` (
   `dGoldLast` double(20,6) NOT NULL DEFAULT '0.000000',
   `n64ScoreLast` bigint(20) NOT NULL DEFAULT '0',
   `n32DiamondLast` int(11) NOT NULL DEFAULT '0',
-  `tTime` bigint(20) NOT NULL,
+  `tTime` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
-
