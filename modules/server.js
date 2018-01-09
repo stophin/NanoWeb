@@ -130,6 +130,12 @@ Server.prototype.playerAccumulate = async function(param) {
 		];
 		let result = await dbHelper.execute(sqlStr, params);
 		console.log(JSON.stringify(result));
+		sqlStr = "select * from na_gameuser";
+		sqlStr += " where un32UserId = ?";
+		params = [
+			param[key].userId
+		];
+		let userinfo = await dbHelper.executemain(sqlStr, params);
 		//history
 		//sqlStr = "replace na_user_change_hist_hist_web set dGold = dGold + ?";
 		//sqlStr += ", un32UserId = ?;";
@@ -137,12 +143,24 @@ Server.prototype.playerAccumulate = async function(param) {
 		sqlStr += ", un32UserId = ?";
 		sqlStr += ", un32GameId = ?";
 		sqlStr += ", tTime = ?";
+		sqlStr += ", dGoldHist = ?";
+		sqlStr += ", dGoldLast = ?";
 		sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+		let lastGold = 0;
+		if (result.length > 0) {
+			lastGold += result[0].dGold;
+		}
+		let curGold = 0;
+		if (userinfo.length > 0) {
+			curGold += userinfo[0].dGold;
+		}
 		params = [
 			param[key].dGold,
 			param[key].userId,
 			param[key].gameId,
-			param[key].tTime
+			param[key].tTime,
+			lastGold + curGold + param[key].dGold,
+			lastGold + param[key].dGold
 		];
 		await dbHelper.execute(sqlStr, params);
 		//accumulation

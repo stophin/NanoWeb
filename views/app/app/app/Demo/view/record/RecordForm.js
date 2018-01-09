@@ -54,17 +54,21 @@ Ext.define('app.Demo.view.record.RecordForm', {
             dataIndex: 'szNickName',
             flex: 1
           },{
-            header: '初始金币',
-            dataIndex: 'dCurGold',
+            header: '当前金币',
+            dataIndex: 'dGoldHist',
             /*renderer:function(value, cellmeta, record, rowIndex, columnIndex, store){
               debugger;
-                var gold = parseInt(value) + parseInt(record.data["dGold"])
+                var gold = parseInt(value) + parseInt(record.data["dGoldHist"])
                 return "" + gold;
             },*/
             flex: 1
           },  {
             header: '金币变化',
             dataIndex: 'dGold',
+            flex: 1
+          },{
+            header: '累计金币',
+            dataIndex: 'dGoldLast',
             flex: 1
           }, {
             header: '时间',
