@@ -16,10 +16,30 @@ var server = new Server();
 
 /////////////////////////////////////////////////////////
 ////Forest Sprite or SpeedTime
-function Save(data, szJson) {
+//这下面时同步机制
+//因为await sync不是很正确，先暂时这样
+let g_SaveDataSzJson = [];
+let g_waitingForFinish = 0;
+var Save = async(data, szJson)=> {
+	g_SaveDataSzJson.push({data:data, szJson: szJson});
+};
+
+var SaveInterval = async()=> {
+	if (g_SaveDataSzJson.length <= 0) {
+		return;
+	}
+	if (g_waitingForFinish == 1) {
+		console.log("********g_waitingForFinish");
+		return;
+	}
+	g_waitingForFinish = 1;
+	let SaveDataSzJson = g_SaveDataSzJson.shift();
+	let data = SaveDataSzJson.data;
+	let szJson = SaveDataSzJson.szJson;
+	
     let records = data.records;
     const buffer = Buffer.from(records, 'base64');
-    zlib.unzip(buffer, (err, buffer) => {
+    await zlib.unzip(buffer, async(err, buffer) => {
 	    if (!err) {
 	    	records_r = buffer.toString();
 	        console.log(records_r);
@@ -114,27 +134,31 @@ function Save(data, szJson) {
 
 			if (data.exit) {
 			    //用户退出时修改用户状态
-			    let result = server.playerChange({"userId": data.userId, "sid": 0});
+			    let result = await server.playerChange({"userId": data.userId, "sid": 0});
 			    //结算用户总分数
-			    result = server.playerAccount({"gameId": data.gameId, "userId": data.userId});
+			    result = await server.playerAccount({"gameId": data.gameId, "userId": data.userId}).then(()=>{g_waitingForFinish = 0});;
 			} else {
 				if (params.length > 0) {
 					//累计用户分数
-					let result = server.playerAccumulate(params);
+					let result = await server.playerAccumulate(params).then(()=>{g_waitingForFinish = 0;});
 				}
+				g_waitingForFinish = 0;
 			}
 	    } else {
 	        // handle error
 	        console.log("unzip error:" + err);
+
+			g_waitingForFinish = 0;
 	    }
 	});
-}
+};
+setInterval(SaveInterval, 100);
 
 router.post('/service/game/settlement',async (ctx,next)=>{
     let data=ctx.request.body;
     let szJson = JSON.stringify(data);
     console.log("msg from settlement:" + szJson);
-    Save(data, szJson);
+    await Save(data, szJson);
 	ctx.body = {"code":"0","msg":"success!"};
 });
 
@@ -142,7 +166,7 @@ router.post('/service/game/player/record',async (ctx,next)=>{
     let data=ctx.request.body;
     let szJson = JSON.stringify(data);
     console.log("msg from player/record:" + szJson);
-    Save(data, szJson);
+    await Save(data, szJson);
 	ctx.body = {"code":"0","msg":"success!"};
 });
 /////////////////////////////////////////////////////////
@@ -397,6 +421,8 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 
 		//修改用户状态
 		result = await server.playerChange(param);
+		//清除上次用户历史记录
+		await server.deleteAccountHist(param);
 
 		ctx.body = JSON.stringify(json);
 	} else {

@@ -46,6 +46,7 @@ Server.prototype.save =async function save(param) {
 
 //登陆
 Server.prototype.login = async function(param) {
+    await dbHelper.start();
 	let sqlStr = "select * from na_gameuser where ";
 	sqlStr += " szUserName = ?"
 	sqlStr += " and password = ?";
@@ -63,6 +64,7 @@ Server.prototype.login = async function(param) {
 
 //修改信息
 Server.prototype.modifyInfo = async function(param) {
+    await dbHelper.start();
 	let sqlStr = "select * from na_gameuser where ";
 	sqlStr += " un32UserId = ?;"
 	let params = [
@@ -75,6 +77,7 @@ Server.prototype.modifyInfo = async function(param) {
 }
 //商户信息
 Server.prototype.merchantInfo = async function(param) {
+    await dbHelper.start();
 	let sqlStr = "select * from na_merchant_web where ";
 	sqlStr += " mid = ?;"
 	let params = [
@@ -87,6 +90,7 @@ Server.prototype.merchantInfo = async function(param) {
 }
 //进入游戏
 Server.prototype.playerJoin = async function(param) {
+    await dbHelper.start();
 	let sqlStr = "select * from na_gameuser ";
 	sqlStr += "  where un32UserId = ?;"
 	let params = [
@@ -101,6 +105,7 @@ Server.prototype.playerJoin = async function(param) {
 
 //修改用户状态
 Server.prototype.playerChange = async function(param) {
+    await dbHelper.start();
 	let sqlStr = "update na_gameuser set un32CurGSID = ?";
 	sqlStr += " where un32UserId = ?;";
 	let params = [
@@ -108,11 +113,13 @@ Server.prototype.playerChange = async function(param) {
 		param.userId
 	];
 	let result = await dbHelper.executemain(sqlStr, params);
+
 	await dbHelper.stop();
 }
 
 //累计用户分数
 Server.prototype.playerAccumulate = async function(param) {
+    await dbHelper.start();
 	for (key in param) {
 		let sqlStr = "select * from na_user_change_web";
 		sqlStr += " where un32UserId = ?";
@@ -176,6 +183,7 @@ Server.prototype.playerAccumulate = async function(param) {
 
 //结算用户总分数
 Server.prototype.playerAccount = async function(param) {
+    await dbHelper.start();
 	let sqlStr = "select * from na_user_change_web";
 	sqlStr += " where un32UserId = ?";
 	sqlStr += " and un32GameId = ?;";
@@ -195,6 +203,7 @@ Server.prototype.playerAccount = async function(param) {
 		];
 		await dbHelper.executemain(sqlStr, params);
 
+		//设置为0防止多次接收退出消息造成多次金币增加
 		let delStr = "update na_user_change_web set dGoldHist = dGoldHist + dGold";
 		delStr += ", dGold = 0"
 		delStr += " where un32UserId = ?";
@@ -204,17 +213,30 @@ Server.prototype.playerAccount = async function(param) {
 			result[key].un32GameId
 		]
 		await dbHelper.execute(delStr, delParams);
+	}
+	await dbHelper.stop();
+}
 
-		delStr = "delete from na_user_change_hist_web ";
+//清除上次用户历史记录
+Server.prototype.deleteAccountHist = async function(param) {
+	//需要通过sid查找GameKindID
+	let sqlStr = "select * from na_gameserver ";
+	sqlStr += " where un32GameServerID = ?;";
+	let params = [
+		param.sid
+	];
+	let result = await dbHelper.executemain(sqlStr, params);
+
+	if (result.length > 0) {
+		let delStr = "delete from na_user_change_hist_web ";
 		delStr += " where un32UserId = ?";
 		delStr += " and un32GameId = ?;";
-		delParams = [
-			result[key].un32UserId,
-			result[key].un32GameId
+		let delParams = [
+			param.userId,
+			result[0].un32GameKindID
 		]
 		await dbHelper.execute(delStr, delParams);
 	}
-	await dbHelper.stop();
 }
 
 module.exports = Server;
