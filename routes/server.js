@@ -421,8 +421,12 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 
 		//修改用户状态
 		result = await server.playerChange(param);
-		//清除上次用户历史记录
-		await server.deleteAccountHist(param);
+
+		//已清账
+		if (result0.un32CurGSID == 0) {
+			//清除上次用户历史记录
+			await server.deleteAccountHist(param);
+		}
 
 		ctx.body = JSON.stringify(json);
 	} else {
