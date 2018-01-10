@@ -172,7 +172,7 @@ router.post('/service/game/player/record',async (ctx,next)=>{
 /////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////
-//Coook or ROT and so on
+//Cook or ROT and so on
 router.all('/service/authuser',async (ctx,next)=>{
 	console.log(JSON.stringify( ctx.request.body));
 	ctx.body = {
