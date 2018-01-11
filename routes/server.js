@@ -277,8 +277,17 @@ router.get('/service/dev/ipquery',async (ctx,next)=>{
 });
 router.get('/service/dev/getSnInfo/:msn', async(ctx, next) => {
 	let msn = ctx.params.msn;
-	ctx.body = JSON.stringify({"url":"http://146.88.71.30:8080/xmobile/na/reg.html",
-		"msn":msn,"code":"0"});
+
+	ctx.body = JSON.stringify({
+		"url": "http://192.168.3.37/service/xmobile/na/reg",
+		"msn": msn,
+		"state": 0,
+		"img": {
+			"logo": ["http://192.168.3.37/images/logo-image.png", "http://192.168.3.37/images/logo-inner.png"],
+			"name": ["http://192.168.3.37/images/logo-image.png", "http://192.168.3.37/images/logo-inner.png"]
+		},
+		"code": "0"
+	});
 })
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
