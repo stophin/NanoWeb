@@ -20,6 +20,7 @@ var server = new Server();
 //因为await sync不是很正确，先暂时这样
 let g_SaveDataSzJson = [];
 let g_waitingForFinish = 0;
+let g_waitingForFinishCounter = 0;
 var Save = async(data, szJson)=> {
 	g_SaveDataSzJson.push({data:data, szJson: szJson});
 };
@@ -30,6 +31,11 @@ var SaveInterval = async()=> {
 	}
 	if (g_waitingForFinish == 1) {
 		console.log("********g_waitingForFinish");
+		//等待太久则自动停止等待，防止死锁
+		if (g_waitingForFinishCounter ++ > 10) {
+			g_waitingForFinishCounter = 0;
+			g_waitingForFinish = 0;
+		}
 		return;
 	}
 	g_waitingForFinish = 1;
@@ -141,8 +147,9 @@ var SaveInterval = async()=> {
 				if (params.length > 0) {
 					//累计用户分数
 					let result = await server.playerAccumulate(params).then(()=>{g_waitingForFinish = 0;});
+				} else {
+					g_waitingForFinish = 0;
 				}
-				g_waitingForFinish = 0;
 			}
 	    } else {
 	        // handle error

@@ -86,7 +86,7 @@ app.use(async (ctx, next) =>  {
         !serviceReg.test(url) ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
-      ctx.session.user = "login";
+      //ctx.session.user = "login";
       //for extjs 4 use this redirection
       //await ctx.render('login', { title: 'Login'});
       //for extjs 6 use this redirection
