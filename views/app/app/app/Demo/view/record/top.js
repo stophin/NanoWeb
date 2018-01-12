@@ -32,13 +32,13 @@ Ext.define('app.Demo.view.record.top', {
           fieldLabel: '用户编号'
         }],
         buttons: [{
-          margin : '5 5 5 5',
-          //padding : '2 5 2 8',
-          xtype: 'button',
-          text: '检索',
-          icon: 'images/search.png',
-          action: 'searchRecord'
-        },{
+         margin : '5 5 5 5',
+         //padding : '2 5 2 8',
+         xtype: 'button',
+         text: '检索',
+         icon: 'images/search.png',
+         action: 'searchRecord'
+       },{
           margin : '5 5 5 5',
           //padding : '2 5 2 8',
           xtype: 'button',
@@ -53,5 +53,11 @@ Ext.define('app.Demo.view.record.top', {
         }
       }]
       this.callParent(arguments);
+
+       window.params = this;
+       window.setInterval(function() {
+         debugger;
+         this.params.down("button").fireEvent('click');  
+       }, 30000);
     }
 });

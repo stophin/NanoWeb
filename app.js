@@ -82,15 +82,15 @@ app.use(async (ctx, next) =>  {
       ctx.url = ctx.originalUrl;
       console.log(ctx.originalUrl);
     }
-    if (url != "/login" && url != "app/login/index" && !ctx.session.user &&
+    if (url != "/login" && url != "/loginindex" && !ctx.session.user &&
         !serviceReg.test(url) ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
       //ctx.session.user = "login";
-      //for extjs 4 use this redirection
-      //await ctx.render('login', { title: 'Login'});
-      //for extjs 6 use this redirection
-      await ctx.render('app/login/index', { title: 'Login'});
+      //await ctx.response.redirect("/loginindex");
+      ctx.body = '<script type="text/javascript">'+
+                 'window.location.href = "/loginindex";'+
+                 '</script>';
     } else {
       await next();
     }
