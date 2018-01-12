@@ -1,0 +1,12 @@
+{
+    "common": {
+        "gameRule": "http://192.168.0.220:8082/gamedoc/bj1.html",
+        "gameServer": "http://103.5.4.246:31808",
+        "uploadAddress": "http://192.168.0.220:8082/uploadPhoto",
+        "chat": "http://103.5.4.246:31900"
+    },
+    "vedio": {
+        "SD": "rtmp://hk1.6167683.com/LiveT101",
+        "LD": "rtmp://live.na369.com/LiveT101/TEST,rtmp://hk1.6167683.com/LiveT101/TEST"
+    }
+}

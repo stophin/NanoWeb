@@ -296,6 +296,14 @@ router.get('/service/dev/getSnInfo/:msn', async(ctx, next) => {
 		"code": "0"
 	});
 })
+router.get('/NAGame/getConfig',async (ctx,next)=>{
+
+    var filename = "/NAGame/NALiveConfig.json";
+	var content = fs.readFileSync("./public" + filename,'utf-8');
+
+	console.log(content);
+	ctx.body = content;
+});
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 //HA
