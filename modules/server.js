@@ -118,6 +118,8 @@ Server.prototype.playerChange = async function(param) {
 }
 
 //累计用户分数
+let g_result = {};
+let g_userinfo = {};
 Server.prototype.playerAccumulate = async function(param) {
     await dbHelper.start();
 	for (key in param) {
@@ -128,73 +130,77 @@ Server.prototype.playerAccumulate = async function(param) {
 			param[key].userId,
 			param[key].gameId
 		];
-		let result = await dbHelper.execute(sqlStr, params);
-		console.log(JSON.stringify(result));
-		sqlStr = "select * from na_gameuser";
-		sqlStr += " where un32UserId = ?";
-		params = [
-			param[key].userId
-		];
-		let userinfo = await dbHelper.executemain(sqlStr, params);
-		//history
-		//sqlStr = "replace na_user_change_hist_hist_web set dGold = dGold + ?";
-		//sqlStr += ", un32UserId = ?;";
-		sqlStr = "insert into na_user_change_hist_web set dGold = ?";
-		sqlStr += ", un32UserId = ?";
-		sqlStr += ", un32GameId = ?";
-		sqlStr += ", tTime = ?";
-		sqlStr += ", dGoldHist = ?";
-		sqlStr += ", dGoldLast = ?";
-		sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
-		let lastGold = 0;
-		if (result.length > 0) {
-			lastGold += result[0].dGold;
-		}
-		let curGold = 0;
-		if (userinfo.length > 0) {
-			curGold += userinfo[0].dGold;
-		}
-		params = [
-			param[key].dGold,
-			param[key].userId,
-			param[key].gameId,
-			param[key].tTime,
-			lastGold + curGold + param[key].dGold,
-			lastGold + param[key].dGold
-		];
-		await dbHelper.execute(sqlStr, params);
-		//accumulation
-		sqlStr = "";
-		if (result.length > 0) {
-			sqlStr += " update ";
-			sqlStr += " na_user_change_web set dGold = dGold + ?";
-			sqlStr += " , dGoldLast = ?";
-			sqlStr += " , tTime = ?";
+		await dbHelper.execute(sqlStr, params).then(async(result)=>{
+			g_result = result;
+			sqlStr = "select * from na_gameuser";
 			sqlStr += " where un32UserId = ?";
-			sqlStr += " and un32GameId = ?;";
 			params = [
-				param[key].dGold,
-				param[key].dGold,
-				param[key].tTime,
-				param[key].userId,
-				param[key].gameId
+				param[key].userId
 			];
-		} else {
-			sqlStr += " insert into ";
-			sqlStr += " na_user_change_web set dGold = dGold + ?";
-			sqlStr += " , dGoldLast = ?";
-			sqlStr += ", tTime = ?";
-			sqlStr += ", un32UserId = ?";
-			sqlStr += ", un32GameId = ?;";
-			params = [
-				param[key].dGold,
-				param[key].dGold,
-				param[key].tTime,
-				param[key].userId,
-				param[key].gameId
-			];
-		}
-		result = await dbHelper.execute(sqlStr, params);
+			g_userinfo = await dbHelper.executemain(sqlStr, params).then(async(result)=>{
+				g_userinfo = result;
+				//history
+				//sqlStr = "replace na_user_change_hist_hist_web set dGold = dGold + ?";
+				//sqlStr += ", un32UserId = ?;";
+				sqlStr = "insert into na_user_change_hist_web set dGold = ?";
+				sqlStr += ", un32UserId = ?";
+				sqlStr += ", un32GameId = ?";
+				sqlStr += ", tTime = ?";
+				sqlStr += ", dGoldHist = ?";
+				sqlStr += ", dGoldLast = ?";
+				sqlStr += " on duplicate key update dGold = dGold + VALUES(dGold);";
+				let lastGold = 0;
+				if (g_result.length > 0) {
+					lastGold += g_result[0].dGold;
+				}
+				let curGold = 0;
+				if (g_userinfo.length > 0) {
+					curGold += g_userinfo[0].dGold;
+				}
+				params = [
+					param[key].dGold,
+					param[key].userId,
+					param[key].gameId,
+					param[key].tTime,
+					lastGold + curGold + param[key].dGold,
+					lastGold + param[key].dGold
+				];
+				await dbHelper.execute(sqlStr, params).then(async()=>{
+					//accumulation
+					sqlStr = "";
+					if (g_result.length > 0) {
+						sqlStr += " update ";
+						sqlStr += " na_user_change_web set dGold = dGold + ?";
+						sqlStr += " , dGoldLast = ?";
+						sqlStr += " , tTime = ?";
+						sqlStr += " where un32UserId = ?";
+						sqlStr += " and un32GameId = ?;";
+						params = [
+							param[key].dGold,
+							param[key].dGold,
+							param[key].tTime,
+							param[key].userId,
+							param[key].gameId
+						];
+					} else {
+						sqlStr += " insert into ";
+						sqlStr += " na_user_change_web set dGold = dGold + ?";
+						sqlStr += " , dGoldLast = ?";
+						sqlStr += ", tTime = ?";
+						sqlStr += ", un32UserId = ?";
+						sqlStr += ", un32GameId = ?;";
+						params = [
+							param[key].dGold,
+							param[key].dGold,
+							param[key].tTime,
+							param[key].userId,
+							param[key].gameId
+						];
+					}
+					result = await dbHelper.execute(sqlStr, params);
+				});
+			});
+		});
 	}
 	await dbHelper.stop();
 }
