@@ -33,7 +33,7 @@ var SaveInterval = async()=> {
 	if (g_waitingForFinish == 1) {
 		console.log("********g_waitingForFinish********");
 		//等待太久则自动停止等待，防止死锁
-		if (g_waitingForFinishCounter ++ > 10) {
+		if (g_waitingForFinishCounter ++ > 100) {
 			g_waitingForFinishCounter = 0;
 			console.log("********waiting too mush times********");
 			//记录该条死锁数据
