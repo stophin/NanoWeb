@@ -21,6 +21,7 @@ var server = new Server();
 let g_SaveDataSzJson = [];
 let g_waitingForFinish = 0;
 let g_waitingForFinishCounter = 0;
+let g_param = {};
 var Save = async(data, szJson)=> {
 	g_SaveDataSzJson.push({data:data, szJson: szJson});
 };
@@ -30,11 +31,17 @@ var SaveInterval = async()=> {
 		return;
 	}
 	if (g_waitingForFinish == 1) {
-		console.log("********g_waitingForFinish");
+		console.log("********g_waitingForFinish********");
 		//等待太久则自动停止等待，防止死锁
 		if (g_waitingForFinishCounter ++ > 10) {
 			g_waitingForFinishCounter = 0;
-			g_waitingForFinish = 0;
+			console.log("********waiting too mush times********");
+			//记录该条死锁数据
+			//假设该条操作是永远不会卡死的
+			await server.save(g_param).then(()=>{
+				console.log("********core dump finished！********");
+				g_waitingForFinish = 0;
+			});
 		}
 		return;
 	}
@@ -122,20 +129,20 @@ var SaveInterval = async()=> {
 
 			//store in DB
 			let n32ProtocolId = 1;
-			let param = {};
-			param.sign = data.sign;
-			param.n32IsSuccess = 1;
-			param.n32ProtocolId = 1;
-			param.gameId = data.gameId || 0;
-			param.gameType = data.gameType || 0;
-			param.timestamp = data.timestamp;
-			param.exit = data.exit || 0;
-			param.userId = data.userId || 0;
-			param.roundId = data.roundId || 0;
-			param.zlib = data.zlib || 0;
-			param.szJson = szJson;
-			param.szRecords = records_r;
-			param.szRecords_c = records;
+			g_param = {};
+			g_param.sign = data.sign;
+			g_param.n32IsSuccess = 1;
+			g_param.n32ProtocolId = 1;
+			g_param.gameId = data.gameId || 0;
+			g_param.gameType = data.gameType || 0;
+			g_param.timestamp = data.timestamp;
+			g_param.exit = data.exit || 0;
+			g_param.userId = data.userId || 0;
+			g_param.roundId = data.roundId || 0;
+			g_param.zlib = data.zlib || 0;
+			g_param.szJson = szJson;
+			g_param.szRecords = records_r;
+			g_param.szRecords_c = records;
 			//server.save(param);
 
 			if (data.exit) {
