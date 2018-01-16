@@ -215,29 +215,30 @@ Server.prototype.playerAccount = async function(param) {
 		param.userId,
 		param.gameId
 	];
-	let result = await dbHelper.execute(sqlStr, params);
-	console.log(JSON.stringify(result));
-	if (result.length > 0) {
-		let key = 0;
-		let sqlStr = "update na_gameuser set dGold = dGold + ?";
-		sqlStr += " where un32UserId = ?;";
-		let params = [
-			result[key].dGold,
-			result[key].un32UserId
-		];
-		await dbHelper.executemain(sqlStr, params);
+	await dbHelper.execute(sqlStr, params).then(async(result)=> {
+		console.log(JSON.stringify(result));
+		if (result.length > 0) {
+			let key = 0;
+			let sqlStr = "update na_gameuser set dGold = dGold + ?";
+			sqlStr += " where un32UserId = ?;";
+			let params = [
+				result[key].dGold,
+				result[key].un32UserId
+			];
+			await dbHelper.executemain(sqlStr, params);
 
-		//设置为0防止多次接收退出消息造成多次金币增加
-		let delStr = "update na_user_change_web set dGoldHist = dGoldHist + dGold";
-		delStr += ", dGold = 0"
-		delStr += " where un32UserId = ?";
-		delStr += " and un32GameId = ?;";
-		let delParams = [
-			result[key].un32UserId,
-			result[key].un32GameId
-		]
-		await dbHelper.execute(delStr, delParams);
-	}
+			//设置为0防止多次接收退出消息造成多次金币增加
+			let delStr = "update na_user_change_web set dGoldHist = dGoldHist + dGold";
+			delStr += ", dGold = 0"
+			delStr += " where un32UserId = ?";
+			delStr += " and un32GameId = ?;";
+			let delParams = [
+				result[key].un32UserId,
+				result[key].un32GameId
+			]
+			await dbHelper.execute(delStr, delParams);
+		}
+	})
 	await dbHelper.stop();
 }
 
