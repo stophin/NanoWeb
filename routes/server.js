@@ -184,6 +184,41 @@ router.post('/service/game/player/record',async (ctx,next)=>{
 	ctx.body = {"code":"0","msg":"success!"};
 });
 /////////////////////////////////////////////////////////
+//TCP client connector
+const iconv = require('iconv-lite');
+const net = require('net');
+var clients = [];
+router.post("/request", async(ctx, next)=> {
+    let host = ctx.request.body.host;
+    let port = ctx.request.body.port;
+    let data = ctx.request.body.data;
+    let server = host + ":" + port;
+    let client = clients[server];
+	if (null == client) {
+		console.log("Connecting to " + server + " ...");
+		client = new net.Socket();
+		if (null != client) {
+			clients[server] = client;
+			client.connect(port, host, function() {
+				console.log("Connection " + server + " success.");
+			})
+			client.on("error", function(data) {
+				console.log("Error: " + data);
+				clients[server] = null;
+			});
+		}
+	}
+	if (null == client) {
+		ctx.body = {"success": ""};
+	}
+	else {
+		console.log("Posted to " + server + " ");
+		console.log("Data: " + data);
+		//use binary to encode the stream
+		client.write(new Buffer(data, 'binary'));
+		ctx.body = {"success": "true"};
+	}
+})
 
 /////////////////////////////////////////////////////////
 //Cook or ROT and so on

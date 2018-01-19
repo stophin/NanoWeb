@@ -11,7 +11,6 @@ Ext.define('app.Demo.view.record.top', {
 
   initComponent: function () {
 
-    debugger;
     this.items = [{
         xtype: 'form',
         border: false,
@@ -35,6 +34,14 @@ Ext.define('app.Demo.view.record.top', {
          margin : '5 5 5 5',
          //padding : '2 5 2 8',
          xtype: 'button',
+         text: '发送请求',
+         icon: 'images/send.png',
+         action: 'sendAction'
+       }, '->', {
+         margin : '5 5 5 5',
+         //padding : '2 5 2 8',
+         xtype: 'button',
+         id: 'searchBtn',
          text: '检索',
          icon: 'images/search.png',
          action: 'searchRecord'
@@ -54,10 +61,5 @@ Ext.define('app.Demo.view.record.top', {
       }]
       this.callParent(arguments);
 
-       window.params = this;
-       window.setInterval(function() {
-         debugger;
-         this.params.down("button").fireEvent('click');  
-       }, 30000);
     }
 });

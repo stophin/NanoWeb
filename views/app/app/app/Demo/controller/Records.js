@@ -49,9 +49,45 @@ Ext.define("app.Demo.controller.Records", {
       },
       '#record-top button[action=resetForm]': {
         click: this.resetForm
+      },
+      '#record-top button[action=sendAction]': {
+        click: this.sendAction
       }
     });
     //this.callParent(arguments);
+  },
+  sendAction: function() {
+    debugger;
+    var data = "";
+    var dataHeader = "";
+    data += String.fromUINT32(10);
+    data += String.fromUINT32(1);
+    var password = "b65f703bcb8dc7cae8d22abfb8895d21";
+    data += String.fromUINT32(password.length);
+    data += password;
+    data += String.fromUINT32(693236);
+    var cheatCode = "11";
+    data += String.fromUINT32(cheatCode.length);
+    data += cheatCode;
+    //calculate total length
+    dataHeader = String.fromUINT32(data.length + 4);
+    data = dataHeader + data;
+
+    Ext.Ajax.request({
+        url: "/request",
+        method: "POST",
+        params: {host: '192.168.3.37', port: '20003', data: data},
+        success: function(res, opts) {
+          data = JSON.parse(res.responseText);
+          if (data.success) {
+            Ext.MessageBox.alert('请求成功', "成功");
+          } else {
+            Ext.MessageBox.alert('请求错误', "错误");
+          }
+        }, failure: function(res, opts) {
+          Ext.MessageBox.alert('请求错误', res.responseText); 
+        }
+      });
   },
 
   resetForm: function() {
@@ -59,7 +95,6 @@ Ext.define("app.Demo.controller.Records", {
     this.searchRecord();
   },
   searchRecord: function() {
-    debugger;
     var condition = this.getTop().down("form").getValues()
     this.getList().getStore().currentPage = 1;
     this.getList().getStore().load({params: {start:0, limit:10, condition: JSON.stringify(condition)}})
@@ -73,7 +108,6 @@ Ext.define("app.Demo.controller.Records", {
   editRecord: function(record) {
     var record = this.getList().getSelectedRecord();
     var view = Ext.widget('record-form');
-    debugger;
     var fields = view.down('form').getForm().getFields().items;
     for (key in fields) {
         if (fields[key].name == "un32GameId" ||
@@ -104,7 +138,6 @@ Ext.define("app.Demo.controller.Records", {
 
     var record = Ext.create('app.Demo.model.Records', values);
     var errors = record.validate();
-    debugger;
 
     if (errors.isValid()) {
       var formRecord = form.getRecord();
@@ -153,7 +186,6 @@ Ext.define("app.Demo.controller.Records", {
           try {
           store.remove(record);
             store.sync({failure : function(batch, ope) {
-              debugger;
                 Ext.Msg.alert("错误", '删除错误!', null, this);
             }});
 

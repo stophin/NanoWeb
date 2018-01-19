@@ -11,7 +11,6 @@ Ext.define('app.Demo.view.user.top', {
 
   initComponent: function () {
 
-    debugger;
     this.items = [{
         xtype: 'form',
         border: false,

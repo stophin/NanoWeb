@@ -36,7 +36,6 @@ Ext.define('app.Demo.view.record.grid', {
       header: '当前金币',
       dataIndex: 'dCurGold',
       renderer:function(value, cellmeta, record, rowIndex, columnIndex, store){
-        debugger;
           var gold = parseInt(value) + parseInt(record.data["dGold"])
           return "" + gold;
       },
@@ -49,7 +48,6 @@ Ext.define('app.Demo.view.record.grid', {
       header: '最后时间',
       dataIndex: 'tTime',
       renderer:function(value, cellmeta, record, rowIndex, columnIndex, store){
-        debugger;
         if (!this.store.newDate) {
           this.store.newDate = new Date();
         }

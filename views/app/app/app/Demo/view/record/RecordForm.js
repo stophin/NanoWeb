@@ -58,7 +58,7 @@ Ext.define('app.Demo.view.record.RecordForm', {
             dataIndex: 'dGoldHist',
             /*renderer:function(value, cellmeta, record, rowIndex, columnIndex, store){
               debugger;
-                var gold = parseInt(value) + parseInt(record.data["dGoldHist"])
+                var gold = parseInt(value) - parseInt(record.data["dGold"])
                 return "" + gold;
             },*/
             flex: 1
