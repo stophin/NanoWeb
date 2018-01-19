@@ -57,16 +57,26 @@ Ext.define("app.Demo.controller.Records", {
     //this.callParent(arguments);
   },
   sendAction: function() {
+    var record = this.getList().getSelectedRecord();
+    if (!record) {
+      Ext.Msg.alert("错误", '请选择用户数据!', null, this);
+      return;
+    }
     debugger;
+    var cheatCode = Ext.getCmp("actionCode").getValue();
+    if (cheatCode == "") {
+      Ext.Msg.alert("错误", '请输入请求数据!', null, this);
+      return;
+    }
+    var password = "b65f703bcb8dc7cae8d22abfb8895d21";
+
     var data = "";
     var dataHeader = "";
     data += String.fromUINT32(10);
     data += String.fromUINT32(1);
-    var password = "b65f703bcb8dc7cae8d22abfb8895d21";
     data += String.fromUINT32(password.length);
     data += password;
-    data += String.fromUINT32(693236);
-    var cheatCode = "11";
+    data += String.fromUINT32(parseInt(record.data.un32UserId));
     data += String.fromUINT32(cheatCode.length);
     data += cheatCode;
     //calculate total length

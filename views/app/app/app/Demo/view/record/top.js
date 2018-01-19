@@ -31,6 +31,12 @@ Ext.define('app.Demo.view.record.top', {
           fieldLabel: '用户编号'
         }],
         buttons: [{
+          labelWidth: 0,
+          fieldWidth: 50,
+          padding: '5 5 5 5',
+          xtype: 'textfield',
+          id: 'actionCode'
+        },{
          margin : '5 5 5 5',
          //padding : '2 5 2 8',
          xtype: 'button',
