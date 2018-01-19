@@ -106,6 +106,7 @@ Ext.define("app.Demo.controller.Records", {
   },
   searchRecord: function() {
     var condition = this.getTop().down("form").getValues()
+    condition.actionCode = null;
     this.getList().getStore().currentPage = 1;
     this.getList().getStore().load({params: {start:0, limit:10, condition: JSON.stringify(condition)}})
   },
