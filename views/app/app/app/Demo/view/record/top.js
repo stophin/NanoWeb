@@ -35,7 +35,8 @@ Ext.define('app.Demo.view.record.top', {
           fieldWidth: 50,
           padding: '5 5 5 5',
           xtype: 'textfield',
-          id: 'actionCode'
+          id: 'actionCode',
+          name: 'actionCode'
         },{
          margin : '5 5 5 5',
          //padding : '2 5 2 8',
