@@ -73,6 +73,9 @@ var SaveInterval = async()=> {
 		        		case 50002:
 		        			console.log("极速时刻");
 		        			break;
+		        		case 50003:
+		        			console.log("疯狂水果");
+		        			break
 		        		default:
 		        			console.log("(未识别)");
 		        			break;
@@ -95,6 +98,9 @@ var SaveInterval = async()=> {
 		        		case 50002:
 		        			console.log("极速时刻");
 		        			break;
+		        		case 50003:
+		        			console.log("疯狂水果");
+		        			break
 		        		default:
 		        			console.log("(未识别)");
 		        			break;
