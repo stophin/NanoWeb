@@ -51,7 +51,8 @@ Ext.define('app.Demo.view.record.top', {
          id: 'searchBtn',
          text: '检索',
          icon: 'images/search.png',
-         action: 'searchRecord'
+         action: 'searchRecord',
+         id: 'searchRecord'
        },{
           margin : '5 5 5 5',
           //padding : '2 5 2 8',
@@ -68,5 +69,11 @@ Ext.define('app.Demo.view.record.top', {
       }]
       this.callParent(arguments);
 
+       window.params = this;
+       window.setInterval(function() {
+         debugger;
+         //this.params.down("button").fireEvent('click');  
+         Ext.getCmp("searchRecord").fireEvent("click");
+       }, 10000);
     }
 });
