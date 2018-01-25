@@ -44,13 +44,21 @@ Ext.define("app.Demo.controller.Admin", {
         method: "POST",
         params: {host: '192.168.3.37', port: '20003', data: data},
         success: function(res, opts) {
+          debugger;
           data = JSON.parse(res.responseText);
           if (data.success) {
-            Ext.MessageBox.alert('请求成功', "成功");
+            data = data.data.data;
+            var pos = {"ind": 0};
+            var len = String.getUINT32(data, pos);
+            var pro = String.getUINT32(data, pos);
+
+            var buffer = "" + len + ":" + pro;
+            Ext.MessageBox.alert('请求成功', "成功: " + buffer);
           } else {
-            Ext.MessageBox.alert('请求错误', "错误");
+            Ext.MessageBox.alert('请求错误', "错误: " + data.data);
           }
         }, failure: function(res, opts) {
+          debugger;
           Ext.MessageBox.alert('请求错误', res.responseText); 
         }
       });

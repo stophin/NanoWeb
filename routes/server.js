@@ -191,6 +191,12 @@ router.post('/service/game/player/record',async (ctx,next)=>{
 });
 /////////////////////////////////////////////////////////
 //TCP client connector
+function sleep(client, ms) {
+  return new Promise(resolve => {
+  	client.wrapper.resolve = resolve;
+  	client.wrapper.timer = setTimeout(resolve, ms)
+  });
+}
 const iconv = require('iconv-lite');
 const net = require('net');
 var clients = [];
@@ -202,7 +208,7 @@ router.post("/request", async(ctx, next)=> {
     let client = clients[server];
 	if (null == client) {
 		console.log("Connecting to " + server + " ...");
-		client = new net.Socket();
+		client = new net.Socket({"allowHalfOpen": false});
 		if (null != client) {
 			clients[server] = client;
 			client.connect(port, host, function() {
@@ -212,17 +218,50 @@ router.post("/request", async(ctx, next)=> {
 				console.log("Error: " + data);
 				clients[server] = null;
 			});
+			//保持连接接收服务器返回的数据
+			//这个事件只能写一次，否则会出现多个event listener
+			client.on('data', async (data) => {
+			  	console.log("Res Data: " + data.toString());
+			  	if (!client.wrapper) {
+			  		return;
+			  	}
+			  	client.wrapper.rawData = data;
+			  	//提前完成promise
+			  	//首先clear timer，但是这样promise永远没法完成
+			  	//为了解决这个问题使用保存的resolve调用完成promise
+			  	//完成后将调用promise的then执行
+			  	clearTimeout(client.wrapper.timer);
+			  	client.wrapper.resolve();
+			})
 		}
 	}
-	if (null == client) {
-		ctx.body = {"success": ""};
+	if (client) {
+		//还在等待上一次完成
+		if (client.wrapper) {
+			ctx.body = {"success": "", "data": 102};
+		} else {
+			console.log("Posted to " + server + " ");
+			console.log("Data: " + data);
+			//use binary to encode the stream
+			client.write(new Buffer(data, 'binary'));
+			//这里停顿一会儿等待返回数据
+			//设置等待结构
+			client.wrapper = {};
+			client.wrapper.rawData = null;
+			client.wrapper.promise = sleep(client, 3000);
+			//完成
+			await client.wrapper.promise.then(()=>{
+				if (client.wrapper.rawData) {
+					ctx.body = {"success": "true", "data": client.wrapper.rawData};
+				} else {
+					ctx.body = {"success": "", "data": 115};
+				}
+				client.wrapper = null;
+			});
+		}
 	}
 	else {
-		console.log("Posted to " + server + " ");
-		console.log("Data: " + data);
-		//use binary to encode the stream
-		client.write(new Buffer(data, 'binary'));
-		ctx.body = {"success": "true"};
+		ctx.body = {"success": ""};
 	}
 })
 
