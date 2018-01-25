@@ -238,7 +238,7 @@ router.post("/request", async(ctx, next)=> {
 	if (client) {
 		//还在等待上一次完成
 		if (client.wrapper) {
-			ctx.body = {"success": "", "data": 102};
+			ctx.body = {"success": "", "data": "Waiting for last finish!"};
 		} else {
 			console.log("Posted to " + server + " ");
 			console.log("Data: " + data);
@@ -254,7 +254,7 @@ router.post("/request", async(ctx, next)=> {
 				if (client.wrapper.rawData) {
 					ctx.body = {"success": "true", "data": client.wrapper.rawData};
 				} else {
-					ctx.body = {"success": "", "data": 115};
+					ctx.body = {"success": "", "data": "No data returned!"};
 				}
 				client.wrapper = null;
 			});

@@ -39,29 +39,7 @@ Ext.define("app.Demo.controller.Admin", {
     dataHeader = String.fromUINT32(data.length + 4);
     data = dataHeader + data;
 
-    Ext.Ajax.request({
-        url: "/request",
-        method: "POST",
-        params: {host: '192.168.3.37', port: '20003', data: data},
-        success: function(res, opts) {
-          debugger;
-          data = JSON.parse(res.responseText);
-          if (data.success) {
-            data = data.data.data;
-            var pos = {"ind": 0};
-            var len = String.getUINT32(data, pos);
-            var pro = String.getUINT32(data, pos);
-
-            var buffer = "" + len + ":" + pro;
-            Ext.MessageBox.alert('请求成功', "成功: " + buffer);
-          } else {
-            Ext.MessageBox.alert('请求错误', "错误: " + data.data);
-          }
-        }, failure: function(res, opts) {
-          debugger;
-          Ext.MessageBox.alert('请求错误', res.responseText); 
-        }
-      });
+    this.sendRequest(data, null);
   },
 
   sendActionMSN: function() {
@@ -79,21 +57,7 @@ Ext.define("app.Demo.controller.Admin", {
     dataHeader = String.fromUINT32(data.length + 4);
     data = dataHeader + data;
 
-    Ext.Ajax.request({
-        url: "/request",
-        method: "POST",
-        params: {host: '192.168.3.37', port: '20003', data: data},
-        success: function(res, opts) {
-          data = JSON.parse(res.responseText);
-          if (data.success) {
-            Ext.MessageBox.alert('请求成功', "成功");
-          } else {
-            Ext.MessageBox.alert('请求错误', "错误");
-          }
-        }, failure: function(res, opts) {
-          Ext.MessageBox.alert('请求错误', res.responseText); 
-        }
-      });
+    this.sendRequest(data, null);
   },
 
   sendActionGS: function() {
@@ -118,21 +82,9 @@ Ext.define("app.Demo.controller.Admin", {
     dataHeader = String.fromUINT32(data.length + 4);
     data = dataHeader + data;
 
-    Ext.Ajax.request({
-        url: "/request",
-        method: "POST",
-        params: {host: '192.168.3.37', port: '20003', data: data},
-        success: function(res, opts) {
-          data = JSON.parse(res.responseText);
-          if (data.success) {
-            Ext.MessageBox.alert('请求成功', "成功");
-          } else {
-            Ext.MessageBox.alert('请求错误', "错误");
-          }
-        }, failure: function(res, opts) {
-          Ext.MessageBox.alert('请求错误', res.responseText); 
-        }
-      });
+    this.sendRequest(data, function(data) {
+      Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+    });
   },
 
   sendActionUS: function() {
@@ -150,5 +102,35 @@ Ext.define("app.Demo.controller.Admin", {
           Ext.MessageBox.alert('请求错误', res.responseText); 
       }
     })
+  },
+
+  sendRequest: function(data, callback) {
+    Ext.Ajax.request({
+        url: "/request",
+        method: "POST",
+        params: {host: '192.168.3.37', port: '20003', data: data},
+        success: function(res, opts) {
+          debugger;
+            data = JSON.parse(res.responseText);
+            if (callback) {
+              callback(data);
+            } else {
+              if (data.success) {
+                data = data.data.data;
+                var pos = {"ind": 0};
+                var len = String.getUINT32(data, pos);
+                var pro = String.getUINT32(data, pos);
+
+                var buffer = "" + len + ":" + pro;
+                Ext.MessageBox.alert('请求成功', "成功: " + buffer);
+              } else {
+                Ext.MessageBox.alert('请求错误', "错误: " + data.data);
+              }
+            }
+        }, failure: function(res, opts) {
+          debugger;
+          Ext.MessageBox.alert('请求错误', res.responseText); 
+        }
+      });
   }
 });
