@@ -28,7 +28,11 @@ Ext.define('app.view.main.Main', {
         'app.Demo.view.record.top',
         'app.Demo.view.record.grid',
         'app.Demo.view.record.form',
-        'app.Demo.view.record.RecordForm'
+        'app.Demo.view.record.RecordForm',
+
+        'app.Demo.controller.Admin',
+        'app.Demo.view.admin.top',
+        'app.Demo.view.admin.list'
     ],
 
     controller: 'main',
@@ -93,7 +97,8 @@ Ext.define('app.view.main.Main', {
         iconCls: 'fa-home',
         // The following grid shares a store with the classic version's grid as well!
         items: [{
-            xtype: 'mainlist'
+            //xtype: 'mainlist'
+            xtype: 'admin-list'
         }]
     }, {
         title: '用户',

@@ -117,6 +117,15 @@ Server.prototype.playerChange = async function(param) {
 	await dbHelper.stop();
 }
 
+//退出所有用户所在游戏
+Server.prototype.playerLogoutAll = async function(param) {
+    await dbHelper.start();
+	let sqlStr = "update na_gameuser set un32CurGSID = 0;";
+	let result = await dbHelper.executemain(sqlStr, {});
+
+	await dbHelper.stop();
+}
+
 //累计用户分数
 let g_result = {};
 let g_userinfo = {};
