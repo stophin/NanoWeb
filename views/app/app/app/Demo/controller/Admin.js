@@ -21,6 +21,9 @@ Ext.define("app.Demo.controller.Admin", {
       },
       '#admin-list button[action=sendActionUS]': {
         click: this.sendActionUS
+      },
+      '#admin-list button[action=sendActionCF]': {
+        click: this.sendActionCF
       }
     });
     //this.callParent(arguments);
@@ -43,7 +46,12 @@ Ext.define("app.Demo.controller.Admin", {
   },
 
   sendActionMSN: function() {
-    var msn = "[555]";
+    var actionString = Ext.getCmp("actionString").getValue();
+    if (actionString == "") {
+      Ext.Msg.alert("错误", '请输入请求数据!', null, this);
+      return;
+    }
+    var msn = "[" + actionString + "]";
 
     var data = "";
     var dataHeader = "";
@@ -78,6 +86,20 @@ Ext.define("app.Demo.controller.Admin", {
       data += String.fromUINT32(settings[i].index);//
       data += String.fromUINT8(settings[i].play);//
     }
+    //calculate total length
+    dataHeader = String.fromUINT32(data.length + 4);
+    data = dataHeader + data;
+
+    this.sendRequest(data, function(data) {
+      Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+    });
+  },
+  sendActionCF: function() {
+
+    var data = "";
+    var dataHeader = "";
+    var protocolID = 103;
+    data += String.fromUINT32(protocolID);
     //calculate total length
     dataHeader = String.fromUINT32(data.length + 4);
     data = dataHeader + data;
