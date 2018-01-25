@@ -59,12 +59,5 @@ Ext.define('app.Demo.view.admin.top', {
         }
       }]
       this.callParent(arguments);
-
-       window.params = this;
-       window.setInterval(function() {
-         debugger;
-         //this.params.down("button").fireEvent('click');  
-         Ext.getCmp("searchRecord").fireEvent("click");
-       }, 10000);
     }
 });
