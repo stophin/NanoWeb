@@ -264,10 +264,10 @@ Server.prototype.deleteAccountHist = async function(param) {
 	if (result.length > 0) {
 		let delStr = "delete from na_user_change_hist_web ";
 		delStr += " where un32UserId = ?";
-		delStr += " and un32GameId = ?;";
+		//delStr += " and un32GameId = ?;";
 		let delParams = [
-			param.userId,
-			result[0].un32GameKindID
+			param.userId
+			//result[0].un32GameKindID
 		]
 		await dbHelper.execute(delStr, delParams);
 	}

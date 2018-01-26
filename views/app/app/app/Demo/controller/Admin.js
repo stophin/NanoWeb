@@ -51,7 +51,12 @@ Ext.define("app.Demo.controller.Admin", {
       Ext.Msg.alert("错误", '请输入请求数据!', null, this);
       return;
     }
-    var msn = "[" + actionString + "]";
+    var msn = "";
+    actionString = actionString.split(",");
+    for (var i = 0; i < actionString.length; i++) {
+      msn  +="[" + actionString[i] + "]";
+    }
+    
 
     var data = "";
     var dataHeader = "";

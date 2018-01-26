@@ -101,6 +101,19 @@
             } else {
                 return this.fromCharCode(val & 0xff);
             }
+        };
+        String.getUINT32 = function(val, pos) {
+            var ind = pos.ind;
+            if (val.length > ind + 3) {
+                var ret = (val[ind] & 0xff) + 
+                    ((val[ind + 1] & 0xff) << 8) +
+                    ((val[ind + 2] & 0xff) << 16) + 
+                    ((val[ind + 3] & 0xff) << 24);
+                pos.ind += 4;
+                return ret;
+            } else {
+                return 0;
+            }
         }
         String.getUINT32 = function(val, pos) {
         	var ret = 0;

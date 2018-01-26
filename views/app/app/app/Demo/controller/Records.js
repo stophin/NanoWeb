@@ -92,7 +92,7 @@ Ext.define("app.Demo.controller.Records", {
           if (data.success) {
             Ext.MessageBox.alert('请求成功', "成功");
           } else {
-            Ext.MessageBox.alert('请求错误', "错误");
+            Ext.MessageBox.alert('请求成功', "成功: " + data.data);
           }
         }, failure: function(res, opts) {
           Ext.MessageBox.alert('请求错误', res.responseText); 
