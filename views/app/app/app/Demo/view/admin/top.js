@@ -55,7 +55,7 @@ Ext.define('app.Demo.view.admin.top', {
          margin : '5 5 5 5',
          //padding : '2 5 2 8',
          xtype: 'button',
-         text: '退出所有用户',
+         text: '退出用户',
          icon: 'images/send.png',
          action: 'sendActionUS'
        }, '->'],

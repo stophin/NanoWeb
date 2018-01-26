@@ -546,7 +546,7 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 });
 
 router.all('/service/dev/game/player/logouall',async (ctx,next)=>{
-	var param = {};
+	var param = {userId: ctx.request.body.userId};
 	//退出所有用户所在游戏
 	result = await server.playerLogoutAll(param);
 	ctx.body = {"success": "true"};

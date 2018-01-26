@@ -115,9 +115,16 @@ Ext.define("app.Demo.controller.Admin", {
   },
 
   sendActionUS: function() {
+    var actionString = Ext.getCmp("actionString").getValue();
+    if (actionString == "") {
+      Ext.Msg.alert("错误", '请输入请求数据!', null, this);
+      return;
+    }
+
     Ext.Ajax.request({
       url: "/service/dev/game/player/logouall",
-      params: {},
+      method: "POST",
+      params: {userId: actionString},
       success: function(res, opts) {
         data = JSON.parse(res.responseText);
         if (data.success) {

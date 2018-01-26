@@ -48,7 +48,7 @@ let NAGameReg = new RegExp(/\/NAGame\//);
 //本地回环或localhost地址转换
 let loopbackReg = new RegExp(/\/127.0.0.1/);
 let localhostReg = new RegExp(/\/localhost/);
-let serverIPReg = new RegExp(/\/192.168.2.100/);
+let serverIPReg = new RegExp(/\/192.168.3.37/);
 //
 let htmlReg = new RegExp(/.html/);
 app.use(async (ctx, next) =>  {
