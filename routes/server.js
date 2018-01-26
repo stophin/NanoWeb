@@ -545,7 +545,16 @@ router.all('/service/dev/game/player/join',async (ctx,next)=>{
 	}
 });
 
-router.all('/service/dev/game/player/logouall',async (ctx,next)=>{
+router.all('/service/logout', async(ctx, next)=> {
+	console.log(JSON.stringify(ctx.request.body));
+	console.log(JSON.stringify(ctx.header));
+	console.log(JSON.stringify(ctx.headers));
+
+	ctx.body = JSON.stringify({"code": 0, "msg": ""});
+})
+
+
+router.all('/service/dev/game/player/logoutall',async (ctx,next)=>{
 	var param = {userId: ctx.request.body.userId};
 	//退出所有用户所在游戏
 	result = await server.playerLogoutAll(param);

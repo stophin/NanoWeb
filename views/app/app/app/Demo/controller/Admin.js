@@ -122,7 +122,7 @@ Ext.define("app.Demo.controller.Admin", {
     }
 
     Ext.Ajax.request({
-      url: "/service/dev/game/player/logouall",
+      url: "/service/dev/game/player/logoutall",
       method: "POST",
       params: {userId: actionString},
       success: function(res, opts) {
