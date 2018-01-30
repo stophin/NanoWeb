@@ -554,10 +554,10 @@ router.all('/service/logout', async(ctx, next)=> {
 })
 
 
-router.all('/service/dev/game/player/logoutall',async (ctx,next)=>{
+router.all('/service/dev/game/player/logout',async (ctx,next)=>{
 	var param = {userId: ctx.request.body.userId};
-	//退出所有用户所在游戏
-	result = await server.playerLogoutAll(param);
+	//退出用户所在游戏
+	result = await server.playerLogout(param);
 	ctx.body = {"success": "true"};
 });
 

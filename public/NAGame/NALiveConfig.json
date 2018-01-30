@@ -6,7 +6,7 @@
         "chat": "http://103.5.4.246:31900"
     },
     "vedio": {
-        "SD": "rtmp://hk1.6167683.com/LiveT101",
-        "LD": "rtmp://live.na369.com/LiveT101/TEST,rtmp://hk1.6167683.com/LiveT101/TEST"
+        "SD": "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+        "LD": "rtmp://live.hkstv.hk.lxdns.com/live/hks,rtmp://live.hkstv.hk.lxdns.com/live/hks"
     }
 }

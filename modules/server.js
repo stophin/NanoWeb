@@ -117,8 +117,8 @@ Server.prototype.playerChange = async function(param) {
 	await dbHelper.stop();
 }
 
-//退出所有用户所在游戏
-Server.prototype.playerLogoutAll = async function(param) {
+//退出用户所在游戏
+Server.prototype.playerLogout = async function(param) {
     await dbHelper.start();
 	let sqlStr = "update na_gameuser set un32CurGSID = 0 ";
 	sqlStr += " where szUserName = ?;";
