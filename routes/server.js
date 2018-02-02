@@ -449,7 +449,7 @@ router.all('/service/dev/game/player/info',async (ctx,next)=>{
 	param.sex = ctx.request.body.sex;
 	console.log(JSON.stringify( ctx.request.body));
 	result = await server.modifyInfo(param)
-	if (result.length > 0) {
+	if (result != null) {
 		let result0 = result[0];
 		let json = {
 		    "code": 0,

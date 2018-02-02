@@ -65,9 +65,15 @@ Server.prototype.login = async function(param) {
 //修改信息
 Server.prototype.modifyInfo = async function(param) {
     await dbHelper.start();
-	let sqlStr = "select * from na_gameuser where ";
-	sqlStr += " un32UserId = ?;"
+	let sqlStr = "update na_gameuser set ";
+	sqlStr += " szNickName = ?, ";
+	sqlStr += " szHeaderIconURL = ?, ";
+	sqlStr += " bSex = ? ";
+	sqlStr += " where un32UserId = ?";
 	let params = [
+		param.nickname,
+		param.headPic,
+		param.sex,
 		param.userId
 	];
 	let result = await dbHelper.executemain(sqlStr, params);
