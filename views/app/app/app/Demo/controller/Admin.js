@@ -24,6 +24,9 @@ Ext.define("app.Demo.controller.Admin", {
       },
       '#admin-list button[action=sendActionCF]': {
         click: this.sendActionCF
+      },
+      '#admin-list button[action=sendActionCGR]': {
+        click: this.sendActionCGR
       }
     });
     //this.callParent(arguments);
@@ -136,6 +139,40 @@ Ext.define("app.Demo.controller.Admin", {
           Ext.MessageBox.alert('请求错误', res.responseText); 
       }
     })
+  },
+  sendActionCGR: function() {
+    var actionString = Ext.getCmp("actionString").getValue();
+    if (actionString == "") {
+      Ext.Msg.alert("错误", '请输入请求数据!', null, this);
+      return;
+    }
+
+    var data = "";
+    var dataHeader = "";
+    data += String.fromUINT32(10);
+    data += String.fromUINT32(1);
+    data += String.fromUINT32(actionString.length);
+    data += actionString;
+    data += String.fromUINT32(4);
+    //calculate total length
+    dataHeader = String.fromUINT32(data.length + 4);
+    data = dataHeader + data;
+
+    Ext.Ajax.request({
+        url: "/request",
+        method: "POST",
+        params: {host: '192.168.43.128', port: '9005', data: data},
+        success: function(res, opts) {
+          data = JSON.parse(res.responseText);
+          if (data.success) {
+            Ext.MessageBox.alert('请求成功', "成功" + data.data.data);
+          } else {
+            Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+          }
+        }, failure: function(res, opts) {
+          Ext.MessageBox.alert('请求错误', res.responseText); 
+        }
+      });
   },
 
   sendRequest: function(data, callback) {

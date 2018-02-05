@@ -58,7 +58,14 @@ Ext.define('app.Demo.view.admin.top', {
          text: '退出用户',
          icon: 'images/send.png',
          action: 'sendActionUS'
-       }, '->'],
+       }, '->',{
+         margin : '5 5 5 5',
+         //padding : '2 5 2 8',
+         xtype: 'button',
+         text: 'CGR测试',
+         icon: 'images/send.png',
+         action: 'sendActionCGR'
+       }],
         resetForm: function() {
             this.items.each(function() {
               this.setValue();
