@@ -162,11 +162,9 @@ Ext.define("app.Demo.controller.Admin", {
 
     var data = "";
     var dataHeader = "";
-    data += String.fromUINT32(10);
-    data += String.fromUINT32(1);
-    data += String.fromUINT32(actionString.length);
-    data += actionString;
-    data += String.fromUINT32(4);
+    var _actionString = String.fromUnicode(actionString);
+    data += String.fromUINT32(_actionString.length * 2);
+    data += _actionString;
     //calculate total length
     dataHeader = String.fromUINT32(data.length + 4);
     data = dataHeader + data;
