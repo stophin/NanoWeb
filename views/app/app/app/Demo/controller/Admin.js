@@ -25,8 +25,11 @@ Ext.define("app.Demo.controller.Admin", {
       '#admin-list button[action=sendActionCF]': {
         click: this.sendActionCF
       },
-      '#admin-list button[action=sendActionCGR]': {
-        click: this.sendActionCGR
+      '#admin-list button[action=sendActionCGR_L]': {
+        click: this.sendActionCGR_L
+      },
+      '#admin-list button[action=sendActionCGR_R]': {
+        click: this.sendActionCGR_R
       }
     });
     //this.callParent(arguments);
@@ -140,7 +143,17 @@ Ext.define("app.Demo.controller.Admin", {
       }
     })
   },
-  sendActionCGR: function() {
+  sendActionCGR_L: function() {
+    this.sendActionCGR("192.168.3.37");
+  },
+  sendActionCGR_R: function() {
+    this.sendActionCGR("192.168.43.128");
+  },
+  sendActionCGR: function(ip) {
+    if (null == ip) {
+      Ext.Msg.alert("错误", '没有输入ip!', null, this);
+      return;
+    }
     var actionString = Ext.getCmp("actionString").getValue();
     if (actionString == "") {
       Ext.Msg.alert("错误", '请输入请求数据!', null, this);
@@ -161,13 +174,13 @@ Ext.define("app.Demo.controller.Admin", {
     Ext.Ajax.request({
         url: "/request",
         method: "POST",
-        params: {host: '192.168.43.128', port: '9005', data: data},
+        params: {host: ip, port: '9005', data: data},
         success: function(res, opts) {
           data = JSON.parse(res.responseText);
           if (data.success) {
-            Ext.MessageBox.alert('请求成功', "成功" + data.data.data);
-          } else {
             Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+          } else {
+            Ext.MessageBox.alert('请求失败', "失败: " + data.data);
           }
         }, failure: function(res, opts) {
           Ext.MessageBox.alert('请求错误', res.responseText); 

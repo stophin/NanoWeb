@@ -62,9 +62,16 @@ Ext.define('app.Demo.view.admin.top', {
          margin : '5 5 5 5',
          //padding : '2 5 2 8',
          xtype: 'button',
-         text: 'CGR测试',
+         text: '本地CGR',
          icon: 'images/send.png',
-         action: 'sendActionCGR'
+         action: 'sendActionCGR_L'
+       },{
+         margin : '5 5 5 5',
+         //padding : '2 5 2 8',
+         xtype: 'button',
+         text: '远程CGR',
+         icon: 'images/send.png',
+         action: 'sendActionCGR_R'
        }],
         resetForm: function() {
             this.items.each(function() {

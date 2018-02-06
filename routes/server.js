@@ -225,7 +225,7 @@ router.post("/request", async(ctx, next)=> {
 			  	if (!client.wrapper) {
 			  		return;
 			  	}
-			  	client.wrapper.rawData = data;
+			  	client.wrapper.rawData = data.toString();
 			  	//提前完成promise
 			  	//首先clear timer，但是这样promise永远没法完成
 			  	//为了解决这个问题使用保存的resolve调用完成promise
