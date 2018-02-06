@@ -84,6 +84,13 @@
         };
         ///
         //
+        String.fromUnicode = function(val) {
+           var str =''; 
+           for(var i = 0; i < val.length; i++){
+              str += String.fromUINT16(val.charCodeAt(i));
+           }
+           return str;
+        };
         String.fromUINT32 = function(val) {
             if (val < 0xff) {
                 return this.fromCharCode(val, 0, 0, 0);
@@ -95,6 +102,13 @@
                 return this.fromCharCode(val & 0xff, (val & 0xff00) >> 8, (val & 0xff0000) >> 16,  (val & 0xff000000) >> 24);
             }
         };
+        String.fromUINT16 = function(val) {
+            if (val < 0xff) {
+                return this.fromCharCode(val, 0);
+            } else {
+                return this.fromCharCode(val & 0xff, (val & 0xff00) >> 8);
+            }
+        }
         String.fromUINT8 = function(val) {
             if (val < 0xff) {
                 return this.fromCharCode(val);
