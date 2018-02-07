@@ -45,6 +45,7 @@ app.use(views(__dirname + '/views', {
 //登录拦截器 and logger
 let serviceReg = new RegExp(/\/service\//);
 let NAGameReg = new RegExp(/\/NAGame\//);
+let NALiveReg = new RegExp(/\/socket.io\//);
 //本地回环或localhost地址转换
 let loopbackReg = new RegExp(/\/127.0.0.1/);
 let localhostReg = new RegExp(/\/localhost/);
@@ -85,7 +86,8 @@ app.use(async (ctx, next) =>  {
     }
     if (url != "/login" && url != "/loginindex" && !ctx.session.user &&
         !serviceReg.test(url) &&
-        !NAGameReg.test(url) ) {
+        !NAGameReg.test(url) &&
+        !NALiveReg.test(url) ) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
       //ctx.session.user = "login";

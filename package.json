@@ -28,7 +28,8 @@
     "mysql-pro": "^1.0.1",
     "mysql2": "^1.3.4",
     "node-schedule": "^1.2.3",
-    "node-xlsx": "^0.7.4"
+    "node-xlsx": "^0.7.4",
+    "ws": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"

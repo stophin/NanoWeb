@@ -19,6 +19,7 @@ Ext.define('app.Demo.view.admin.top', {
           labelWidth: 0,
           fieldWidth: 50,
           padding: '5 5 5 5',
+          width: "90%",
           xtype: 'textfield',
           id: 'actionString',
           name: 'actionString'
