@@ -147,7 +147,7 @@ Ext.define("app.Demo.controller.Admin", {
     this.sendActionCGR("192.168.3.37");
   },
   sendActionCGR_R: function() {
-    this.sendActionCGR("192.168.43.128");
+    this.sendActionCGR("192.168.43.129");
   },
   sendActionCGR: function(ip) {
     if (null == ip) {
@@ -198,7 +198,7 @@ Ext.define("app.Demo.controller.Admin", {
               callback(data);
             } else {
               if (data.success) {
-                data = data.data.data;
+                data = data.data;
                 var pos = {"ind": 0};
                 var len = String.getUINT32(data, pos);
                 var pro = String.getUINT32(data, pos);
