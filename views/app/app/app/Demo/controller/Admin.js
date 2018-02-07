@@ -147,7 +147,7 @@ Ext.define("app.Demo.controller.Admin", {
     this.sendActionCGR("192.168.3.37");
   },
   sendActionCGR_R: function() {
-    this.sendActionCGR("192.168.43.129");
+    this.sendActionCGR("192.168.43.128");
   },
   sendActionCGR: function(ip) {
     if (null == ip) {
