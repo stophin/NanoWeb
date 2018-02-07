@@ -35,10 +35,12 @@ Record.get = async function get(query, callback){
         result[key].szUserName = userInfo[0].szUserName;
         result[key].szNickName = userInfo[0].szNickName;
         result[key].dCurGold = userInfo[0].dGold;
+        result[key].merchantId = userInfo[0].merchantId;
       } else {
         result[key].szUserName = "";
         result[key].szNickName = "";
         result[key].dCurGold = "";
+        result[key].merchantId = "";
       }
     }
     await dbHelper.stop();

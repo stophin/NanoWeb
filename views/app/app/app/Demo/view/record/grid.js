@@ -24,11 +24,15 @@ Ext.define('app.Demo.view.record.grid', {
       header: '用户编号',
       dataIndex: 'un32UserId',
       flex: 1
-    },/* {
+    },/*{
       header: '用户名称',
       dataIndex: 'szUserName',
       flex: 1
     },*/{
+      header: '线路号',
+      dataIndex: 'merchantId',
+      flex: 1
+    },{
       header: '用户昵称',
       dataIndex: 'szNickName',
       flex: 1

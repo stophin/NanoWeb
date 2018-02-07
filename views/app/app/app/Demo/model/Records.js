@@ -12,7 +12,8 @@ Ext.define('app.Demo.model.Records', {
     { name: 'dGold', type: 'string' },
     { name: 'dCurGold', type: 'string'},
     { name: 'dGoldLast', type: 'string'},
-    { name: 'dGoldHist', type: 'string'}
+    { name: 'dGoldHist', type: 'string'},
+    { name: 'merchantId', type: 'string'}
   ],
   validations: [
     { type: 'presence', field: 'un32GameId' },
