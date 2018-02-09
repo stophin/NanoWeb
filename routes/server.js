@@ -215,9 +215,14 @@ router.post("/request", async(ctx, next)=> {
 				console.log("Connection " + server + " success.");
 			})
 			client.on("error", function(data) {
-				console.log("Error: " + data);
+				console.log("Error on " + server + ":" + data);
 				clients[server] = null;
 			});
+			client.on('end', function(){
+            	//会话终止
+				console.log("Session ended on " + server);
+				clients[server] = null;
+       		});
 			//保持连接接收服务器返回的数据
 			//这个事件只能写一次，否则会出现多个event listener
 			client.on('data', async (data) => {
