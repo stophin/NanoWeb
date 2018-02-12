@@ -313,7 +313,7 @@ router.post('/service/spin',async (ctx,next)=>{
 	    ],
 	    "winGrid": [
 	    ],
-	    "winLevel": "34",
+	    "winLevel": 34,
 	    "winNodes": [
 	    	12.3, 13.4
 	    ],
