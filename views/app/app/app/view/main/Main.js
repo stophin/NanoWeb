@@ -32,6 +32,7 @@ Ext.define('app.view.main.Main', {
 
         'app.Demo.controller.Admin',
         'app.Demo.view.admin.top',
+        'app.Demo.view.admin.grid',
         'app.Demo.view.admin.list'
     ],
 

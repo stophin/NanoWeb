@@ -30,9 +30,73 @@ Ext.define("app.Demo.controller.Admin", {
       },
       '#admin-list button[action=sendActionCGR_R]': {
         click: this.sendActionCGR_R
+      },
+      '#admin-list button[action=clearLogMsg]': {
+        click: this.clearLogMsg
       }
     });
     //this.callParent(arguments);
+    window.logMsgEl = null;
+    window.bufferSize = 0;
+    window.logMsgEx = function(data) {
+      if (null == window.logMsg) {
+        try {
+          window.logMsg = $(Ext.getCmp("Msg").getEl().dom).find("textarea")[0]
+          if (null == window.logMsg) {
+            return;
+          }
+        } catch(e) {
+          return;
+        }
+      }
+        try {
+          var BufferSize = Ext.getCmp("BufferSize");
+          if (BufferSize.getErrors().length > 0) {
+          } else {
+            window.bufferSize = parseInt(BufferSize.getValue());
+          }
+        } catch(e) {
+        }
+      if (0 == window.bufferSize) {
+        window.logMsg.value ="Invalid buffersize";
+        return;
+      }
+
+      window.logMsg.value += data;
+      window.logMsg.scrollTop = window.logMsg.scrollHeight;
+
+      if (window.logMsg.value.length > window.bufferSize) {
+        window.clearMsgEx();
+      }
+    }
+    window.clearMsgEx = function() {
+      if (null == window.logMsg) {
+        try {
+          window.logMsg = $(Ext.getCmp("Msg").getEl().dom).find("textarea")[0]
+        } catch(e) {
+          return;
+        }
+      }
+      if (null == window.logMsg) {
+        return;
+      }
+
+      window.logMsg.value ="";
+      window.logMsg.scrollTop = window.logMsg.scrollHeight;
+    }
+    window.logSendMsg = function(data) {
+      window.logMsgEx("You:" + data + "\n");
+    };
+    window.logResponseMsg = function(data) {
+      window.logMsgEx("Res:" + data + "\n");
+    };
+    window.logErrorMsg = function(data) {
+      window.logMsgEx("Err:" + data + "\n");
+    };
+  },
+
+  clearLogMsg: function() {
+    window.clearMsgEx();
   },
 
   sendLogin: function() {
@@ -102,7 +166,8 @@ Ext.define("app.Demo.controller.Admin", {
     data = dataHeader + data;
 
     this.sendRequest(data, function(data) {
-      Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+      //Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+      window.logResponseMsg(data.data);
     });
   },
   sendActionCF: function() {
@@ -116,7 +181,8 @@ Ext.define("app.Demo.controller.Admin", {
     data = dataHeader + data;
 
     this.sendRequest(data, function(data) {
-      Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+      //Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+      window.logResponseMsg(data.data);
     });
   },
 
@@ -127,6 +193,7 @@ Ext.define("app.Demo.controller.Admin", {
       return;
     }
 
+    window.logSendMsg(actionString);
     Ext.Ajax.request({
       url: "/service/dev/game/player/logout",
       method: "POST",
@@ -134,12 +201,15 @@ Ext.define("app.Demo.controller.Admin", {
       success: function(res, opts) {
         data = JSON.parse(res.responseText);
         if (data.success) {
-            Ext.MessageBox.alert('请求成功', "成功");
+            //Ext.MessageBox.alert('请求成功', "成功");
+            window.logResponseMsg("成功");
         } else {
-            Ext.MessageBox.alert('请求错误', "错误");
+            //Ext.MessageBox.alert('请求错误', "错误");
+            window.logErrorMsg("错误");
         }
       }, failure: function(res, opts) {
-          Ext.MessageBox.alert('请求错误', res.responseText); 
+          //Ext.MessageBox.alert('请求错误', res.responseText); 
+          window.logErrorMsg(data.responseText);
       }
     })
   },
@@ -170,6 +240,7 @@ Ext.define("app.Demo.controller.Admin", {
     dataHeader = String.fromUINT32(data.length + 4);
     data = dataHeader + data;
 
+    window.logSendMsg(actionString);
     Ext.Ajax.request({
         url: "/request",
         method: "POST",
@@ -177,17 +248,21 @@ Ext.define("app.Demo.controller.Admin", {
         success: function(res, opts) {
           data = JSON.parse(res.responseText);
           if (data.success) {
-            Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+            //Ext.MessageBox.alert('请求成功', "成功: " + data.data);
+            window.logResponseMsg(data.data);
           } else {
-            Ext.MessageBox.alert('请求失败', "失败: " + data.data);
+            //Ext.MessageBox.alert('请求失败', "失败: " + data.data);
+            window.logErrorMsg(data.data);
           }
         }, failure: function(res, opts) {
-          Ext.MessageBox.alert('请求错误', res.responseText); 
+          //Ext.MessageBox.alert('请求错误', res.responseText); 
+          window.logErrorMsg(res.responseText);
         }
       });
   },
 
   sendRequest: function(data, callback) {
+    window.logSendMsg(data);
     Ext.Ajax.request({
         url: "/request",
         method: "POST",
@@ -205,14 +280,17 @@ Ext.define("app.Demo.controller.Admin", {
                 var pro = String.getUINT32(data, pos);
 
                 var buffer = "" + len + ":" + pro;
-                Ext.MessageBox.alert('请求成功', "成功: " + buffer);
+                //Ext.MessageBox.alert('请求成功', "成功: " + buffer);
+                window.logResponseMsg(buffer);
               } else {
-                Ext.MessageBox.alert('请求错误', "错误: " + data.data);
+                //Ext.MessageBox.alert('请求错误', "错误: " + data.data);
+                window.logErrorMsg(data.data);
               }
             }
         }, failure: function(res, opts) {
           debugger;
-          Ext.MessageBox.alert('请求错误', res.responseText); 
+          //Ext.MessageBox.alert('请求错误', res.responseText); 
+          window.logErrorMsg(res.responseText);
         }
       });
   }
