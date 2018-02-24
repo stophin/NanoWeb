@@ -127,10 +127,12 @@ Ext.define("app.Demo.controller.Admin", {
       window.logMsg.innerHTML += "<li><span>" + data + "</span></li>"
       window.logMsg.scrollTop = window.logMsg.scrollHeight;
       try {
-        if (type) {
-          window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanright";
-        } else {
+        if (type == 1) {
           window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanleft";
+        } else if (type == 2){
+          window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanerror";
+        }else {
+          window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanright";
         }
       } catch(e) {
 
@@ -161,13 +163,13 @@ Ext.define("app.Demo.controller.Admin", {
       window.logMsg.iRow = 0;
     }
     window.logSendMsg = function(data) {
-      window.logMsgEx("You:" + data, 1);
+      window.logMsgEx(data);
     };
     window.logResponseMsg = function(data) {
-      window.logMsgEx("Res:" + data);
+      window.logMsgEx(data, 1);
     };
     window.logErrorMsg = function(data) {
-      window.logMsgEx("Err:" + data);
+      window.logMsgEx(data, 2);
     };
   },
 
