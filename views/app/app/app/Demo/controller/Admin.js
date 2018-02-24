@@ -58,7 +58,7 @@ Ext.define("app.Demo.controller.Admin", {
         } catch(e) {
         }
       if (0 == window.bufferSize) {
-        window.logMsg.value ="Invalid buffersize";
+        window.logMsg.value ="Invalid buffersize\n";
         return;
       }
 
