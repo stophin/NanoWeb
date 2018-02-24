@@ -262,9 +262,88 @@
             float: left;
             background: #fff;
         }
-        .content li span.spanerror { 
+        .content li span.spanerror {
             float: left;
             background: #f00000;
+        }
+
+        .content li span.spanright:before{
+            content: "";
+            /*
+            border-left: 15px solid #7cfc00;
+            border-top: 8px solid transparent;
+            border-bottom: 10px solid transparent;*/
+            border-width:8px; 
+            border-style:solid; 
+            border-color:transparent transparent transparent #000; 
+            float: right;
+            left: 26px;
+            position: relative;
+        }
+        .content li span.spanright:after{
+            content: "";
+            /*
+            border-left: 15px solid #7cfc00;
+            border-top: 8px solid transparent;
+            border-bottom: 10px solid transparent;*/
+            border-width:8px; 
+            border-style:solid; 
+            border-color:transparent transparent transparent #7cfc00; 
+            float: right;
+            left: 42px;
+            position: relative;
+        }
+        .content li span.spanleft:before{
+            content: "";
+            /*
+            border-right: 15px solid #fff;
+            border-top: 8px solid transparent;
+            border-bottom: 10px solid transparent;*/
+            border-width:8px; 
+            border-style:solid; 
+            border-color:transparent #000 transparent transparent; 
+            float: left;
+            left: -26px;
+            position: relative;
+        }
+        .content li span.spanleft:after{
+            content: "";
+            /*
+            border-right: 15px solid #fff;
+            border-top: 8px solid transparent;
+            border-bottom: 10px solid transparent;*/
+            border-width:8px; 
+            border-style:solid; 
+            border-color:transparent #fff transparent transparent; 
+            float: left;
+            left: -42px;
+            position: relative;
+        }
+        .content li span.spanerror:before{
+            content: "";
+            /*
+            border-right: 15px solid #f00000;
+            border-top: 8px solid transparent;
+            border-bottom: 10px solid transparent;*/
+            border-width:8px; 
+            border-style:solid; 
+            border-color:transparent #000 transparent transparent; 
+            float: left;
+            left: -26px;
+            position: relative;
+        }
+        .content li span.spanerror:after{
+            content: "";
+            /*
+            border-right: 15px solid #fff;
+            border-top: 8px solid transparent;
+            border-bottom: 10px solid transparent;*/
+            border-width:8px; 
+            border-style:solid; 
+            border-color:transparent #f00000 transparent transparent; 
+            float: left;
+            left: -42px;
+            position: relative;
         }
     </style>
 </head>
