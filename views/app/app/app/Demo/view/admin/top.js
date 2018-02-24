@@ -69,6 +69,7 @@ Ext.define('app.Demo.view.admin.top', {
           regexText: '请输入数字',
           xtype: 'textfield',
           id: 'BufferSize',
+          value: '1024',
           fieldLabel: '缓冲大小'
         }],
         buttons: [{
