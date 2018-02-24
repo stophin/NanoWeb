@@ -36,6 +36,7 @@ Ext.define("app.Demo.controller.Admin", {
       }
     });
     //this.callParent(arguments);
+    /*
     window.logMsgEl = null;
     window.bufferSize = 0;
     window.logMsgEx = function(data) {
@@ -62,7 +63,7 @@ Ext.define("app.Demo.controller.Admin", {
         return;
       }
 
-      window.logMsg.value += data;
+      window.logMsg.value += data + "\n";
       window.logMsg.scrollTop = window.logMsg.scrollHeight;
 
       if (window.logMsg.value.length > window.bufferSize) {
@@ -85,13 +86,88 @@ Ext.define("app.Demo.controller.Admin", {
       window.logMsg.scrollTop = window.logMsg.scrollHeight;
     }
     window.logSendMsg = function(data) {
-      window.logMsgEx("You:" + data + "\n");
+      window.logMsgEx("You:" + data);
     };
     window.logResponseMsg = function(data) {
-      window.logMsgEx("Res:" + data + "\n");
+      window.logMsgEx("Res:" + data);
     };
     window.logErrorMsg = function(data) {
-      window.logMsgEx("Err:" + data + "\n");
+      window.logMsgEx("Err:" + data);
+    };*/
+    window.logMsgEl = null;
+    window.bufferSize = 0;
+    window.logMsgEx = function(data, type) {
+      if (null == window.logMsg) {
+        try {
+          window.logMsg = document.getElementById("MsgContainer").getElementsByTagName("ul")[0]
+          window.logMsg.dataLength = 0;
+          window.logMsg.iRow = 0;
+          if (null == window.logMsg) {
+            return;
+          }
+        } catch(e) {
+          return;
+        }
+      }
+        try {
+          var BufferSize = Ext.getCmp("BufferSize");
+          if (BufferSize.getErrors().length > 0) {
+          } else {
+            window.bufferSize = parseInt(BufferSize.getValue());
+          }
+        } catch(e) {
+        }
+      if (0 == window.bufferSize) {
+        window.logMsg.innerHTML ="Invalid buffersize\n";
+        return;
+      }
+
+      debugger;
+
+      window.logMsg.innerHTML += "<li><span>" + data + "</span></li>"
+      window.logMsg.scrollTop = window.logMsg.scrollHeight;
+      try {
+        if (type) {
+          window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanright";
+        } else {
+          window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanleft";
+        }
+      } catch(e) {
+
+      }
+      window.logMsg.iRow++;
+
+
+      window.logMsg.dataLength += data.length;
+      if (window.logMsg.dataLength > window.bufferSize) {
+        window.clearMsgEx();
+      }
+    }
+    window.clearMsgEx = function() {
+      if (null == window.logMsg) {
+        try {
+          window.logMsg = document.getElementById("MsgContainer").getElementsByTagName("ul")[0]
+        } catch(e) {
+          return;
+        }
+      }
+      if (null == window.logMsg) {
+        return;
+      }
+
+      window.logMsg.innerHTML = "";
+      window.logMsg.scrollTop = window.logMsg.scrollHeight;
+      window.logMsg.dataLength = 0;
+      window.logMsg.iRow = 0;
+    }
+    window.logSendMsg = function(data) {
+      window.logMsgEx("You:" + data, 1);
+    };
+    window.logResponseMsg = function(data) {
+      window.logMsgEx("Res:" + data);
+    };
+    window.logErrorMsg = function(data) {
+      window.logMsgEx("Err:" + data);
     };
   },
 

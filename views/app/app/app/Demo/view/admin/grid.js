@@ -15,16 +15,17 @@ Ext.define('app.Demo.view.admin.grid', {
         xtype: 'form',
         border: false,
         layout: 'column',
-        items: [{
+        /*items: [{
           xtype: 'textareafield',
           label: 'Bio',
           width: "100%",
-          height: 350,
+          height: 200,
           readOnly: "true",
           maxRows: 4,
           name: 'bio',
           id: "Msg"
-        }]
+        }]*/
+        html: "<div id='MsgContainer'><ul class='content'></ul></div>"
       }]
       this.callParent(arguments);
     }
