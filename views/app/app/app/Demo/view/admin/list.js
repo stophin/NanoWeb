@@ -14,8 +14,8 @@ Ext.define('app.Demo.view.admin.list', {
   initComponent: function () {
 
     this.items = [
-      {xtype: 'admin-top'},
-      {xtype: 'admin-grid'}
+      {xtype: 'admin-grid'},
+      {xtype: 'admin-top'}
     ]
     this.callParent(arguments);
   }

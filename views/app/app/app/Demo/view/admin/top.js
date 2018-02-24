@@ -76,6 +76,22 @@ Ext.define('app.Demo.view.admin.top', {
          margin : '5 5 5 5',
          //padding : '2 5 2 8',
          xtype: 'button',
+         text: '本地CGR',
+         icon: 'images/send.png',
+         action: 'sendActionCGR_L',
+         id: 'sendActionCGR_L'
+       },{
+         margin : '5 5 5 5',
+         //padding : '2 5 2 8',
+         xtype: 'button',
+         text: '远程CGR',
+         icon: 'images/send.png',
+         action: 'sendActionCGR_R',
+         id: 'sendActionCGR_R'
+       }, '->',{
+         margin : '5 5 5 5',
+         //padding : '2 5 2 8',
+         xtype: 'button',
          text: '登录GM',
          icon: 'images/send.png',
          action: 'sendLogin'
@@ -107,22 +123,6 @@ Ext.define('app.Demo.view.admin.top', {
          text: '退出用户',
          icon: 'images/send.png',
          action: 'sendActionUS'
-       }, '->',{
-         margin : '5 5 5 5',
-         //padding : '2 5 2 8',
-         xtype: 'button',
-         text: '本地CGR',
-         icon: 'images/send.png',
-         action: 'sendActionCGR_L',
-         id: 'sendActionCGR_L'
-       },{
-         margin : '5 5 5 5',
-         //padding : '2 5 2 8',
-         xtype: 'button',
-         text: '远程CGR',
-         icon: 'images/send.png',
-         action: 'sendActionCGR_R',
-         id: 'sendActionCGR_R'
        }],
         resetForm: function() {
             this.items.each(function() {
