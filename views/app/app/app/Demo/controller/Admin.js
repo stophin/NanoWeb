@@ -124,15 +124,18 @@ Ext.define("app.Demo.controller.Admin", {
 
       debugger;
 
-      window.logMsg.innerHTML += "<li><span>" + data + "</span></li>"
+      window.logMsg.innerHTML += "<li><p></p><span>" + data + "</span></li>"
       window.logMsg.scrollTop = window.logMsg.scrollHeight;
       try {
         if (type == 1) {
           window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanleft";
+          window.logMsg.getElementsByTagName("p")[window.logMsg.iRow].className += "spanleft";
         } else if (type == 2){
           window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanerror";
+          window.logMsg.getElementsByTagName("p")[window.logMsg.iRow].className += "spanerror";
         }else {
           window.logMsg.getElementsByTagName("span")[window.logMsg.iRow].className += "spanright";
+          window.logMsg.getElementsByTagName("p")[window.logMsg.iRow].className += "spanright";
         }
       } catch(e) {
 
