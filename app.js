@@ -37,6 +37,7 @@ app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
 app.use(require('koa-static')(__dirname + '/views/app'));
+app.use(require('koa-static')(__dirname + '/views/app/desktop/resources/images'));
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
@@ -87,7 +88,7 @@ app.use(async (ctx, next) =>  {
     if (url != "/login" && url != "/loginindex" && !ctx.session.user &&
         !serviceReg.test(url) &&
         !NAGameReg.test(url) &&
-        !NALiveReg.test(url) ) {
+        !NALiveReg.test(url)) {
       console.log("in");
       // dummy login user to allow for resources of login.ejs
       //ctx.session.user = "login";
