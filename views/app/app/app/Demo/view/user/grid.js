@@ -12,6 +12,10 @@ Ext.define('app.Demo.view.user.grid', {
 
   initComponent: function () {
    this.store = Ext.create("app.Demo.store.Users");
+   this.store.on('beforeload', function(store, options) {   
+      var condition = Ext.getCmp("user-top").down("form").getValues()
+      Ext.apply(store.proxy.extraParams, {condition: JSON.stringify(condition)});
+   })
    this.columns = [{
       header: 'id',
       dataIndex: 'id',
