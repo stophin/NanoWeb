@@ -21,4 +21,8 @@ router.get('/manage', async (ctx, next) => {
 });
 
 
+router.get('/linbdesktop', async (ctx, next) => {
+    await ctx.render('app/linbdesktop/index',  {title: 'Welcome: ' + ctx.session.user});
+})
+
 module.exports = router

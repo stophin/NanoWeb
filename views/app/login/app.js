@@ -46,7 +46,7 @@ Ext.onReady(function() {
         handler: function() {
             panel.getForm().submit({
                 success: function(form, data) {
-                    window.location.href = "/";
+                    window.location.href = "/linbdesktop";
                 },
                 failure: function(form, data) {
                     Ext.MessageBox.alert("登陆错误", data.response.responseText);

@@ -1,0 +1,15 @@
+
+/*
+ * Ext JS Library 2.0
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://www.extjs.com/license
+ */
+
+.icon-blog{
+	background-image: url( icons/blog48x48.png ) !important;
+}
+.icon-blog-shortcut{
+	background-image: url( icons/blog.gif ) !important;
+}

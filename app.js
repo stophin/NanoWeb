@@ -37,7 +37,7 @@ app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
 app.use(require('koa-static')(__dirname + '/views/app'));
-app.use(require('koa-static')(__dirname + '/views/app/desktop/resources/images'));
+app.use(require('koa-static')(__dirname + '/views/app/linbdesktop/resources/images'));
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
