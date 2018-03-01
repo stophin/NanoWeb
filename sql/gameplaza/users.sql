@@ -1,10 +1,9 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : RAMS
 Source Server Version : 50712
 Source Host           : localhost:3306
-Source Database       : db_rams
+Source Database       : gameplaza
 
 Target Server Type    : MYSQL
 Target Server Version : 50712

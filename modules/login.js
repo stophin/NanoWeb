@@ -12,7 +12,7 @@ function UserInfo(username,password){
 UserInfo.prototype.login =async function save() {
     let user = [this.user, this.password];
     await dbHelper.start();
-    let result=await dbHelper.execute('select * from users where name = ? and password = ?',user);
+    let result=await dbHelper.executemain('select * from users where name = ? and password = ?',user);
     await dbHelper.stop();
     return result;
 };

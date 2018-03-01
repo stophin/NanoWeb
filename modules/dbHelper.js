@@ -4,7 +4,7 @@ const pool=require('mysql2').createPool({
         user : 'root',
         password : 'root',
         port : '3306',
-        database : 'na_40_forestsprite',
+        database : 'gameserver',
     supportBigNumbers:true
 });
 const poolmain=require('mysql2').createPool({
@@ -12,7 +12,7 @@ const poolmain=require('mysql2').createPool({
         user : 'root',
         password : 'root',
         port : '3306',
-        database : 'na_gameplaza',
+        database : 'gameplaza',
     supportBigNumbers:true
 });
 
