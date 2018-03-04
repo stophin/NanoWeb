@@ -39,4 +39,5 @@ CREATE TABLE `na_merchant_web` (
 -- ----------------------------
 -- Records of na_merchant_web
 -- ----------------------------
-INSERT INTO `na_merchant_web` VALUES ('156', 'b116e733-f746-46e6-ba8c-184e2ad48827', '555', '100', 'CZSY_dfdfdf', 'CZSY', '', '01', '1', '1', '1', '01', 'CZSY', '0');
+INSERT INTO `na_merchant_web` VALUES ('156', '156', '156', '100', 'CZSY_dfdfdf', 'CZSY', '', '01', '1', '1', '1', '01', 'CZSY', '0');
+INSERT INTO `na_merchant_web` VALUES ('555', '555', '555', '100', 'CZSY_dfdfdf', 'CZSY', '', '01', '1', '1', '1', '01', 'CZSY', '0');
