@@ -11,7 +11,7 @@ function User(name, password, id) {
 User.batch = async function (query, callback) {
     console.log(query);
     await dbHelper.start();
-    let result = await dbHelper.execute('INSERT INTO `users` (id, name, password) values  ' + query, []);
+    let result = await dbHelper.executemain('INSERT INTO `users` (id, name, password) values  ' + query, []);
     await dbHelper.stop();
     return result;
 };
@@ -23,7 +23,7 @@ User.prototype.save = async function save(callback) {
       password: this.password
     };
     await dbHelper.start();
-    let result = await dbHelper.execute('INSERT INTO `users` SET ?', user);
+    let result = await dbHelper.executemain('INSERT INTO `users` SET ?', user);
     await dbHelper.stop();
     return result;
 };
@@ -31,7 +31,7 @@ User.prototype.save = async function save(callback) {
 User.get = async function get(query, callback){
     var sql = 'SELECT * FROM `users`' + (query ? query : '')
     await dbHelper.start();
-    let result = await dbHelper.execute(sql, []);
+    let result = await dbHelper.executemain(sql, []);
     await dbHelper.stop();
     return result;
 };
@@ -39,7 +39,7 @@ User.get = async function get(query, callback){
 User.getQuantity = async function get(query, callback){
     var sql = 'SELECT COUNT(0) AS total FROM `users`' + (query ? query : '')
     await dbHelper.start();
-    let result = await dbHelper.execute(sql, []);
+    let result = await dbHelper.executemain(sql, []);
     await dbHelper.stop();
     return result;
 };
@@ -65,7 +65,7 @@ User.prototype.update = async  function (callback) {
   params.push(this.id);
 
     await dbHelper.start();
-    let result = await dbHelper.execute(sql, params);
+    let result = await dbHelper.executemain(sql, params);
     await dbHelper.stop();
     return result;
 }
@@ -75,20 +75,20 @@ User.remove = async  function(query, callback) {
   //至少保留一个用户
   var sql_before = 'select count(0) as count from `users`';
     await dbHelper.start();
-    let count = await dbHelper.execute(sql_before, []);
+    let count = await dbHelper.executemain(sql_before, []);
     if (count && count[0].count <= 1) {
       await dbHelper.stop();
       return count[0].count;
     }
     var sql = 'DELETE FROM  `users` WHERE ' + query;
-    let result = await dbHelper.execute(sql, []);
+    let result = await dbHelper.executemain(sql, []);
     await dbHelper.stop();
     return result;
 };
 
 User.getID = async (number) => {
     await dbHelper.start();
-    let result = await dbHelper.execute("select max(id) as max from users", []);
+    let result = await dbHelper.executemain("select max(id) as max from users", []);
     await dbHelper.stop();
     console.log(result[0].max);
     if (number) {
