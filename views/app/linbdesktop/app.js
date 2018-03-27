@@ -1759,22 +1759,22 @@ var windowIndex = 0;
  * licensing@sencha.com
  * http://www.sencha.com/license
  */
-(Ext.cmd.derive("Desktop.BlogWindow", Ext.ux.desktop.Module, {
-    id: "blog-win",
+(Ext.cmd.derive("Desktop.ManageWindow", Ext.ux.desktop.Module, {
+    id: "manage-win",
     init: function() {
         this.launcher = {
-            text: "我的博客",
+            text: "管理界面",
             iconCls: "icon-grid"
         }
     },
     createWindow: function() {
         var c = this.app.getDesktop();
-        var d = c.getWindow("blog-win");
+        var d = c.getWindow("manage-win");
         if (!d) {
             debugger;
             d = c.createWindow({
-                id: "blog-win",
-                title: "我的博客",
+                id: "manage-win",
+                title: "管理界面",
                 width: 740,
                 height: 480,
                 iconCls: "icon-grid",
@@ -1787,7 +1787,7 @@ var windowIndex = 0;
         }
         return d
     }
-}, 0, 0, 0, 0, 0, 0, [Desktop, "BlogWindow"], 0));
+}, 0, 0, 0, 0, 0, 0, [Desktop, "ManageWindow"], 0));
 /*!
  * Ext JS Library
  * Copyright(c) 2006-2014 Sencha Inc.
@@ -1806,7 +1806,7 @@ var windowIndex = 0;
             new Desktop.Notepad(), 
             new Desktop.BogusMenuModule(), 
             new Desktop.BogusModule(),
-            new Desktop.BlogWindow()]
+            new Desktop.ManageWindow()]
     },
     getDesktopConfig: function() {
         var c = this
@@ -1832,9 +1832,9 @@ var windowIndex = 0;
                     iconCls: "notepad-shortcut",
                     module: "notepad"
                 }, {
-                    name: "Blog Window",
+                    name: "Manage Window",
                     iconCls: "grid-shortcut",
-                    module: "blog-win"
+                    module: "manage-win"
                 }]
             }),
             wallpaper: "linbdesktop/resources/images/wallpapers/Blue-Sencha.jpg",
