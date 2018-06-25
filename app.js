@@ -13,9 +13,9 @@ const index=require('./routes/index');
 const users=require('./routes/users');
 const records=require('./routes/records');
 const server=require('./routes/server');
+const blockchain = require('./routes/ledger/router');
 global.dbHelper=require('./modules/dbHelper');
 global.root_dir=__dirname+'/';
-
 
 let cookie={
     overwrite:true
@@ -109,5 +109,6 @@ app.use(index.routes(),index.allowedMethods());
 app.use(users.routes(),users.allowedMethods());
 app.use(records.routes(),records.allowedMethods());
 app.use(server.routes(),server.allowedMethods());
+app.use(blockchain.routes(),blockchain.allowedMethods());
 module.exports = app;
 

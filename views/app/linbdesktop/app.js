@@ -1788,6 +1788,42 @@ var windowIndex = 0;
         return d
     }
 }, 0, 0, 0, 0, 0, 0, [Desktop, "ManageWindow"], 0));
+
+/*!
+ * Ext JS Library
+ * Copyright(c) 2006-2014 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+(Ext.cmd.derive("Desktop.BlockChainWindow", Ext.ux.desktop.Module, {
+    id: "blockchain-win",
+    init: function() {
+        this.launcher = {
+            text: "区块链",
+            iconCls: "icon-btcn"
+        }
+    },
+    createWindow: function() {
+        var c = this.app.getDesktop();
+        var d = c.getWindow("blockchain-win");
+        if (!d) {
+            debugger;
+            d = c.createWindow({
+                id: "blockchain-win",
+                title: "区块链",
+                width: 740,
+                height: 480,
+                iconCls: "icon-btcn",
+                animCollapse: false,
+                constrainHeader: true,
+                layout: "fit",
+                maximized: true,
+                html : '<iframe src="/blockchain" class="body" width="100%" height="100%"></iframe>',
+            })
+        }
+        return d
+    }
+}, 0, 0, 0, 0, 0, 0, [Desktop, "BlockChainWindow"], 0));
 /*!
  * Ext JS Library
  * Copyright(c) 2006-2014 Sencha Inc.
@@ -1806,7 +1842,8 @@ var windowIndex = 0;
             new Desktop.Notepad(), 
             new Desktop.BogusMenuModule(), 
             new Desktop.BogusModule(),
-            new Desktop.ManageWindow()]
+            new Desktop.ManageWindow(),
+            new Desktop.BlockChainWindow()]
     },
     getDesktopConfig: function() {
         var c = this
@@ -1835,6 +1872,10 @@ var windowIndex = 0;
                     name: "Manage Window",
                     iconCls: "grid-shortcut",
                     module: "manage-win"
+                }, {
+                    name: "BlockChain Window",
+                    iconCls: "icon-btcn-shortcut",
+                    module: "blockchain-win"
                 }]
             }),
             wallpaper: "linbdesktop/resources/images/wallpapers/Blue-Sencha.jpg",

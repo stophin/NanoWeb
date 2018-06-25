@@ -13,3 +13,10 @@
 .icon-blog-shortcut{
 	background-image: url( icons/blog.gif ) !important;
 }
+
+.icon-btcn{
+	background-image: url( icons/btcn.png ) !important;
+}
+.icon-btcn-shortcut{
+	background-image: url( icons/btcn48x48.png ) !important;
+}

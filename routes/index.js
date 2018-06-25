@@ -25,4 +25,8 @@ router.get('/linbdesktop', async (ctx, next) => {
     await ctx.render('app/linbdesktop/index',  {title: 'Welcome: ' + ctx.session.user});
 })
 
+router.get('/blockchain', async (ctx, next) => {
+    await ctx.render('app/app/blockchain', {title: 'Welcome: ' + ctx.session.user});
+});
+
 module.exports = router

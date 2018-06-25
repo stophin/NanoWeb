@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html manifest="">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes">
+
+    <title>app</title>
+
+    <script type="text/javascript" src="/javascripts/jquery-1.11.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/javascripts/ext-4.2.1.883/resources/css/ext-all.css" />
+    <script type="text/javascript" src="/javascripts/ext-4.2.1.883/ext-all-debug.js"></script>
+    <script type="text/javascript" src="/javascripts/ext-4.2.1.883/locale/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/javascripts/fileUploadField.js"> </script>
+
+    <script>
+        Ext.onReady(function() {
+            var fromUser = new Ext.form.TextField({
+                name: "fromUser",
+                fieldLabel: '从',
+                padding: '5 5 5 5',
+                value: "stophin1",
+                width: 230
+            });
+            var toUser = new Ext.form.TextField({
+                name: "toUser",
+                fieldLabel: "到",
+                padding: '5 5 5 5',
+                value: "stophin2",
+                width: 230
+            });
+            var amount = new Ext.form.TextField({
+                name: "amount",
+                fieldLabel: '金额',
+                value: "10",
+                padding: '5 5 5 5',
+                width: 230
+            });
+            var btnTrans = new Ext.Button({
+                id: "btnTrans",
+                text: "进行交易",
+                handler: function() {
+                    panel.getForm().submit({
+                        success: function(form, data) {
+                            //window.location.href = "/linbdesktop";
+                            //Ext.MessageBox.alert("交易成功", data.response.responseText);
+                            var _btnInfo = Ext.getCmp("btnInfo");
+                            if (_btnInfo) {
+                                _btnInfo.handler();
+                            }
+                        },
+                        failure: function(form, data) {
+                            Ext.MessageBox.alert("交易错误", data.response.responseText);
+                        }
+                    });
+                }
+            });
+            var btnClear = new Ext.Button({
+                id: "btnClear",
+                text: "清空",
+                handler: function() {
+                    var _info = Ext.getCmp("info");
+                    if (_info) {
+                        _info.setValue("");
+                    }
+                }
+            });
+            var panel = Ext.create('Ext.form.Panel', {
+                url: "blockchain/trans",
+                border: false,
+                width: 800,
+                items: [fromUser, toUser, amount]
+            });
+
+            var btnInfo = new Ext.Button({
+                id: "btnInfo",
+               text: "交易记录",
+                handler: function() {
+                   Ext.Ajax.request({
+                       url: "blockchain/info",
+                       method:"GET",
+                       success: function(data) {
+                           //window.location.href = "/linbdesktop";
+                           //Ext.MessageBox.alert("查询成功", data.responseText);
+                           var _info =  Ext.getCmp("info");
+                          if (_info) _info.setValue(data.responseText);
+                       },
+                       failure: function(form, data) {
+                           Ext.MessageBox.alert("查询错误", data.response.responseText);
+                       }
+                   })
+                }
+            });
+            var info = new Ext.form.TextArea({
+                id: "info",
+                fieldLabel: '交易记录',
+                labelSepartor: ":",
+                labelWidth: 60,
+                value: "",
+                padding: '5 5 5 5',
+                width: 800,
+                height: 320,
+                region: "south",
+            });
+
+            var win = Ext.widget('window', {
+                title: "区块链测试演示工具",
+                modal: false,
+                width: 800,
+                height: 500,
+                layout: 'border',
+                resizable: false,
+                maximizable: false,
+                items: [panel, info],
+                buttons: [btnClear, '->', '-', btnInfo, btnTrans]
+            }).show();
+        });
+    </script>
+
+    <p>This is block chain</p>
+</head>
+<body></body>
+</html>
